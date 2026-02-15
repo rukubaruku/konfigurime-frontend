@@ -1,38 +1,72 @@
-.App {
-  text-align: center;
-}
+/* ================= PAGE LAYOUT ================= */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.page-layout {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--bg-page);
+  position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+/* ================= MAIN CONTENT ================= */
+
+.main-content {
+  flex: 1;
+  margin-left: 240px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+  background-color: #f7f7f7cc;
+  overflow-x: hidden;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* When collapsed */
+.page-layout.collapsed .main-content {
+  margin-left: 70px;
+}
+
+/* ================= NAVBAR DEFAULT ================= */
+
+.Navbar {
+  display: none;
+}
+
+/* ================= ≥ 1800px ALWAYS OPEN ================= */
+
+@media (min-width: 1800px) {
+  .sidebar {
+    width: 220px !important;
   }
-  to {
-    transform: rotate(360deg);
+
+  .main-content {
+    margin-left: 220px !important;
+  }
+}
+
+/* ================= MOBILE < 991px ================= */
+
+@media (max-width: 991px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+    padding-bottom: 80px;
+  }
+
+  .Navbar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 65px;
+    width: 100%;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 200;
   }
 }
