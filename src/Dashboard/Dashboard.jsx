@@ -11,9 +11,11 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
-
+  const [recentCredentials, setRecentCredentials] = useState([]);
+  const [credentialsNr, setCredentialsNr] = useState(0);
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -21,6 +23,24 @@ const Dashboard = () => {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
   }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3109/credentials/dashboard",
+      );
+
+      setCredentialsNr(response.data.data.count);
+      setRecentCredentials(response.data.data.recent);
+    } catch (error) {
+      console.error("Dashboard fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
   return (
     <div className="dashboard-page">
       <PageHeader />
@@ -30,7 +50,7 @@ const Dashboard = () => {
             <div className="widget-icon">
               <Key size={22} color="hsl(158, 64%, 52%)" />
             </div>
-            <div className="widget-value">0</div>
+            <div className="widget-value">{credentialsNr}</div>
             <div className="widget-title">Credentials</div>
           </div>
           <div className="dashboard-widget">
@@ -103,6 +123,63 @@ const Dashboard = () => {
                 <ArrowRight size={20} className="quick-actions-arrow" />
               </NavLink>
             </div>
+          </div>
+          <div className="recent-activity">
+            <div className="recent-activity-header">
+              <div className="recent-activity-header-left">
+                <div className="recent-activity-header-left-icon">
+                  <Key size={22} />
+                </div>
+                <div className="recent-activity-header-left-title">
+                  <div className="recent-activity-header-left-title-text">
+                    Recent credentials
+                  </div>
+                  <div className="recent-activity-header-left-subtitle-text">
+                    Latest added credentials
+                  </div>
+                </div>
+              </div>
+              <div className="recent-activity-header-right"></div>
+              <NavLink
+                to="/credentials"
+                className="recent-activity-header-right-link"
+              >
+                View all <ArrowRight size={18} />
+              </NavLink>
+            </div>
+            {credentialsNr === 0 ? (
+              <div className="recent-empty">
+                <Key size={64} />
+                <div className="recent-empty-title">
+                  {" "}
+                  No credentials added yet
+                </div>
+              </div>
+            ) : (
+              <div className="recent-activity-list">
+                {recentCredentials.map((cred) => (
+                  <NavLink
+                    to={`/credentials/${cred.id}`}
+                    className="credential-item"
+                  >
+                    <div className="credential-item-data">
+                      <div className="credential-item-icon">
+                        <Key size={22} />
+                      </div>
+                      <div className="cretential-item-title">
+                        <div className="cretential-item-email">
+                          {cred.email}
+                        </div>
+                        <div className="credential-item-title-text">
+                          {cred.title}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="credential-item-time">{cred.time}</div>
+                  </NavLink>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
