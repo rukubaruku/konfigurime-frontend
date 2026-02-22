@@ -115,3 +115,9 @@
   cursor: pointer;
   text-align: left;
 }
+
+@media (width <= 880px) {
+  .sidebar {
+    display: none;
+  }
+}

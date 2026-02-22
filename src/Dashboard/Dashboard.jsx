@@ -10,12 +10,24 @@ import {
   Waypoints,
   ArrowRight,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
   const [recentCredentials, setRecentCredentials] = useState([]);
   const [credentialsNr, setCredentialsNr] = useState(0);
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    if (!userId) {
+      alert("Log in to see dashboard");
+      navigate("/login");
+    }
+  }, [userId]);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -73,13 +85,6 @@ const Dashboard = () => {
             </div>
             <div className="widget-value">0</div>
             <div className="widget-title">Config Files</div>
-          </div>
-          <div className="dashboard-widget">
-            <div className="widget-icon">
-              <FileText size={24} color="hsl(43, 96%, 56%)" />
-            </div>
-            <div className="widget-value">0</div>
-            <div className="widget-title">Notes</div>
           </div>
         </div>
 
@@ -180,6 +185,18 @@ const Dashboard = () => {
                 ))}
               </div>
             )}
+          </div>
+        </div>
+
+        <div className="security-notice">
+          <div className="security-notice-icon">
+            <FontAwesomeIcon icon={faShieldHalved} />
+          </div>
+          <div className="security-notice-content">
+            <div className="security-notice-content-title">Security Notice</div>
+            <div className="security-notice-content-subtitle">
+              All credentials are encrypted with AES-256 encryption.
+            </div>
           </div>
         </div>
       </div>

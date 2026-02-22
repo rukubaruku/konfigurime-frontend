@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 
-export default function Sidebar() {
+const Sidebar = () => {
   const userName = localStorage.getItem("userName") || "John Doe";
 
   const logout = () => {
@@ -116,4 +116,6 @@ export default function Sidebar() {
       </div>
     </aside>
   );
-}
+};
+
+export default Sidebar;

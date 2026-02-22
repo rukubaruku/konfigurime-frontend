@@ -9,15 +9,14 @@ import Navbar from "./Navbar/Navbar";
 
 function ProtectedLayout({ children }) {
   const userId = localStorage.getItem("userId");
-  const [showSidebar, setShowSidebar] = useState(false);
 
   if (!userId) {
     return <Navigate to="/login" replace />;
   }
 
   return (
-    <div className={`page-layout ${showSidebar ? "collapsed" : ""}`}>
-      <Sidebar collapsed={showSidebar} setCollapsed={setShowSidebar} />
+    <div className="page-layout">
+      <Sidebar />
       <div className="main-content">{children}</div>
       <Navbar />
     </div>
