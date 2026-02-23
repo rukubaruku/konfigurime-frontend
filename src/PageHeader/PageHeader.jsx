@@ -63,7 +63,7 @@ const PageHeader = () => {
       </div>
 
       <div className="page-header-right">
-        <button onClick={toggleTheme} className="theme-toggle">
+        <button onClick={toggleTheme} className="toggle-theme">
           <img
             src={theme === "light" ? darkMode : lightMode}
             alt="Toggle theme"

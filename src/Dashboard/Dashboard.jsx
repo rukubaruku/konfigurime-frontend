@@ -57,6 +57,17 @@ const Dashboard = () => {
     <div className="dashboard-page">
       <PageHeader />
       <div className="dashboard-page-content">
+        <div className="dashboard-welcome-section">
+          <div className="dashboard-welcome-icon">
+            <FontAwesomeIcon icon={faShieldHalved} />
+          </div>
+          <div className="dashboard-welcome-content">
+            <div className="dashboard-welcome-title">Welcome back</div>
+            <div className="dashboard-welcome-subtitle">
+              Here's your configuration overview
+            </div>
+          </div>
+        </div>
         <div className="dashboard-widgets">
           <div className="dashboard-widget">
             <div className="widget-icon">

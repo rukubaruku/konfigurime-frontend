@@ -13,6 +13,9 @@
   --text-quick-action: hsl(240, 3%, 31%);
   --text-action-btn: hsl(240, 10%, 4%);
 
+  --subtitle: hsl(240, 3%, 31%);
+  --title: hsl(240, 10%, 4%);
+
   --action-btn-bg: #e7e7e9;
   --action-btn-bg-hover: #e7f7f5;
   --action-btn-border: hsl(173, 80%, 40%);
@@ -33,6 +36,9 @@
   --text-title: hsl(240, 5%, 65%);
   --text-quick-action: hsl(0, 5%, 88%);
   --text-action-btn: hsl(0, 0%, 98%);
+
+  --subtitle: hsl(0, 0%, 98%);
+  --title: hsl(240, 5%, 65%);
 
   --action-btn-bg: #27272a;
   --action-btn-bg-hover: hsl(180, 36%, 11%);
@@ -62,6 +68,45 @@
   box-sizing: border-box;
   background-color: var(--page-bg);
   gap: 24px;
+}
+
+.dashboard-welcome-section {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
+}
+
+.dashboard-welcome-icon {
+  height: 52px;
+  width: 52px;
+  background: #dc2828;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
+
+.dashboard-welcome-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.dashboard-welcome-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--title);
+}
+
+.dashboard-welcome-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--subtitle);
 }
 
 .dashboard-widgets {
@@ -503,6 +548,30 @@
   .credential-item-time {
     width: 100%;
     text-align: end;
+  }
+}
+
+@media (width<=460px) {
+  .dashboard-welcome-section {
+    gap: 12px;
+  }
+
+  .dashboard-welcome-title {
+    font-size: 22px;
+  }
+
+  .dashboard-welcome-subtitle {
+    font-size: 18px;
+  }
+}
+
+@media (width<=430px) {
+  .dashboard-welcome-title {
+    font-size: 20px;
+  }
+
+  .dashboard-welcome-subtitle {
+    font-size: 16px;
   }
 }
 
