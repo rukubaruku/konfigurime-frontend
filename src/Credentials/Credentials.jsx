@@ -1,6 +1,18 @@
+import { useState } from "react";
 import PageHeader from "../PageHeader/PageHeader";
+import Modal from "../Modal/Modal";
 import "./credentials.css";
+
 const Credentials = () => {
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
+
+  const handleCreateCategory = () => {
+    console.log("New Category:", categoryName);
+    setCategoryName("");
+    setIsCategoryModalOpen(false);
+  };
+
   return (
     <div className="credentials-container">
       <PageHeader />
@@ -12,27 +24,37 @@ const Credentials = () => {
             Manage your stored credentials
           </div>
         </div>
+
         <div className="page-content-header-actions">
-          <button className="add-category">+ Category</button>
+          <button
+            className="add-category"
+            onClick={() => setIsCategoryModalOpen(true)}
+          >
+            + Category
+          </button>
           <button className="add-item">+ Add Credential</button>
         </div>
       </div>
-      <div class="search-wrapper">
-        <span class="search-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <circle cx="11" cy="11" r="8" stroke="#888" stroke-width="2" />
-            <line
-              x1="16.5"
-              y1="16.5"
-              x2="21"
-              y2="21"
-              stroke="#888"
-              stroke-width="2"
-            />
-          </svg>
-        </span>
-        <input type="text" placeholder="Search credentials..." />
-      </div>
+
+      <Modal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        title="Create Category"
+      >
+        <input
+          type="text"
+          placeholder="Category name"
+          value={categoryName}
+          onChange={(e) => setCategoryName(e.target.value)}
+        />
+
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
+        >
+          <button onClick={() => setIsCategoryModalOpen(false)}>Cancel</button>
+          <button onClick={handleCreateCategory}>Create</button>
+        </div>
+      </Modal>
     </div>
   );
 };

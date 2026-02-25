@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard/Dashboard";
 import Credentials from "./Credentials/Credentials";
 import Sidebar from "./Sidebar/Sidebar";
 import Navbar from "./Navbar/Navbar";
+import Configurations from "./Configurations/Configurations";
 
 function ProtectedLayout({ children }) {
   const userId = localStorage.getItem("userId");
@@ -43,6 +44,14 @@ function App() {
           element={
             <ProtectedLayout>
               <Credentials />
+            </ProtectedLayout>
+          }
+        />
+        <Route
+          path="/configurations"
+          element={
+            <ProtectedLayout>
+              <Configurations />
             </ProtectedLayout>
           }
         />

@@ -48,6 +48,10 @@ const PageHeader = () => {
       title: "Notes",
       path: "/notes",
     },
+    {
+      title: "Configurations",
+      path: "/configurations",
+    },
   ];
 
   const currentHeader = headerData.find((item) =>

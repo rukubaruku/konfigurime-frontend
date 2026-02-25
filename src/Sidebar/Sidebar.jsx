@@ -7,7 +7,7 @@ import {
   Database,
   FileText,
   FileCog,
-  User,
+  Settings,
   LogOut,
 } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -103,10 +103,15 @@ const Sidebar = () => {
         <div className="sidebar-subtitle">Settings</div>
 
         <nav className="sidebar-nav sidebar-nav-footer">
-          <div className="sidebar-link user-link">
-            <User size={22} />
-            <span>{userName}</span>
-          </div>
+          <NavLink
+            to="/configurations"
+            className={({ isActive }) =>
+              `sidebar-link ${isActive ? "active" : ""}`
+            }
+          >
+            <Settings size={22} />
+            <span>Configurations</span>
+          </NavLink>
 
           <button className="sidebar-link logout-btn" onClick={logout}>
             <LogOut size={22} />

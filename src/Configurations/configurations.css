@@ -1,0 +1,211 @@
+:root {
+  --title-color: #09090b;
+  --subtitle-color: #71717a;
+
+  --active-tab-color: #09090b;
+  --tab-color: #71717a;
+  --tabs-color: #e7e7e980;
+  --border-color: hsl(240 6% 85%);
+
+  --border: hsl(240, 6%, 85%);
+  --border-hover: #ff1c1c;
+
+  --bg-color: #ffffff;
+
+  --item-bg: #e7e7e94c;
+
+  --action-color: #18181b;
+  --action-bg1: #e7e7e9;
+  --action-bg2: #ef4343;
+  --action-bg2-hover: hsla(0 84% 60% / 0.9);
+
+  --icon: #ff1c1c;
+  --icon-color: rgb(251, 191, 36);
+}
+
+.configurations-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 24px;
+  box-sizing: border-box;
+  gap: 24px;
+}
+
+.configurations-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.configurations-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--title-color);
+  line-height: 40px;
+}
+
+.configurations-subtitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--subtitle-color);
+  line-height: 24px;
+}
+
+.configurations-tabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: flex-start;
+  align-items: center;
+  border: none;
+  outline: none;
+  background-color: var(--tabs-color);
+  border-radius: 6px;
+  padding: 4px;
+  box-sizing: border-box;
+  height: 48px;
+  cursor: pointer;
+}
+
+.configuration-tab {
+  color: var(--tab-color);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 4px 12px;
+  line-height: 24px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.configuration-tab.active {
+  color: var(--active-tab-color);
+  border: 1px solid var(--border-color);
+  box-shadow:
+    rgba(0, 0, 0, 0.12) 0px 1px 3px,
+    rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.configurations-content {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.configurations-general {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.configurations-general-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-color);
+  gap: 24px;
+}
+
+.configurations-general-item:hover {
+  border-color: var(--border-hover);
+}
+
+.configurations-general-item-title {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--title-color);
+  gap: 12px;
+}
+
+.configurations-general-item-title svg {
+  color: var(--icon);
+}
+
+.configurations-general-item-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--item-bg);
+  padding: 16px;
+  gap: 8px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.configurations-general-item-content-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.configurations-general-item-content-header svg {
+  color: var(--icon-color);
+}
+.configurations-general-item-header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.configurations-general-item-content-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--title-color);
+  line-height: 24px;
+}
+
+.configurations-general-item-content-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--subtitle-color);
+  line-height: 24px;
+}
+
+.configurations-general-item-content-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: var(--action-bg1);
+  color: var(--action-color);
+  padding: 8px 16px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.configurations-general-item-content-action.session {
+  background-color: var(--action-bg2);
+  color: var(--bg-color);
+}
+
+.configurations-general-item-content-action.session:hover {
+  background-color: var(--action-bg2-hover);
+}
