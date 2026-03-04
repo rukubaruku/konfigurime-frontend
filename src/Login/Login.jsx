@@ -10,9 +10,11 @@ import {
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import lightMode from "../Assets/Images/lightMode.png";
 import darkMode from "../Assets/Images/darkMode.png";
+import { Bounce, toast } from "react-toastify";
+import axiosInstance from "../Utils/axiosInstance";
+import { useAuth } from "../Hooks/useAuth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,6 +24,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [theme, setTheme] = useState("light");
+
+  const { login } = useAuth();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -51,21 +55,17 @@ const Login = () => {
     if (!validLogin()) return;
 
     try {
-      const response = await axios.post(
-        "http://localhost:3109/user/login",
-        { email, password },
-        { withCredentials: true },
-      );
+      const response = await axiosInstance.post("/user/login", {
+        email,
+        password,
+      });
 
-      if (response.data.status === 200) {
+      if (response.data.success) {
+        login(response.data.token);
         navigate("/home");
-        localStorage.setItem("userId", response.data.userId);
-        localStorage.setItem("userName", response.data.userName);
-      } else {
-        setLoginError("Invalid credentials");
       }
-    } catch {
-      setLoginError("Login failed");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 

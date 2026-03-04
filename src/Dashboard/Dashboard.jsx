@@ -14,19 +14,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Bounce, toast } from "react-toastify";
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
   const [recentCredentials, setRecentCredentials] = useState([]);
   const [credentialsNr, setCredentialsNr] = useState(0);
   const navigate = useNavigate();
-  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!userId) {
+    if (!token) {
       alert("Log in to see dashboard");
       navigate("/login");
     }
-  }, [userId]);
+  }, [token]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -38,14 +40,29 @@ const Dashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         "http://localhost:3109/credentials/dashboard",
       );
 
       setCredentialsNr(response.data.data.count);
       setRecentCredentials(response.data.data.recent);
+      navigate("/home");
     } catch (error) {
       console.error("Dashboard fetch error:", error);
+      toast.error(error.response?.data?.message || "Dashboard fetch error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: { theme },
+        transition: Bounce,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +72,11 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-page">
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
       <PageHeader />
       <div className="dashboard-page-content">
         <div className="dashboard-welcome-section">

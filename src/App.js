@@ -1,6 +1,5 @@
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
 import Login from "./Login/Login";
 import Dashboard from "./Dashboard/Dashboard";
 import Credentials from "./Credentials/Credentials";
@@ -8,14 +7,10 @@ import Sidebar from "./Sidebar/Sidebar";
 import Navbar from "./Navbar/Navbar";
 import Configurations from "./Configurations/Configurations";
 import { Bounce, ToastContainer } from "react-toastify";
+import PrivateLayout from "./PrivateLayout";
+import { AuthProvider } from "./context/AuthContext";
 
-function ProtectedLayout({ children }) {
-  const userId = localStorage.getItem("userId");
-
-  if (!userId) {
-    return <Navigate to="/login" replace />;
-  }
-
+function LayoutWrapper({ children }) {
   return (
     <div className="page-layout">
       <Sidebar />
@@ -27,52 +22,49 @@ function ProtectedLayout({ children }) {
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/login" element={<Login />} />
+    <AuthProvider>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/home"
-          element={
-            <ProtectedLayout>
-              <Dashboard />
-            </ProtectedLayout>
-          }
-        />
+          <Route element={<PrivateLayout />}>
+            <Route
+              path="/home"
+              element={
+                <LayoutWrapper>
+                  <Dashboard />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/credentials"
+              element={
+                <LayoutWrapper>
+                  <Credentials />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/configurations"
+              element={
+                <LayoutWrapper>
+                  <Configurations />
+                </LayoutWrapper>
+              }
+            />
+          </Route>
 
-        <Route
-          path="/credentials"
-          element={
-            <ProtectedLayout>
-              <Credentials />
-            </ProtectedLayout>
-          }
-        />
-        <Route
-          path="/configurations"
-          element={
-            <ProtectedLayout>
-              <Configurations />
-            </ProtectedLayout>
-          }
-        />
+          <Route path="*" element={<Navigate to="/home" />} />
+        </Routes>
 
-        <Route path="*" element={<Navigate to="/home" />} />
-      </Routes>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
-    </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          theme="light"
+          transition={Bounce}
+        />
+      </div>
+    </AuthProvider>
   );
 }
 
