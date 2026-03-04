@@ -7,6 +7,7 @@ import Credentials from "./Credentials/Credentials";
 import Sidebar from "./Sidebar/Sidebar";
 import Navbar from "./Navbar/Navbar";
 import Configurations from "./Configurations/Configurations";
+import { Bounce, ToastContainer } from "react-toastify";
 
 function ProtectedLayout({ children }) {
   const userId = localStorage.getItem("userId");
@@ -58,6 +59,19 @@ function App() {
 
         <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   );
 }

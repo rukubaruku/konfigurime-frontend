@@ -52,7 +52,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3109/api/login",
+        "http://localhost:3109/user/login",
         { email, password },
         { withCredentials: true },
       );

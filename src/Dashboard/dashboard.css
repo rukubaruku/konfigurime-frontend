@@ -111,16 +111,14 @@
 
 .dashboard-widgets {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+  align-items: stretch;
 }
 
 .dashboard-widget {
-  width: 180px;
-  height: 160px;
+  height: 130px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -128,9 +126,13 @@
   align-items: flex-start;
   background-color: var(--surface-bg);
   border: 1px solid var(--border);
-  box-sizing: border-box;
   padding: 24px;
   gap: 8px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .dashboard-widget:hover {
@@ -144,8 +146,8 @@
 }
 
 .widget-icon {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -522,11 +524,6 @@
     padding: 24px;
   }
 
-  .dashboard-widget {
-    width: 160px;
-    height: 150px;
-  }
-
   .quick-actions,
   .recent-activity {
     width: 100%;
@@ -534,11 +531,6 @@
 }
 
 @media (width <= 610px) {
-  .dashboard-widget {
-    width: 180px;
-    height: 160px;
-  }
-
   .credential-item {
     flex-direction: column;
     align-items: flex-start;
@@ -571,13 +563,6 @@
 
   .dashboard-welcome-subtitle {
     font-size: 16px;
-  }
-}
-
-@media (width<=440px) {
-  .dashboard-widget {
-    width: 150px;
-    height: 140px;
   }
 }
 
