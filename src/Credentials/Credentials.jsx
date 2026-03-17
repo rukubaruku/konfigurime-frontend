@@ -1,17 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import PageHeader from "../PageHeader/PageHeader";
-import Modal from "../Modal/Modal";
+import CategoryTab from "../CategoryTab/CategoryTab";
+import { Search } from "lucide-react";
 import "./credentials.css";
+import CredentialsList from "./CredentialsList";
+import { Bounce, toast } from "react-toastify";
+import AddCredential from "./AddCredential";
+import EditCredential from "./EditCredential";
 
 const Credentials = () => {
-  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-  const [categoryName, setCategoryName] = useState("");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingCredentialID, setEditingCredentialID] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [search, setSearch] = useState("");
+  const [credentials, setCredentials] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [theme, setTheme] = useState("light");
 
-  const handleCreateCategory = () => {
-    console.log("New Category:", categoryName);
-    setCategoryName("");
-    setIsCategoryModalOpen(false);
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+  }, []);
+
+  const fetchCredentials = async (categoryId) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `http://localhost:3109/credentials/${categoryId}`,
+      );
+      if (response.status === 200) {
+        setCredentials(response.data.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch credentials:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to fetch credentials",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme,
+          transition: Bounce,
+        },
+      );
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchCredentials(selectedCategory);
+  }, [selectedCategory]);
 
   return (
     <div className="credentials-container">
@@ -24,37 +70,49 @@ const Credentials = () => {
             Manage your stored credentials
           </div>
         </div>
-
         <div className="page-content-header-actions">
-          <button
-            className="add-category"
-            onClick={() => setIsCategoryModalOpen(true)}
-          >
-            + Category
+          <button className="add-item" onClick={() => setIsAddModalOpen(true)}>
+            + Add Credential
           </button>
-          <button className="add-item">+ Add Credential</button>
         </div>
       </div>
 
-      <Modal
-        isOpen={isCategoryModalOpen}
-        onClose={() => setIsCategoryModalOpen(false)}
-        title="Create Category"
-      >
+      <div className="credentials-search">
+        <Search size={20} />
         <input
           type="text"
-          placeholder="Category name"
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search credential"
         />
+      </div>
 
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
-        >
-          <button onClick={() => setIsCategoryModalOpen(false)}>Cancel</button>
-          <button onClick={handleCreateCategory}>Create</button>
-        </div>
-      </Modal>
+      <CategoryTab
+        module="credentials"
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+
+      <CredentialsList
+        credentials={credentials}
+        loading={loading}
+        setEditingCredentialID={setEditingCredentialID}
+        onDelete={() => fetchCredentials(selectedCategory)}
+      />
+
+      <AddCredential
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSuccess={() => fetchCredentials(selectedCategory)}
+        theme={theme}
+      />
+
+      <EditCredential
+        credentialId={editingCredentialID}
+        onClose={() => setEditingCredentialID(null)}
+        onSuccess={() => fetchCredentials(selectedCategory)}
+        theme={theme}
+      />
     </div>
   );
 };

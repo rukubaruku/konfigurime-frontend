@@ -1,0 +1,45 @@
+:root {
+  --category-tab-bg: #ededed;
+  --category-tab-color: hsl(0 0% 9%);
+  --active-category-tab-bg: #dc2828;
+  --active-category-tab-color: #fafafa;
+}
+
+[data-theme="dark"] {
+  --category-tab-bg: #2e2e2e;
+  --category-tab-color: #fafafa;
+  --active-category-tab-bg: #dc2828;
+  --active-category-tab-color: #fafafa;
+}
+
+.categories-tabs {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.category-tab {
+  width: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--category-tab-bg);
+  color: var(--category-tab-color);
+  padding: 8px 16px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.category-tab.active {
+  color: var(--active-category-tab-color);
+  background-color: var(--active-category-tab-bg);
+}

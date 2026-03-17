@@ -50,7 +50,7 @@ const Categories = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
       console.log("Error fetching categories:", error);
@@ -75,7 +75,7 @@ const Categories = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
     }
@@ -142,7 +142,7 @@ const Categories = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: { theme },
+          theme: theme,
           transition: Bounce,
         });
       }
@@ -156,7 +156,7 @@ const Categories = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
       console.log("Failed to delete category:", error);
@@ -193,7 +193,7 @@ const Categories = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: { theme },
+            theme: theme,
             transition: Bounce,
           });
           handleCloseModal();
@@ -220,7 +220,7 @@ const Categories = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: { theme },
+            theme: theme,
             transition: Bounce,
           });
           handleCloseModal();
@@ -236,7 +236,7 @@ const Categories = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
       console.log("Failed to save category:", error);

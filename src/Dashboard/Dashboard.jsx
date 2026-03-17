@@ -91,34 +91,34 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="dashboard-widgets">
-          <div className="dashboard-widget">
+          <NavLink to="/credentials" className="dashboard-widget">
             <div className="widget-icon">
               <Key size={22} color="hsl(158, 64%, 52%)" />
             </div>
             <div className="widget-value">{credentialsNr}</div>
             <div className="widget-title">Credentials</div>
-          </div>
-          <div className="dashboard-widget">
+          </NavLink>
+          <NavLink to="/scripts" className="dashboard-widget">
             <div className="widget-icon">
               <Code size={24} color="hsl(213, 94%, 68%)" />
             </div>
             <div className="widget-value">0</div>
             <div className="widget-title">Scripts</div>
-          </div>
-          <div className="dashboard-widget">
+          </NavLink>
+          <NavLink to="/queries" className="dashboard-widget">
             <div className="widget-icon">
               <Database size={24} color="hsl(270, 95%, 75%)" />
             </div>
             <div className="widget-value">0</div>
             <div className="widget-title">Queries</div>
-          </div>
-          <div className="dashboard-widget">
+          </NavLink>
+          <NavLink to="/config-files" className="dashboard-widget">
             <div className="widget-icon">
               <FileCog size={24} color="hsl(351, 55%, 60%)" />
             </div>
             <div className="widget-value">0</div>
             <div className="widget-title">Config Files</div>
-          </div>
+          </NavLink>
         </div>
 
         <div className="dashboard-section">
@@ -195,25 +195,28 @@ const Dashboard = () => {
               </div>
             ) : (
               <div className="recent-activity-list">
-                {recentCredentials.map((cred) => (
+                {recentCredentials.map((cred, index) => (
                   <NavLink
                     to={`/credentials/${cred.id}`}
-                    className="credential-item"
+                    className="credential-dashboard-item"
+                    key={index}
                   >
-                    <div className="credential-item-data">
-                      <div className="credential-item-icon">
+                    <div className="credential-dashboard-item-data">
+                      <div className="credential-dashboard-item-icon">
                         <Key size={22} />
                       </div>
-                      <div className="cretential-item-title">
-                        <div className="cretential-item-email">
+                      <div className="cretential-dashboard-item-title">
+                        <div className="cretential-dashboard-item-email">
                           {cred.email}
                         </div>
-                        <div className="credential-item-title-text">
+                        <div className="credential-dashboard-item-title-text">
                           {cred.title}
                         </div>
                       </div>
                     </div>
-                    <div className="credential-item-time">{cred.time}</div>
+                    <div className="credential-dashboard-item-time">
+                      {cred.time}
+                    </div>
                   </NavLink>
                 ))}
               </div>

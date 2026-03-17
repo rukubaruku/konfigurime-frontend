@@ -128,6 +128,7 @@
   border: 1px solid var(--border);
   padding: 24px;
   gap: 8px;
+  text-decoration: none;
   cursor: pointer;
   transition:
     transform 0.3s ease,
@@ -360,7 +361,7 @@
   gap: 12px;
 }
 
-.credential-item {
+.credential-dashboard-item {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -372,21 +373,21 @@
   text-decoration: none;
 }
 
-.credential-item:hover {
+.credential-dashboard-item:hover {
   border: 1px solid var(--border-hover);
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
 
-.credential-item-data {
+.credential-dashboard-item-data {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 12px;
 }
 
-.credential-item-icon {
+.credential-dashboard-item-icon {
   width: 42px;
   height: 42px;
   display: flex;
@@ -396,32 +397,32 @@
   background-color: var(--icon-bg-recent);
 }
 
-.credential-item-icon svg {
+.credential-dashboard-item-icon svg {
   color: var(--text-value);
 }
 
-.cretential-item-title {
+.cretential-dashboard-item-title {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 }
 
-.cretential-item-email {
+.cretential-dashboard-item-email {
   font-size: 18px;
   font-weight: 500;
   color: var(--text-action-btn);
   text-decoration: none;
 }
 
-.credential-item-title-text {
+.credential-dashboard-item-title-text {
   font-size: 16px;
   font-weight: 400;
   color: var(--text-title);
   text-decoration: none;
 }
 
-.credential-item-time {
+.credential-dashboard-item-time {
   font-size: 14px;
   font-weight: 400;
   font-style: italic;

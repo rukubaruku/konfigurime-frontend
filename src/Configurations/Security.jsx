@@ -27,7 +27,7 @@ const Security = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
     }
@@ -41,7 +41,7 @@ const Security = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
     }
@@ -57,7 +57,7 @@ const Security = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
     }
@@ -80,7 +80,7 @@ const Security = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
 
@@ -88,7 +88,7 @@ const Security = () => {
       setNewPassword("");
       setConfirmPassword("");
     } catch (error) {
-      toast.success(error.response?.data?.message, {
+      toast.error(error.response?.data?.message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -96,7 +96,7 @@ const Security = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: { theme },
+        theme: theme,
         transition: Bounce,
       });
     } finally {
