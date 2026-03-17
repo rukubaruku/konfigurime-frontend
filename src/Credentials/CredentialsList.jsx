@@ -12,7 +12,8 @@ const CredentialsList = ({
         <div className="spinner"></div>
       </div>
     );
-  if (!credentials.length) return <div>No credentials found.</div>;
+  if (!credentials.length)
+    return <div className="no-data">No credentials found!</div>;
 
   return (
     <div className="credentials-list">

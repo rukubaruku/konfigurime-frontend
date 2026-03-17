@@ -9,7 +9,7 @@ import Configurations from "./Configurations/Configurations";
 import { Bounce, ToastContainer } from "react-toastify";
 import PrivateLayout from "./PrivateLayout";
 import { AuthProvider } from "./context/AuthContext";
-
+import Scripts from "./Scripts/Scripts";
 function LayoutWrapper({ children }) {
   return (
     <div className="page-layout">
@@ -41,6 +41,14 @@ function App() {
               element={
                 <LayoutWrapper>
                   <Credentials />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/scripts"
+              element={
+                <LayoutWrapper>
+                  <Scripts />
                 </LayoutWrapper>
               }
             />

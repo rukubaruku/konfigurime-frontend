@@ -59,6 +59,13 @@ const Credentials = () => {
     fetchCredentials(selectedCategory);
   }, [selectedCategory]);
 
+  const filteredCredentials = credentials.filter((cred) => {
+    const query = search.trim().toLowerCase();
+    if (!query) return true;
+
+    return [cred.title, cred.username].join(" ").toLowerCase().includes(query);
+  });
+
   return (
     <div className="credentials-container">
       <PageHeader />
@@ -94,7 +101,7 @@ const Credentials = () => {
       />
 
       <CredentialsList
-        credentials={credentials}
+        credentials={filteredCredentials}
         loading={loading}
         setEditingCredentialID={setEditingCredentialID}
         onDelete={() => fetchCredentials(selectedCategory)}

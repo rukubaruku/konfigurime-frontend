@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "../Modal/Modal";
 import { Bounce, toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
 
 const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [credentialForm, setCredentialForm] = useState({
     category: "",
     username: "",
@@ -140,15 +142,25 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
               onChange={handleFormChange}
             />
           </div>
-          <div className="form-group half">
+          <div className="form-group half password-field">
             <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••"
-              value={credentialForm.password}
-              onChange={handleFormChange}
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="••••••"
+                value={credentialForm.password}
+                onChange={handleFormChange}
+              />
+
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
         </div>
 

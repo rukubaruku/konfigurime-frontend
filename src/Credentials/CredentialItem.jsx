@@ -9,10 +9,13 @@ import {
   EyeOff,
   Pencil,
   Trash2,
+  NotepadText,
 } from "lucide-react";
 import "./credentials.css";
 import { Bounce, toast } from "react-toastify";
 import axios from "axios";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -180,16 +183,52 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
               Copy All
             </div>
 
-            <div className="dropdown-item delete" onClick={handleDelete}>
-              {deleting ? (
-                <span style={{ fontSize: "13px" }}>Deleting...</span>
-              ) : (
-                <>
-                  <Trash2 size={16} />
-                  Delete
-                </>
+            <Popup
+              trigger={
+                <div className="dropdown-item delete">
+                  {deleting ? (
+                    <span style={{ fontSize: "13px" }}>Deleting...</span>
+                  ) : (
+                    <>
+                      <Trash2 size={16} />
+                      Delete
+                    </>
+                  )}
+                </div>
+              }
+              modal
+              nested
+            >
+              {(close) => (
+                <div className="confirm-popup">
+                  <div className="confirm-popup-title">Confirm Delete</div>
+                  <div className="confirm-popup-text">
+                    Are you sure you want to delete this credential?
+                  </div>
+
+                  <div className="confirm-actions">
+                    <button
+                      className="popup-cancel-btn"
+                      onClick={() => {
+                        close();
+                      }}
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      className="popup-delete-btn"
+                      onClick={async (e) => {
+                        await handleDelete(e);
+                        close();
+                      }}
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </div>
               )}
-            </div>
+            </Popup>
           </div>
         )}
       </div>
@@ -215,6 +254,10 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
           </button>
           <Copy size={18} className="action-icon" onClick={copyPassword} />
         </div>
+      </div>
+      <div className="notes-row">
+        <NotepadText size={18} /> <span className="notes-title">Notes:</span>
+        <span className="notes-text">{credential.note}</span>
       </div>
     </div>
   );
