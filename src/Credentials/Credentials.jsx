@@ -84,7 +84,7 @@ const Credentials = () => {
         </div>
       </div>
 
-      <div className="credentials-search">
+      <div className="search-input">
         <Search size={20} />
         <input
           type="text"

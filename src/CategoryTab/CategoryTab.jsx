@@ -30,7 +30,7 @@ const CategoryTab = ({ module, selectedCategory, setSelectedCategory }) => {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [module]);
 
   return (
     <div className="categories-tabs">
