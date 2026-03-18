@@ -1,0 +1,10 @@
+.code-input {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.code-input.expanded {
+  overflow-y: auto;
+}

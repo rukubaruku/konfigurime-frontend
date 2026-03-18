@@ -14,13 +14,12 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
     password: "",
     url: "",
     title: "",
-    note: "",
   });
 
   const fetchCategories = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3109/category/categories/module",
+        "http://localhost:3109/category/module",
         { module: "credentials" },
       );
       if (response.status === 200) {
@@ -53,7 +52,6 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
         password: "",
         url: "",
         title: "",
-        note: "",
       });
     }
   }, [isOpen]);
@@ -103,7 +101,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Add Credential">
-      <div className="credential-modal-content">
+      <div className="modal-content">
         <div className="form-group">
           <label>Category *</label>
           <select
@@ -111,7 +109,9 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
             value={credentialForm.category}
             onChange={handleFormChange}
           >
-            <option value="">Select category</option>
+            <option value="" className="placeholder">
+              Select category
+            </option>
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
@@ -133,7 +133,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
 
         <div className="form-row">
           <div className="form-group half">
-            <label>Username</label>
+            <label>Username *</label>
             <input
               type="text"
               name="username"
@@ -143,7 +143,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
             />
           </div>
           <div className="form-group half password-field">
-            <label>Password</label>
+            <label>Password *</label>
             <div className="password-wrapper">
               <input
                 type={showPassword ? "text" : "password"}
@@ -165,22 +165,12 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
         </div>
 
         <div className="form-group">
-          <label>URL</label>
+          <label>URL *</label>
           <input
             type="text"
             name="url"
             placeholder="https://..."
             value={credentialForm.url}
-            onChange={handleFormChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Notes</label>
-          <textarea
-            name="note"
-            placeholder="Additional notes..."
-            value={credentialForm.note}
             onChange={handleFormChange}
           />
         </div>

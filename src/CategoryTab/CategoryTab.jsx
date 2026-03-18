@@ -10,7 +10,7 @@ const CategoryTab = ({ module, selectedCategory, setSelectedCategory }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3109/category/categories/module",
+        "http://localhost:3109/category/module",
         { module },
       );
 

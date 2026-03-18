@@ -69,7 +69,11 @@ const Credentials = () => {
   return (
     <div className="credentials-container">
       <PageHeader />
-
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className="page-content-header">
         <div className="page-content-header-titles">
           <div className="page-content-header-title">Credentials</div>

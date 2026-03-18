@@ -255,10 +255,6 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
           <Copy size={18} className="action-icon" onClick={copyPassword} />
         </div>
       </div>
-      <div className="notes-row">
-        <NotepadText size={18} /> <span className="notes-title">Notes:</span>
-        <span className="notes-text">{credential.note}</span>
-      </div>
     </div>
   );
 };
