@@ -189,7 +189,7 @@ const AddScript = ({ isOpen, onClose, onSuccess, theme }) => {
           </div>
 
           <div className="form-group">
-            <label>Code</label>
+            <label>Code *</label>
             <textarea
               name="code"
               value={scriptForm.code}

@@ -10,7 +10,7 @@
   --input-color: hsl(240 10% 4%);
 
   --input-border-color: hsl(240 6% 85%);
-  --input-border-color-focus: #dc2828;
+  --input-border-color-focus: hsl(173 80% 40%);
 
   --confirm-btn-bg: #e63946;
   --confirm-btn-bg-hover: #d62839;
@@ -23,8 +23,25 @@
 
 [data-theme="dark"] {
   --overlay-bg: hsla(0 0 0 / 0.8);
-  --modal-bg: #111111;
-  --modal-border: hsl(240 6% 85%);
+
+  --modal-bg: hsl(240 6% 7%);
+  --modal-border: hsl(240 4% 24%);
+  --modal-title-color: #fafafa;
+
+  --label-color: #fafafa;
+  --input-bg: #27272a80;
+  --input-color: #fafafa;
+
+  --input-border-color: hsl(240 4% 16%);
+  --input-border-color-focus: hsl(173 80% 40%);
+
+  --confirm-btn-bg: #19e6ce;
+  --confirm-btn-bg-hover: hsla(173 80% 50% / 0.9);
+  --confirm-btn-color: #f6fefd;
+
+  --cancel-btn-bg: #27272a;
+  --cancel-btn-bg-hover: hsl(240 4% 16%);
+  --cancel-btn-color: hsl(0 0% 98%);
 }
 .modal-overlay {
   position: fixed;

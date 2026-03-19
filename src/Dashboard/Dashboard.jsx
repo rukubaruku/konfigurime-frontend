@@ -19,6 +19,7 @@ const Dashboard = () => {
   const [theme, setTheme] = useState("light");
   const [recentCredentials, setRecentCredentials] = useState([]);
   const [credentialsNr, setCredentialsNr] = useState(0);
+  const [scriptsNr, setScriptsNr] = useState(0);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
@@ -41,26 +42,21 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        "http://localhost:3109/credentials/dashboard",
-      );
 
-      setCredentialsNr(response.data.data.count);
-      setRecentCredentials(response.data.data.recent);
-      navigate("/home");
+      const [credentialsRes, scriptsRes, queriesRes, configFilesRes] =
+        await Promise.all([
+          axios.get("http://localhost:3109/credentials/dashboard"),
+          axios.get("http://localhost:3109/scripts/dashboard"),
+          // axios.get("http://localhost:3109/queries/dashboard"),
+          // axios.get("http://localhost:3109/config-files/dashboard"),
+        ]);
+
+      setCredentialsNr(credentialsRes.data.data.count);
+      setRecentCredentials(credentialsRes.data.data.recent);
+
+      setScriptsNr(scriptsRes.data.data.count);
     } catch (error) {
       console.error("Dashboard fetch error:", error);
-      toast.error(error.response?.data?.message || "Dashboard fetch error", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: { theme },
-        transition: Bounce,
-      });
     } finally {
       setLoading(false);
     }
@@ -102,7 +98,7 @@ const Dashboard = () => {
             <div className="widget-icon">
               <Code size={24} color="hsl(213, 94%, 68%)" />
             </div>
-            <div className="widget-value">0</div>
+            <div className="widget-value">{scriptsNr}</div>
             <div className="widget-title">Scripts</div>
           </NavLink>
           <NavLink to="/queries" className="dashboard-widget">

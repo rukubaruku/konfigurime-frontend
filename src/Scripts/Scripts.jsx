@@ -6,6 +6,7 @@ import CategoryTab from "../CategoryTab/CategoryTab";
 import AddScript from "./AddScript";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
+import ScriptsList from "./ScriptsList";
 
 const Scripts = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -14,6 +15,7 @@ const Scripts = () => {
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState("light");
   const [scripts, setScripts] = useState([]);
+  const [editingScriptId, setEditingScriptID] = useState();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -30,7 +32,7 @@ const Scripts = () => {
         `http://localhost:3109/scripts/${categoryId}`,
       );
 
-      if (response.data.status === 200) {
+      if (response.data.success) {
         setScripts(response.data.data || []);
       }
     } catch (error) {
@@ -101,6 +103,13 @@ const Scripts = () => {
         onClose={() => setIsAddModalOpen(false)}
         onSuccess={() => fetchScripts(selectedCategory)}
         theme={theme}
+      />
+
+      <ScriptsList
+        scripts={scripts}
+        loading={loading}
+        setEditingScriptID={setEditingScriptID}
+        onDelete={() => fetchScripts(selectedCategory)}
       />
     </div>
   );
