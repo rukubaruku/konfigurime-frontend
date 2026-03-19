@@ -1,8 +1,12 @@
 import ScriptItem from "./ScriptItem";
 
-const ScriptsList = ({ scripts, loading, setEditingScriptID, onDelete }) => {
-  console.log(scripts);
-
+const ScriptsList = ({
+  scripts,
+  loading,
+  setEditingScriptID,
+  onDelete,
+  theme,
+}) => {
   if (loading)
     return (
       <div className="overlay">
@@ -18,6 +22,7 @@ const ScriptsList = ({ scripts, loading, setEditingScriptID, onDelete }) => {
           script={script}
           setEditingScriptID={setEditingScriptID}
           onDelete={onDelete}
+          theme={theme}
         />
       ))}
     </div>

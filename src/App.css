@@ -4,6 +4,7 @@
   --search-border: hsl(240 6% 85%);
   --search-border-focus: hsl(173 80% 40%);
   --search-icon: hsl(240 4% 46%);
+  --page-bg: #f4f4f6;
 }
 
 [data-theme="dark"] {
@@ -12,6 +13,7 @@
   --search-border: hsl(240 4% 16%);
   --search-border-focus: hsl(173 80% 40%);
   --search-icon: hsl(240 4% 46%);
+  --page-bg: #f4f4f6;
 }
 
 /* Page layout */
@@ -19,7 +21,7 @@
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background: var(--bg-page);
+  background: var(--page-bg);
   position: relative;
 }
 
@@ -30,7 +32,7 @@
   min-height: 100vh;
   box-sizing: border-box;
   transition: margin-left 0.3s ease;
-  background: var(--bg-page);
+  background: var(--page-bg);
   overflow-x: hidden;
 }
 

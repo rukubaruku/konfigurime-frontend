@@ -110,6 +110,7 @@ const Scripts = () => {
         loading={loading}
         setEditingScriptID={setEditingScriptID}
         onDelete={() => fetchScripts(selectedCategory)}
+        theme={theme}
       />
     </div>
   );

@@ -1,18 +1,28 @@
 import axios from "axios";
-import { FileTerminal, Copy, Pencil, Trash2, ChevronDown } from "lucide-react";
+import {
+  FileTerminal,
+  Copy,
+  Pencil,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  Code,
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import { Bounce, toast } from "react-toastify";
 
-const ScriptItem = ({ script, setEditingScriptID, onDelete }) => {
+const ScriptItem = ({ script, setEditingScriptID, onDelete, theme }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showCode, setShowCode] = useState(false);
 
+  const module = "scripts";
   const fetchCategories = async () => {
     try {
       setLoading(true);
       const response = await axios.post(
         "http://localhost:3109/category/module",
-        "scripts",
+        { module },
       );
 
       if (response.status === 200) {
@@ -37,32 +47,100 @@ const ScriptItem = ({ script, setEditingScriptID, onDelete }) => {
     (c) => c.id === String(script.category),
   )?.name;
 
+  const handleCopy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success("Copied to clipboard!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
+      });
+      console.log("Copied!");
+    } catch (err) {
+      toast.error("Failed to copy!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
+      });
+    }
+  };
+
   return (
     <div className="script-item">
-      <div className="script-item-header">
-        <div className="script-item-header-icon">
-          <FileTerminal size={24} />
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
         </div>
-        <div className="script-item-header-info">
-          <div className="script-item-header-info-title">{script.title}</div>
-          <div className="script-item-header-info-data">
-            <div className="script-item-header-info-data-category">
-              {categoryName || "Unknown"}
-            </div>
-            <div className="script-item-header-info-data-language">
-              {script.language}
+      )}
+      <div className="script-item-header">
+        <div className="script-item-header-content">
+          <div className="script-item-header-icon">
+            <FileTerminal size={24} />
+          </div>
+          <div className="script-item-header-info">
+            <div className="script-item-header-info-title">{script.title}</div>
+            <div className="script-item-header-info-data">
+              <div className="script-item-header-info-data-category">
+                {categoryName || "Unknown"}
+              </div>
+              <div className="script-item-header-info-data-language">
+                {script.language}
+              </div>
             </div>
           </div>
         </div>
         <div className="script-item-header-actions">
-          <Copy size={20} />
-          <Pencil size={20} onClick={() => setEditingScriptID(script.id)} />
-          <Trash2 size={20} />
-          <ChevronDown size={20} onClick={() => setShowCode(!showCode)} />
+          <button
+            className="script-item-header-action copy"
+            onClick={() => handleCopy(script.code)}
+          >
+            <Copy size={18} />
+          </button>
+
+          <button className="script-item-header-action edit">
+            <Pencil size={18} onClick={() => setEditingScriptID(script.id)} />
+          </button>
+          <button className="script-item-header-action delete">
+            <Trash2 size={18} />
+          </button>
+          <button className="script-item-header-action show-code">
+            {showCode ? (
+              <ChevronUp size={18} onClick={() => setShowCode(!showCode)} />
+            ) : (
+              <ChevronDown size={18} onClick={() => setShowCode(!showCode)} />
+            )}
+          </button>
         </div>
       </div>
       <div className="script-item-description">{script.description}</div>
-      {showCode && <div className="script-item-code">{script.code}</div>}
+      {showCode && (
+        <pre className="script-item-code">
+          <div className="script-item-code-header">
+            <div className="script-item-code-header-title">
+              <Code size={18} /> {script.language}
+            </div>
+            <div
+              className="script-item-code-header-action"
+              onClick={() => handleCopy(script.code)}
+            >
+              <Copy size={18} /> Copy
+            </div>
+          </div>
+          <div className="script-item-code-content">
+            <code>{script.code}</code>
+          </div>
+        </pre>
+      )}
     </div>
   );
 };
