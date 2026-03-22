@@ -28,7 +28,7 @@ const Categories = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:3109/category/categories",
+        "https://konfigurime-api.arkiva.gov.al:3109/category/categories",
       );
       if (response.data.success) {
         const categoriesData = response.data.data;
@@ -60,7 +60,9 @@ const Categories = () => {
   const fetchModules = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3109/module/modules");
+      const response = await axios.get(
+        "https://konfigurime-api.arkiva.gov.al:3109/module/modules",
+      );
       if (response.data.success) {
         setModules(response.data.data);
       }
@@ -125,7 +127,7 @@ const Categories = () => {
     try {
       setLoading(true);
       const response = await axios.delete(
-        `http://localhost:3109/category/${categoryId}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/category/${categoryId}`,
       );
       if (response.data.success) {
         setCategories((prev) => {
@@ -171,7 +173,7 @@ const Categories = () => {
       setLoading(true);
       if (isEditing && currentCategory) {
         const response = await axios.put(
-          `http://localhost:3109/category/${currentCategory._id}`,
+          `https://konfigurime-api.arkiva.gov.al:3109/category/${currentCategory._id}`,
           { name: categoryName },
         );
         if (response.data.success) {
@@ -200,10 +202,13 @@ const Categories = () => {
           handleCloseModal();
         }
       } else {
-        const response = await axios.post("http://localhost:3109/category", {
-          name: categoryName,
-          moduleId: selectedModule,
-        });
+        const response = await axios.post(
+          "https://konfigurime-api.arkiva.gov.al:3109/category",
+          {
+            name: categoryName,
+            moduleId: selectedModule,
+          },
+        );
         if (response.data.success) {
           const newCat = response.data.data;
           const moduleName = newCat.module.name;

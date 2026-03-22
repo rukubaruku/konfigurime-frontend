@@ -56,12 +56,22 @@ const Dashboard = () => {
         configFilesRes,
         notesRes,
       ] = await Promise.all([
-        axios.get("http://localhost:3109/credentials/dashboard"),
-        axios.get("http://localhost:3109/commands/dashboard"),
-        axios.get("http://localhost:3109/scripts/dashboard"),
-        axios.get("http://localhost:3109/queries/dashboard"),
-        axios.get("http://localhost:3109/config-files/dashboard"),
-        axios.get("http://localhost:3109/notes/dashboard"),
+        axios.get(
+          "https://konfigurime-api.arkiva.gov.al:3109/credentials/dashboard",
+        ),
+        axios.get(
+          "https://konfigurime-api.arkiva.gov.al:3109/commands/dashboard",
+        ),
+        axios.get(
+          "https://konfigurime-api.arkiva.gov.al:3109/scripts/dashboard",
+        ),
+        axios.get(
+          "https://konfigurime-api.arkiva.gov.al:3109/queries/dashboard",
+        ),
+        axios.get(
+          "https://konfigurime-api.arkiva.gov.al:3109/config-files/dashboard",
+        ),
+        axios.get("https://konfigurime-api.arkiva.gov.al:3109/notes/dashboard"),
       ]);
 
       setCredentialsNr(credentialsRes.data.data.count);

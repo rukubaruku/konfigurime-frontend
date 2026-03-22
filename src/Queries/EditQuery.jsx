@@ -15,7 +15,9 @@ const EditQuery = () => {
     const fetchQuery = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:3109/queries/${id}`);
+        const response = await axios.get(
+          `https://konfigurime-api.arkiva.gov.al:3109/queries/${id}`,
+        );
         if (response.data.success) {
           setQuery(response.data.query);
         }
@@ -41,7 +43,10 @@ const EditQuery = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(`http://localhost:3109/queries/${id}`, data);
+    return axios.put(
+      `https://konfigurime-api.arkiva.gov.al:3109/queries/${id}`,
+      data,
+    );
   };
 
   if (!query)

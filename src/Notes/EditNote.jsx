@@ -15,7 +15,9 @@ const EditNote = () => {
     const fetchNote = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:3109/notes/${id}`);
+        const res = await axios.get(
+          `https://konfigurime-api.arkiva.gov.al:3109/notes/${id}`,
+        );
 
         if (res.data.success) {
           setNote(res.data.note);
@@ -34,7 +36,10 @@ const EditNote = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(`http://localhost:3109/notes/${id}`, data);
+    return axios.put(
+      `https://konfigurime-api.arkiva.gov.al:3109/notes/${id}`,
+      data,
+    );
   };
 
   if (!note)

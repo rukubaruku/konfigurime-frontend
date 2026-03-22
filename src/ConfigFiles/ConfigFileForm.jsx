@@ -30,9 +30,12 @@ const ConfigFileForm = ({ mode = "add", initialData = {}, onSubmit }) => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.post("http://localhost:3109/category/module", {
-        module: "configs",
-      });
+      const res = await axios.post(
+        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        {
+          module: "configs",
+        },
+      );
 
       setCategories(
         (res.data?.data || []).map((c) => ({

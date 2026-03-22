@@ -23,7 +23,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
   const fetchCategories = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
         { module: "credentials" },
       );
       if (response.status === 200) {
@@ -51,7 +51,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3109/credentials/${credentialId}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/credentials/${credentialId}`,
       );
       if (response.status === 200) {
         const c = response.data.credential;
@@ -101,7 +101,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     try {
       setLoadingPassword(true);
       const res = await axios.get(
-        `http://localhost:3109/credentials/${credentialId}/password`,
+        `https://konfigurime-api.arkiva.gov.al:3109/credentials/${credentialId}/password`,
       );
       setEditingCredentialForm((prev) => ({
         ...prev,
@@ -143,7 +143,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://localhost:3109/credentials/${credentialId}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/credentials/${credentialId}`,
         editingCredentialForm,
       );
       if (response.status === 200 && response.data.success) {

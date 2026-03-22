@@ -15,7 +15,7 @@ const CommandItem = ({ command, onDelete, theme, setEditingCommandID }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
         { module },
       );
       if (response.status === 200) {
@@ -72,7 +72,7 @@ const CommandItem = ({ command, onDelete, theme, setEditingCommandID }) => {
     try {
       setDeleting(true);
       const response = await axios.delete(
-        `http://localhost:3109/commands/delete/${command._id}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/commands/delete/${command._id}`,
       );
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message || "Command deleted successfully", {

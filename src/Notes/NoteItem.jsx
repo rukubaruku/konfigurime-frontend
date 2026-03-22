@@ -26,9 +26,12 @@ const NoteItem = ({ note, onDelete, theme }) => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3109/category/module", {
-        module,
-      });
+      const res = await axios.post(
+        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        {
+          module,
+        },
+      );
 
       if (res.status === 200) {
         setCategories(
@@ -86,7 +89,7 @@ const NoteItem = ({ note, onDelete, theme }) => {
     try {
       setDeleting(true);
       const res = await axios.delete(
-        `http://localhost:3109/notes/delete/${note._id}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/notes/delete/${note._id}`,
       );
 
       if (res.data.success) {

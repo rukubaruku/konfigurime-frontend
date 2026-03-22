@@ -32,9 +32,12 @@ const Fondet = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get("http://localhost:3109/fondet/search", {
-        params: { fond, year, file },
-      });
+      const response = await axios.get(
+        "https://konfigurime-api.arkiva.gov.al:3109/fondet/search",
+        {
+          params: { fond, year, file },
+        },
+      );
 
       if (response.data.success) {
         const data = response.data.data || [];

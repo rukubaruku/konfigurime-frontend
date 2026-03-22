@@ -29,7 +29,7 @@ const Commands = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `http://localhost:3109/commands/${categoryId}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/commands/${categoryId}`,
       );
       if (response.status === 200) {
         setCommands(response.data.data);

@@ -16,7 +16,7 @@ const EditConfigFile = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3109/config-files/${id}`,
+          `https://konfigurime-api.arkiva.gov.al:3109/config-files/${id}`,
         );
         if (response.data.success) {
           setConfigFile(response.data.configFile);
@@ -46,7 +46,10 @@ const EditConfigFile = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(`http://localhost:3109/config-files/${id}`, data);
+    return axios.put(
+      `https://konfigurime-api.arkiva.gov.al:3109/config-files/${id}`,
+      data,
+    );
   };
 
   if (!configFile)

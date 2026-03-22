@@ -27,7 +27,7 @@ const Notes = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `http://localhost:3109/notes/${categoryId}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/notes/${categoryId}`,
       );
 
       if (response.data.success) {

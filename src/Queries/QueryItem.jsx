@@ -26,7 +26,7 @@ const QueryItem = ({ query, onDelete, theme }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
         { module },
       );
       if (response.status === 200) {
@@ -83,7 +83,7 @@ const QueryItem = ({ query, onDelete, theme }) => {
     try {
       setDeleting(true);
       const response = await axios.delete(
-        `http://localhost:3109/queries/delete/${query._id}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/queries/delete/${query._id}`,
       );
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message || "Query deleted successfully", {

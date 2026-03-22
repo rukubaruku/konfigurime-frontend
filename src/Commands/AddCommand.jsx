@@ -21,7 +21,7 @@ const AddCommand = ({ isOpen, onClose, onSuccess, theme }) => {
   const fetchCategories = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
         { module: "commands" },
       );
 
@@ -87,7 +87,7 @@ const AddCommand = ({ isOpen, onClose, onSuccess, theme }) => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:3109/commands/new/command",
+        "https://konfigurime-api.arkiva.gov.al:3109/commands/new/command",
         commandForm,
       );
 

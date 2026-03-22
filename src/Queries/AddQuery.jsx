@@ -6,7 +6,10 @@ const AddQuery = () => {
   const handleCreate = (data) => {
     try {
     } catch (error) {}
-    return axios.post("http://localhost:3109/queries/new/query", data);
+    return axios.post(
+      "https://konfigurime-api.arkiva.gov.al:3109/queries/new/query",
+      data,
+    );
   };
 
   return (

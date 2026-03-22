@@ -28,7 +28,7 @@ const Scripts = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `http://localhost:3109/scripts/${categoryId}`,
+        `https://konfigurime-api.arkiva.gov.al:3109/scripts/${categoryId}`,
       );
 
       if (response.data.success) {
