@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
-  baseURL: "https://konfigurime-api.arkiva.gov.al:3109",
+  baseURL: "https://konfigurime-api.arkiva.gov.al",
 });
 
 axiosInstance.interceptors.request.use((config) => {
