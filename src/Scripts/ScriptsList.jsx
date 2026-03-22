@@ -15,7 +15,7 @@ const ScriptsList = ({
     );
   if (!scripts.length) return <div className="no-data">No scripts found!</div>;
   return (
-    <div className="script-list">
+    <div className="items-list">
       {scripts.map((script) => (
         <ScriptItem
           key={script.id}

@@ -112,6 +112,7 @@ const Categories = () => {
 
   const moduleDisplayNames = {
     credentials: "Credentials",
+    commands: "Commands",
     scripts: "Scripts",
     queries: "Queries",
     configs: "Configuration Files",

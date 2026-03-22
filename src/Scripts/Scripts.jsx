@@ -3,19 +3,18 @@ import PageHeader from "../PageHeader/PageHeader";
 import "./scripts.css";
 import { Search } from "lucide-react";
 import CategoryTab from "../CategoryTab/CategoryTab";
-import AddScript from "./AddScript";
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import ScriptsList from "./ScriptsList";
+import { useNavigate } from "react-router-dom";
 
 const Scripts = () => {
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState("light");
   const [scripts, setScripts] = useState([]);
-  const [editingScriptId, setEditingScriptID] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -59,8 +58,6 @@ const Scripts = () => {
     fetchScripts(selectedCategory);
   }, [selectedCategory]);
 
-  // if (!scripts.length) return <div className="no-data">No scripts found!</div>;
-
   return (
     <div className="scripts-container">
       <PageHeader />
@@ -77,7 +74,10 @@ const Scripts = () => {
           </div>
         </div>
         <div className="page-content-header-actions">
-          <button className="add-item" onClick={() => setIsAddModalOpen(true)}>
+          <button
+            className="add-item"
+            onClick={() => navigate("/scripts/add-script")}
+          >
             + Add Script
           </button>
         </div>
@@ -98,17 +98,9 @@ const Scripts = () => {
         setSelectedCategory={setSelectedCategory}
       />
 
-      <AddScript
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSuccess={() => fetchScripts(selectedCategory)}
-        theme={theme}
-      />
-
       <ScriptsList
         scripts={scripts}
         loading={loading}
-        setEditingScriptID={setEditingScriptID}
         onDelete={() => fetchScripts(selectedCategory)}
         theme={theme}
       />

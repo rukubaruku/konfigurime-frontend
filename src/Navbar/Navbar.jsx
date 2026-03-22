@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Home, Key, Code, Database, FileCog } from "lucide-react";
+import { Home, Key, Code, Database, FileCog, Terminal } from "lucide-react";
 import "./navbar.css";
 
 const Navbar = () => {
@@ -11,6 +11,11 @@ const Navbar = () => {
           to="/credentials"
           icon={<Key size={22} />}
           label="Credentials"
+        />
+        <NavItem
+          to="/commands"
+          icon={<Terminal size={22} />}
+          label="Commands"
         />
         <NavItem to="/scripts" icon={<Code size={22} />} label="Scripts" />
         <NavItem to="/queries" icon={<Database size={22} />} label="Queries" />

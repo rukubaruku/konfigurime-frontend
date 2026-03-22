@@ -9,14 +9,19 @@ import {
   Code,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
-const ScriptItem = ({ script, setEditingScriptID, onDelete, theme }) => {
+const ScriptItem = ({ script, onDelete, theme }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showCode, setShowCode] = useState(false);
-
+  const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
   const module = "scripts";
+
   const fetchCategories = async () => {
     try {
       setLoading(true);
@@ -24,7 +29,6 @@ const ScriptItem = ({ script, setEditingScriptID, onDelete, theme }) => {
         "http://localhost:3109/category/module",
         { module },
       );
-
       if (response.status === 200) {
         const formattedCategories = response.data.data.map((c) => ({
           id: String(c.id ?? c._id),
@@ -60,8 +64,7 @@ const ScriptItem = ({ script, setEditingScriptID, onDelete, theme }) => {
         theme,
         transition: Bounce,
       });
-      console.log("Copied!");
-    } catch (err) {
+    } catch {
       toast.error("Failed to copy!", {
         position: "top-right",
         autoClose: 5000,
@@ -75,6 +78,42 @@ const ScriptItem = ({ script, setEditingScriptID, onDelete, theme }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (deleting) return;
+    try {
+      setDeleting(true);
+      const response = await axios.delete(
+        `http://localhost:3109/scripts/${script._id}`,
+      );
+      if (response.status === 200 && response.data.success) {
+        toast.success(response.data.message || "Script deleted successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme,
+          transition: Bounce,
+        });
+        onDelete?.();
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete script", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
+      });
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <div className="script-item">
       {loading && (
@@ -82,61 +121,100 @@ const ScriptItem = ({ script, setEditingScriptID, onDelete, theme }) => {
           <div className="spinner"></div>
         </div>
       )}
-      <div className="script-item-header">
-        <div className="script-item-header-content">
-          <div className="script-item-header-icon">
+
+      <div className="item-header">
+        <div className="item-header-content">
+          <div className="item-header-icon">
             <FileTerminal size={24} />
           </div>
-          <div className="script-item-header-info">
-            <div className="script-item-header-info-title">{script.title}</div>
-            <div className="script-item-header-info-data">
-              <div className="script-item-header-info-data-category">
+          <div className="item-header-info">
+            <div className="item-header-info-title">{script.title}</div>
+            <div className="item-header-info-data">
+              <div className="item-header-info-data-category">
                 {categoryName || "Unknown"}
               </div>
-              <div className="script-item-header-info-data-language">
+              <div className="item-header-info-data-language">
                 {script.language}
               </div>
             </div>
           </div>
         </div>
-        <div className="script-item-header-actions">
+
+        <div className="item-header-actions">
           <button
-            className="script-item-header-action copy"
+            className="item-header-action copy"
             onClick={() => handleCopy(script.code)}
           >
             <Copy size={18} />
           </button>
 
-          <button className="script-item-header-action edit">
-            <Pencil size={18} onClick={() => setEditingScriptID(script.id)} />
+          <button
+            className="item-header-action edit"
+            onClick={() => navigate(`/scripts/edit-script/${script._id}`)}
+          >
+            <Pencil size={18} />
           </button>
-          <button className="script-item-header-action delete">
-            <Trash2 size={18} />
-          </button>
-          <button className="script-item-header-action show-code">
-            {showCode ? (
-              <ChevronUp size={18} onClick={() => setShowCode(!showCode)} />
-            ) : (
-              <ChevronDown size={18} onClick={() => setShowCode(!showCode)} />
+
+          <Popup
+            trigger={
+              <button className="item-header-action delete">
+                <Trash2 size={18} />
+              </button>
+            }
+            modal
+            nested
+          >
+            {(close) => (
+              <div className="confirm-popup">
+                <div className="confirm-popup-title">Confirm Delete</div>
+                <div className="confirm-popup-text">
+                  Are you sure you want to delete this script?
+                </div>
+
+                <div className="confirm-actions">
+                  <button className="popup-cancel-btn" onClick={close}>
+                    Cancel
+                  </button>
+
+                  <button
+                    className="popup-delete-btn"
+                    onClick={async () => {
+                      await handleDelete();
+                      close();
+                    }}
+                  >
+                    {deleting ? "Deleting..." : "Yes"}
+                  </button>
+                </div>
+              </div>
             )}
+          </Popup>
+
+          <button
+            className="item-header-action show-code"
+            onClick={() => setShowCode(!showCode)}
+          >
+            {showCode ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </button>
         </div>
       </div>
-      <div className="script-item-description">{script.description}</div>
+
+      <div className="item-description">{script.description}</div>
+
       {showCode && (
-        <pre className="script-item-code">
-          <div className="script-item-code-header">
-            <div className="script-item-code-header-title">
+        <pre className="item-code">
+          <div className="item-code-header">
+            <div className="item-code-header-title">
               <Code size={18} /> {script.language}
             </div>
             <div
-              className="script-item-code-header-action"
+              className="item-code-header-action"
               onClick={() => handleCopy(script.code)}
             >
               <Copy size={18} /> Copy
             </div>
           </div>
-          <div className="script-item-code-content">
+          <div className="item-code-content">
             <code>{script.code}</code>
           </div>
         </pre>

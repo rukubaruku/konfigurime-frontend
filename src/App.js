@@ -10,6 +10,19 @@ import { Bounce, ToastContainer } from "react-toastify";
 import PrivateLayout from "./PrivateLayout";
 import { AuthProvider } from "./context/AuthContext";
 import Scripts from "./Scripts/Scripts";
+import AddScript from "./Scripts/AddScript";
+import EditScript from "./Scripts/EditScript";
+import Queries from "./Queries/Queries";
+import AddQuery from "./Queries/AddQuery";
+import EditQuery from "./Queries/EditQuery";
+import Commands from "./Commands/Commands";
+import ConfigFiles from "./ConfigFiles/ConfigFiles";
+import AddConfigFile from "./ConfigFiles/AddConfigFile";
+import EditConfigFile from "./ConfigFiles/EditConfigFile";
+import Notes from "./Notes/Notes";
+import AddNote from "./Notes/AddNote";
+import EditNote from "./Notes/EditNote";
+import Fondet from "./Fondet/Fondet";
 function LayoutWrapper({ children }) {
   return (
     <div className="page-layout">
@@ -45,10 +58,116 @@ function App() {
               }
             />
             <Route
+              path="/commands"
+              element={
+                <LayoutWrapper>
+                  <Commands />
+                </LayoutWrapper>
+              }
+            />
+            <Route
               path="/scripts"
               element={
                 <LayoutWrapper>
                   <Scripts />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/scripts/add-script"
+              element={
+                <LayoutWrapper>
+                  <AddScript />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/scripts/edit-script/:id"
+              element={
+                <LayoutWrapper>
+                  <EditScript />
+                </LayoutWrapper>
+              }
+            />
+
+            <Route
+              path="/queries"
+              element={
+                <LayoutWrapper>
+                  <Queries />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/queries/add-query"
+              element={
+                <LayoutWrapper>
+                  <AddQuery />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/queries/edit-query/:id"
+              element={
+                <LayoutWrapper>
+                  <EditQuery />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/config-files"
+              element={
+                <LayoutWrapper>
+                  <ConfigFiles />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/config-files/add-file"
+              element={
+                <LayoutWrapper>
+                  <AddConfigFile />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/config-files/edit-file/:id"
+              element={
+                <LayoutWrapper>
+                  <EditConfigFile />
+                </LayoutWrapper>
+              }
+            />
+
+            <Route
+              path="/notes"
+              element={
+                <LayoutWrapper>
+                  <Notes />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/notes/add-note"
+              element={
+                <LayoutWrapper>
+                  <AddNote />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/notes/edit-note/:id"
+              element={
+                <LayoutWrapper>
+                  <EditNote />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/fondet-skanuara"
+              element={
+                <LayoutWrapper>
+                  <Fondet />
                 </LayoutWrapper>
               }
             />

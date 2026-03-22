@@ -109,9 +109,13 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message, {
           position: "top-right",
-          autoClose: 3000,
-          theme,
-          transition: Bounce,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
         });
         setMenuOpen(false);
         onDelete();
@@ -121,9 +125,13 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
         error.response?.data?.message || "Failed to delete credential",
         {
           position: "top-right",
-          autoClose: 3000,
-          theme,
-          transition: Bounce,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
         },
       );
     } finally {

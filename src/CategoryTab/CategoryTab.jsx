@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./categoryTab.css";
+import { Bounce, toast } from "react-toastify";
 
 const CategoryTab = ({ module, selectedCategory, setSelectedCategory }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const theme = localStorage.getItem("theme");
 
   const fetchCategories = async () => {
     try {
@@ -19,6 +21,20 @@ const CategoryTab = ({ module, selectedCategory, setSelectedCategory }) => {
           id: String(c.id ?? c._id),
           name: c.name,
         }));
+
+        if (!formattedCategories.length) {
+          toast.warn("No categories found", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            theme,
+            transition: Bounce,
+          });
+        }
+
         setCategories([{ id: "all", name: "All" }, ...formattedCategories]);
       }
     } catch (err) {

@@ -18,11 +18,12 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordFetched, setPasswordFetched] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const fetchCategories = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3109/category/categories/module",
+        "http://localhost:3109/category/module",
         { module: "credentials" },
       );
       if (response.status === 200) {
@@ -122,8 +123,23 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     setPasswordVisible((prev) => !prev);
   };
 
+  const valid = () => {
+    const errors = {};
+    if (!editingCredentialForm.category)
+      errors.category = "Category is required";
+    if (!editingCredentialForm.username)
+      errors.username = "Username is required";
+    if (!editingCredentialForm.password)
+      errors.password = "Password is required";
+    if (!editingCredentialForm.url) errors.url = "Url is required";
+    if (!editingCredentialForm.title) errors.title = "Title is required";
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleEditCredential = async () => {
     if (loading) return;
+    if (!valid()) return;
     try {
       setLoading(true);
       const response = await axios.put(
@@ -165,7 +181,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
 
   return (
     <Modal isOpen={!!credentialId} onClose={onClose} title="Edit Credential">
-      <div className="credential-modal-content">
+      <div className="modal-content">
         <div className="form-group">
           <label>Category *</label>
           <select

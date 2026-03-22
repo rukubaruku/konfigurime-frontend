@@ -1,12 +1,14 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./pageHeader.css";
 import { useEffect, useState } from "react";
 import lightMode from "../Assets/Images/lightMode.png";
 import darkMode from "../Assets/Images/darkMode.png";
+import { MoveLeft } from "lucide-react";
 
 const PageHeader = () => {
   const location = useLocation();
   const [theme, setTheme] = useState("light");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -22,6 +24,20 @@ const PageHeader = () => {
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   };
+
+  const isScriptRoute =
+    location.pathname.startsWith("/scripts/add-script") ||
+    location.pathname.startsWith("/scripts/edit-script");
+
+  const isQueryRoute =
+    location.pathname.startsWith("/queries/add-query") ||
+    location.pathname.startsWith("/queries/edit-query");
+
+  const isconfigFilesRoute =
+    location.pathname.startsWith("/config-files/add-file") ||
+    location.pathname.startsWith("/config-files/edit-file");
+
+  const showReturnButton = isScriptRoute || isQueryRoute || isconfigFilesRoute;
 
   const headerData = [
     {
@@ -39,6 +55,10 @@ const PageHeader = () => {
     {
       title: "Scripts",
       path: "/scripts",
+    },
+    {
+      title: "Add Script",
+      path: "/add-script",
     },
     {
       title: "Config Files",
@@ -67,6 +87,31 @@ const PageHeader = () => {
       </div>
 
       <div className="page-header-right">
+        {showReturnButton && (
+          <button
+            className="return-btn"
+            onClick={() =>
+              navigate(
+                isScriptRoute
+                  ? "/scripts"
+                  : isQueryRoute
+                    ? "/queries"
+                    : isconfigFilesRoute
+                      ? "/config-files"
+                      : "",
+              )
+            }
+          >
+            <MoveLeft size={20} />
+            {isScriptRoute
+              ? "Return to Scripts"
+              : isQueryRoute
+                ? "Return to Queries"
+                : isconfigFilesRoute
+                  ? "Return to Configuration files"
+                  : ""}
+          </button>
+        )}
         <button onClick={toggleTheme} className="toggle-theme">
           <img
             src={theme === "light" ? darkMode : lightMode}

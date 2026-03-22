@@ -9,6 +9,7 @@ import {
   FileCog,
   Waypoints,
   ArrowRight,
+  Terminal,
 } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +21,10 @@ const Dashboard = () => {
   const [recentCredentials, setRecentCredentials] = useState([]);
   const [credentialsNr, setCredentialsNr] = useState(0);
   const [scriptsNr, setScriptsNr] = useState(0);
+  const [queriesNr, setQueriesNr] = useState(0);
+  const [commandsNr, setCommandsNr] = useState(0);
+  const [configFilesNr, setConfigFilesNr] = useState(0);
+  const [notesNr, setNotesNr] = useState(0);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
@@ -43,18 +48,29 @@ const Dashboard = () => {
     try {
       setLoading(true);
 
-      const [credentialsRes, scriptsRes, queriesRes, configFilesRes] =
-        await Promise.all([
-          axios.get("http://localhost:3109/credentials/dashboard"),
-          axios.get("http://localhost:3109/scripts/dashboard"),
-          // axios.get("http://localhost:3109/queries/dashboard"),
-          // axios.get("http://localhost:3109/config-files/dashboard"),
-        ]);
+      const [
+        credentialsRes,
+        scriptsRes,
+        queriesRes,
+        commandsRes,
+        configFilesRes,
+        notesRes,
+      ] = await Promise.all([
+        axios.get("http://localhost:3109/credentials/dashboard"),
+        axios.get("http://localhost:3109/commands/dashboard"),
+        axios.get("http://localhost:3109/scripts/dashboard"),
+        axios.get("http://localhost:3109/queries/dashboard"),
+        axios.get("http://localhost:3109/config-files/dashboard"),
+        axios.get("http://localhost:3109/notes/dashboard"),
+      ]);
 
       setCredentialsNr(credentialsRes.data.data.count);
       setRecentCredentials(credentialsRes.data.data.recent);
-
+      setCommandsNr(commandsRes.data.data.count);
+      setQueriesNr(queriesRes.data.data.count);
       setScriptsNr(scriptsRes.data.data.count);
+      setConfigFilesNr(configFilesRes.data.data.count);
+      setNotesNr(notesRes.data.data.count);
     } catch (error) {
       console.error("Dashboard fetch error:", error);
     } finally {
@@ -94,6 +110,13 @@ const Dashboard = () => {
             <div className="widget-value">{credentialsNr}</div>
             <div className="widget-title">Credentials</div>
           </NavLink>
+          <NavLink to="/commands" className="dashboard-widget">
+            <div className="widget-icon">
+              <Terminal size={22} color="#e63946" />
+            </div>
+            <div className="widget-value">{commandsNr}</div>
+            <div className="widget-title">Commands</div>
+          </NavLink>
           <NavLink to="/scripts" className="dashboard-widget">
             <div className="widget-icon">
               <Code size={24} color="hsl(213, 94%, 68%)" />
@@ -105,15 +128,22 @@ const Dashboard = () => {
             <div className="widget-icon">
               <Database size={24} color="hsl(270, 95%, 75%)" />
             </div>
-            <div className="widget-value">0</div>
+            <div className="widget-value">{queriesNr}</div>
             <div className="widget-title">Queries</div>
           </NavLink>
           <NavLink to="/config-files" className="dashboard-widget">
             <div className="widget-icon">
               <FileCog size={24} color="hsl(351, 55%, 60%)" />
             </div>
-            <div className="widget-value">0</div>
+            <div className="widget-value">{configFilesNr}</div>
             <div className="widget-title">Config Files</div>
+          </NavLink>
+          <NavLink to="/notes" className="dashboard-widget">
+            <div className="widget-icon">
+              <FileCog size={24} color="#4c956c" />
+            </div>
+            <div className="widget-value">{notesNr}</div>
+            <div className="widget-title">Notes</div>
           </NavLink>
         </div>
 
