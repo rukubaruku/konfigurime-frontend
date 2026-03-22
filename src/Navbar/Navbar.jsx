@@ -1,5 +1,15 @@
 import { NavLink } from "react-router-dom";
-import { Home, Key, Code, Database, FileCog, Terminal } from "lucide-react";
+import {
+  Home,
+  Key,
+  Code,
+  Database,
+  FileCog,
+  Terminal,
+  ListCheck,
+  NotebookPen,
+  Settings,
+} from "lucide-react";
 import "./navbar.css";
 
 const Navbar = () => {
@@ -21,8 +31,19 @@ const Navbar = () => {
         <NavItem to="/queries" icon={<Database size={22} />} label="Queries" />
         <NavItem
           to="/config-files"
-          icon={<FileCog size={22} />}
+          icon={<ListCheck size={22} />}
           label="Config Files"
+        />
+        <NavItem
+          to="/fondet-skanuara"
+          icon={<FileCog size={22} />}
+          label="Fondet"
+        />
+        <NavItem to="/notes" icon={<NotebookPen size={22} />} label="Notes" />
+        <NavItem
+          to="/configurations"
+          icon={<Settings size={22} />}
+          label="Configurations"
         />
       </ul>
     </nav>
