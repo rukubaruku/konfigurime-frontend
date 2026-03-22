@@ -26,7 +26,7 @@ const ConfigFileItem = ({ configFile, onDelete, theme }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al/category/module",
         { module },
       );
       if (response.status === 200) {
@@ -83,7 +83,7 @@ const ConfigFileItem = ({ configFile, onDelete, theme }) => {
     try {
       setDeleting(true);
       const response = await axios.delete(
-        `https://konfigurime-api.arkiva.gov.al:3109/config-files/${configFile._id}`,
+        `https://konfigurime-api.arkiva.gov.al/config-files/${configFile._id}`,
       );
       if (response.status === 200 && response.data.success) {
         toast.success(

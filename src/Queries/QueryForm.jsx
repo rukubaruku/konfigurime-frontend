@@ -36,7 +36,7 @@ const QueryForm = ({ mode = "add", initialData = {}, onSubmit }) => {
   const fetchCategories = async () => {
     try {
       const res = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al/category/module",
         {
           module: "queries",
         },

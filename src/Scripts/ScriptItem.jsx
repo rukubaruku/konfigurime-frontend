@@ -26,7 +26,7 @@ const ScriptItem = ({ script, onDelete, theme }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al/category/module",
         { module },
       );
       if (response.status === 200) {
@@ -83,7 +83,7 @@ const ScriptItem = ({ script, onDelete, theme }) => {
     try {
       setDeleting(true);
       const response = await axios.delete(
-        `https://konfigurime-api.arkiva.gov.al:3109/scripts/${script._id}`,
+        `https://konfigurime-api.arkiva.gov.al/scripts/${script._id}`,
       );
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message || "Script deleted successfully", {

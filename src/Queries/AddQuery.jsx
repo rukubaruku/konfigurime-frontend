@@ -7,7 +7,7 @@ const AddQuery = () => {
     try {
     } catch (error) {}
     return axios.post(
-      "https://konfigurime-api.arkiva.gov.al:3109/queries/new/query",
+      "https://konfigurime-api.arkiva.gov.al/queries/new/query",
       data,
     );
   };

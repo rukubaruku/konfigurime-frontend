@@ -33,7 +33,7 @@ const Fondet = () => {
       setLoading(true);
 
       const response = await axios.get(
-        "https://konfigurime-api.arkiva.gov.al:3109/fondet/search",
+        "https://konfigurime-api.arkiva.gov.al/fondet/search",
         {
           params: { fond, year, file },
         },

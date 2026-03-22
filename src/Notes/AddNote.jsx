@@ -5,7 +5,7 @@ import axios from "axios";
 const AddNote = () => {
   const handleCreate = (data) => {
     return axios.post(
-      "https://konfigurime-api.arkiva.gov.al:3109/notes/new/note",
+      "https://konfigurime-api.arkiva.gov.al/notes/new/note",
       data,
     );
   };

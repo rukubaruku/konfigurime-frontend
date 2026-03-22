@@ -42,7 +42,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
     if (password) return password;
     try {
       const res = await axios.get(
-        `https://konfigurime-api.arkiva.gov.al:3109/credentials/${credential.id}/password`,
+        `https://konfigurime-api.arkiva.gov.al/credentials/${credential.id}/password`,
       );
       setPassword(res.data.password);
       return res.data.password;
@@ -104,7 +104,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
     try {
       setDeleting(true);
       const response = await axios.delete(
-        `https://konfigurime-api.arkiva.gov.al:3109/credentials/${credential.id}`,
+        `https://konfigurime-api.arkiva.gov.al/credentials/${credential.id}`,
       );
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message, {

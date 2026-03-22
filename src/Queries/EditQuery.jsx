@@ -16,7 +16,7 @@ const EditQuery = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al:3109/queries/${id}`,
+          `https://konfigurime-api.arkiva.gov.al/queries/${id}`,
         );
         if (response.data.success) {
           setQuery(response.data.query);
@@ -44,7 +44,7 @@ const EditQuery = () => {
 
   const handleUpdate = (data) => {
     return axios.put(
-      `https://konfigurime-api.arkiva.gov.al:3109/queries/${id}`,
+      `https://konfigurime-api.arkiva.gov.al/queries/${id}`,
       data,
     );
   };

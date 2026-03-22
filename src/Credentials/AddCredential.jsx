@@ -20,7 +20,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
   const fetchCategories = async () => {
     try {
       const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al/category/module",
         { module: "credentials" },
       );
       if (response.status === 200) {
@@ -79,7 +79,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/credentials/new/credential",
+        "https://konfigurime-api.arkiva.gov.al/credentials/new/credential",
         credentialForm,
       );
       if (response.status === 201 && response.data.success) {

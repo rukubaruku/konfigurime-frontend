@@ -65,7 +65,7 @@ const Security = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/user/change-password",
+        "https://konfigurime-api.arkiva.gov.al/user/change-password",
         {
           userId,
           currentPassword,

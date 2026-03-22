@@ -28,7 +28,7 @@ const Queries = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://konfigurime-api.arkiva.gov.al:3109/queries/${categoryId}`,
+        `https://konfigurime-api.arkiva.gov.al/queries/${categoryId}`,
       );
 
       if (response.data.success) {

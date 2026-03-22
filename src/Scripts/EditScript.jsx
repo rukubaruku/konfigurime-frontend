@@ -16,7 +16,7 @@ const EditScript = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al:3109/scripts/${id}`,
+          `https://konfigurime-api.arkiva.gov.al/scripts/${id}`,
         );
         if (response.data.success) {
           setScript(response.data.script);
@@ -44,7 +44,7 @@ const EditScript = () => {
 
   const handleUpdate = (data) => {
     return axios.put(
-      `https://konfigurime-api.arkiva.gov.al:3109/scripts/${id}`,
+      `https://konfigurime-api.arkiva.gov.al/scripts/${id}`,
       data,
     );
   };

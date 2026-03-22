@@ -20,7 +20,7 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
   const fetchCategories = async () => {
     try {
       const res = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al/category/module",
         {
           module: "commands",
         },
@@ -41,7 +41,7 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://konfigurime-api.arkiva.gov.al:3109/commands/${commandId}`,
+        `https://konfigurime-api.arkiva.gov.al/commands/${commandId}`,
       );
       const c = res.data?.command;
 
@@ -100,7 +100,7 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
     try {
       setLoading(true);
       const res = await axios.put(
-        `https://konfigurime-api.arkiva.gov.al:3109/commands/${commandId}`,
+        `https://konfigurime-api.arkiva.gov.al/commands/${commandId}`,
         { ...form, language: editorLanguage },
       );
 

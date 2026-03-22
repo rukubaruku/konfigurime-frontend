@@ -27,7 +27,7 @@ const ConfigFiles = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://konfigurime-api.arkiva.gov.al:3109/config-files/${categoryId}`,
+        `https://konfigurime-api.arkiva.gov.al/config-files/${categoryId}`,
       );
 
       if (response.data.success) {

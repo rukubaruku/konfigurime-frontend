@@ -12,7 +12,7 @@ const CategoryTab = ({ module, selectedCategory, setSelectedCategory }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al:3109/category/module",
+        "https://konfigurime-api.arkiva.gov.al/category/module",
         { module },
       );
 

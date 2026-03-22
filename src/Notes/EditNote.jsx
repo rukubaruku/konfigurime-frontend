@@ -16,7 +16,7 @@ const EditNote = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al:3109/notes/${id}`,
+          `https://konfigurime-api.arkiva.gov.al/notes/${id}`,
         );
 
         if (res.data.success) {
@@ -36,10 +36,7 @@ const EditNote = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(
-      `https://konfigurime-api.arkiva.gov.al:3109/notes/${id}`,
-      data,
-    );
+    return axios.put(`https://konfigurime-api.arkiva.gov.al/notes/${id}`, data);
   };
 
   if (!note)

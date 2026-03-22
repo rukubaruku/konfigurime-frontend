@@ -28,7 +28,7 @@ const Categories = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://konfigurime-api.arkiva.gov.al:3109/category/categories",
+        "https://konfigurime-api.arkiva.gov.al/category/categories",
       );
       if (response.data.success) {
         const categoriesData = response.data.data;
@@ -61,7 +61,7 @@ const Categories = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://konfigurime-api.arkiva.gov.al:3109/module/modules",
+        "https://konfigurime-api.arkiva.gov.al/module/modules",
       );
       if (response.data.success) {
         setModules(response.data.data);
@@ -127,7 +127,7 @@ const Categories = () => {
     try {
       setLoading(true);
       const response = await axios.delete(
-        `https://konfigurime-api.arkiva.gov.al:3109/category/${categoryId}`,
+        `https://konfigurime-api.arkiva.gov.al/category/${categoryId}`,
       );
       if (response.data.success) {
         setCategories((prev) => {
@@ -173,7 +173,7 @@ const Categories = () => {
       setLoading(true);
       if (isEditing && currentCategory) {
         const response = await axios.put(
-          `https://konfigurime-api.arkiva.gov.al:3109/category/${currentCategory._id}`,
+          `https://konfigurime-api.arkiva.gov.al/category/${currentCategory._id}`,
           { name: categoryName },
         );
         if (response.data.success) {
@@ -203,7 +203,7 @@ const Categories = () => {
         }
       } else {
         const response = await axios.post(
-          "https://konfigurime-api.arkiva.gov.al:3109/category",
+          "https://konfigurime-api.arkiva.gov.al/category",
           {
             name: categoryName,
             moduleId: selectedModule,

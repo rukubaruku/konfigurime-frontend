@@ -7,7 +7,7 @@ const AddScript = () => {
     try {
     } catch (error) {}
     return axios.post(
-      "https://konfigurime-api.arkiva.gov.al:3109/scripts/new/script",
+      "https://konfigurime-api.arkiva.gov.al/scripts/new/script",
       data,
     );
   };
