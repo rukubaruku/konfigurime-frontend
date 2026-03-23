@@ -7,6 +7,7 @@ import {
   ChevronDown,
   ChevronUp,
   Code,
+  Ellipsis,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,8 +20,23 @@ const ConfigFileItem = ({ configFile, onDelete, theme }) => {
   const [loading, setLoading] = useState(false);
   const [showCode, setShowCode] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
+
   const navigate = useNavigate();
   const module = "configs";
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 600);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleClick = () => setMenuOpen(false);
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
 
   const fetchCategories = async () => {
     try {
@@ -144,63 +160,147 @@ const ConfigFileItem = ({ configFile, onDelete, theme }) => {
         </div>
 
         <div className="item-header-actions">
-          <button
-            className="item-header-action copy"
-            onClick={() => handleCopy(configFile.code)}
-          >
-            <Copy size={18} />
-          </button>
-
-          <button
-            className="item-header-action edit"
-            onClick={() =>
-              navigate(`/config-files/edit-file/${configFile._id}`)
-            }
-          >
-            <Pencil size={18} />
-          </button>
-
-          <Popup
-            trigger={
-              <button className="item-header-action delete">
-                <Trash2 size={18} />
+          {isMobile ? (
+            <>
+              <button
+                className="menu-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen(!menuOpen);
+                }}
+              >
+                <Ellipsis size={18} />
               </button>
-            }
-            modal
-            nested
-          >
-            {(close) => (
-              <div className="confirm-popup">
-                <div className="confirm-popup-title">Confirm Delete</div>
-                <div className="confirm-popup-text">
-                  Are you sure you want to delete this configuration file?
-                </div>
 
-                <div className="confirm-actions">
-                  <button className="popup-cancel-btn" onClick={close}>
-                    Cancel
-                  </button>
-
-                  <button
-                    className="popup-delete-btn"
-                    onClick={async () => {
-                      await handleDelete();
-                      close();
-                    }}
+              {menuOpen && (
+                <div className="command-dropdown-menu">
+                  <div
+                    className="command-dropdown-item"
+                    onClick={() => handleCopy(configFile.code)}
                   >
-                    {deleting ? "Deleting..." : "Yes"}
-                  </button>
-                </div>
-              </div>
-            )}
-          </Popup>
+                    <Copy size={16} />
+                    Copy
+                  </div>
 
-          <button
-            className="item-header-action show-code"
-            onClick={() => setShowCode(!showCode)}
-          >
-            {showCode ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-          </button>
+                  <div
+                    className="command-dropdown-item"
+                    onClick={() =>
+                      navigate(`/config-files/edit-file/${configFile._id}`)
+                    }
+                  >
+                    <Pencil size={16} />
+                    Edit
+                  </div>
+
+                  <Popup
+                    trigger={
+                      <div className="command-dropdown-item delete">
+                        <Trash2 size={16} />
+                        Delete
+                      </div>
+                    }
+                    modal
+                    nested
+                  >
+                    {(close) => (
+                      <div className="confirm-popup">
+                        <div className="confirm-popup-title">
+                          Confirm Delete
+                        </div>
+                        <div className="confirm-popup-text">
+                          Are you sure you want to delete this configuration
+                          file?
+                        </div>
+
+                        <div className="confirm-actions">
+                          <button className="popup-cancel-btn" onClick={close}>
+                            Cancel
+                          </button>
+
+                          <button
+                            className="popup-delete-btn"
+                            onClick={async () => {
+                              await handleDelete();
+                              close();
+                            }}
+                          >
+                            {deleting ? "Deleting..." : "Yes"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </Popup>
+                </div>
+              )}
+
+              <button
+                className="item-header-action show-code"
+                onClick={() => setShowCode(!showCode)}
+              >
+                {showCode ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="item-header-action copy"
+                onClick={() => handleCopy(configFile.code)}
+              >
+                <Copy size={18} />
+              </button>
+
+              <button
+                className="item-header-action edit"
+                onClick={() =>
+                  navigate(`/config-files/edit-file/${configFile._id}`)
+                }
+              >
+                <Pencil size={18} />
+              </button>
+
+              <Popup
+                trigger={
+                  <button className="item-header-action delete">
+                    <Trash2 size={18} />
+                  </button>
+                }
+                modal
+                nested
+              >
+                {(close) => (
+                  <div className="confirm-popup">
+                    <div className="confirm-popup-title">Confirm Delete</div>
+                    <div className="confirm-popup-text">
+                      Are you sure you want to delete this configuration file?
+                    </div>
+
+                    <div className="confirm-actions">
+                      <button className="popup-cancel-btn" onClick={close}>
+                        Cancel
+                      </button>
+
+                      <button
+                        className="popup-delete-btn"
+                        onClick={async () => {
+                          await handleDelete();
+                          close();
+                        }}
+                      >
+                        {deleting ? "Deleting..." : "Yes"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </Popup>
+
+              <button
+                className="item-header-action show-code"
+                onClick={() => setShowCode(!showCode)}
+              >
+                {showCode ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              </button>
+            </>
+          )}
         </div>
       </div>
 

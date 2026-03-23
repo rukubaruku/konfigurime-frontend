@@ -184,7 +184,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   background-color: var(--surface-bg);
   padding: 24px;
   box-sizing: border-box;
@@ -233,7 +233,7 @@
   color: var(--text-action-btn);
   background-color: var(--action-btn-bg);
   gap: 12px;
-  padding: 12px 16px;
+  padding: 8px 16px;
   box-sizing: border-box;
   text-decoration: none;
   transition:

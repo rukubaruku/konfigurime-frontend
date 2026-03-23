@@ -121,7 +121,9 @@ const Navbar = () => {
             <div className="nav-icon">
               <User size={22} />
             </div>
-            <span className="nav-label">{userOpen ? userName : "User"}</span>
+            <span className="nav-label">
+              {isUserActive ? userName : "User"}
+            </span>
           </div>
 
           <div className={`dropdown ${userOpen ? "show" : ""}`}>

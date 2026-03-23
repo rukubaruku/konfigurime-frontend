@@ -181,9 +181,9 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
 
   return (
     <Modal isOpen={!!credentialId} onClose={onClose} title="Edit Credential">
-      <div className="modal-content">
+      <div className="form-container">
         <div className="form-group">
-          <label>Category *</label>
+          <label>Category</label>
           <select
             name="category"
             value={editingCredentialForm.category}
@@ -199,7 +199,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
         </div>
 
         <div className="form-group">
-          <label>Title *</label>
+          <label>Title</label>
           <input
             type="text"
             name="title"
@@ -287,7 +287,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
           />
         </div>
 
-        <div className="modal-buttons">
+        <div className="form-actions">
           <button className="cancel-btn" onClick={onClose}>
             Cancel
           </button>

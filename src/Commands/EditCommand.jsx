@@ -133,7 +133,7 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
         {!isFormReady ? (
           <div style={{ padding: "2rem", textAlign: "center" }}>Loading...</div>
         ) : (
-          <>
+          <div className="form-container command">
             <div className="form-group">
               <label>Category *</label>
               <select
@@ -209,19 +209,19 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
               <div className="error">{errors.code}</div>
             </div>
 
-            <div className="modal-buttons">
+            <div className="form-actions">
               <button className="cancel-btn" onClick={onClose}>
                 Cancel
               </button>
               <button
-                className="create-btn"
+                className="confirm-btn"
                 onClick={handleUpdate}
                 disabled={loading}
               >
                 {loading ? "Saving..." : "Save"}
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
     </Modal>

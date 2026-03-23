@@ -134,7 +134,7 @@
 .item-header {
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
 }
@@ -196,6 +196,7 @@
 }
 
 .item-header-actions {
+  height: 100%;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -318,4 +319,16 @@
   color: var(--script-item-code-content-color);
   padding: 16px;
   box-sizing: border-box;
+}
+
+@media (width<=460px) {
+  .script-item .item-header {
+    flex-direction: column;
+  }
+
+  .script-item .item-header .item-header-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: -30px;
+  }
 }

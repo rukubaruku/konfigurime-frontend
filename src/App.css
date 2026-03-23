@@ -129,6 +129,10 @@
   gap: 16px;
 }
 
+.form-container.command {
+  gap: 6px;
+}
+
 .form-container .form-row {
   width: 100%;
   display: flex;
@@ -213,7 +217,7 @@
 }
 
 .form-actions button,
-.change-pass-btn {
+button.change-pass-btn {
   border: none;
   outline: none;
   padding: 12px 20px;
@@ -221,6 +225,10 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+}
+
+button.change-pass-btn {
+  width: fit-content;
 }
 
 .form-actions button.cancel-btn {
@@ -312,6 +320,18 @@
 
   .navbar {
     display: block;
+  }
+}
+
+@media (width<=460px) {
+  .config-file-item .item-header {
+    flex-direction: column;
+  }
+
+  .config-file-item .item-header .item-header-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: -30px;
   }
 }
 

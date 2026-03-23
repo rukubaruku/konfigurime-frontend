@@ -260,31 +260,44 @@ const Categories = () => {
         onClose={handleCloseModal}
         title={isEditing ? "Edit Category" : "Add Category"}
       >
-        {!isEditing && (
-          <select
-            value={selectedModule}
-            onChange={(e) => setSelectedModule(e.target.value)}
-          >
-            {modules.map((mod) => (
-              <option key={mod._id} value={mod._id}>
-                {moduleDisplayNames[mod.name] || mod.name}
-              </option>
-            ))}
-          </select>
-        )}
+        <div className="form-container">
+          <div className="form-group">
+            <div className="form-label">Module</div>
+            <div className="form-input">
+              {!isEditing && (
+                <select
+                  value={selectedModule}
+                  onChange={(e) => setSelectedModule(e.target.value)}
+                >
+                  {modules.map((mod) => (
+                    <option key={mod._id} value={mod._id}>
+                      {moduleDisplayNames[mod.name] || mod.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="form-label">Category name</div>
+            <div className="form-input">
+              <input
+                type="text"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
+                placeholder="Category Name"
+              />
+            </div>
+          </div>
+        </div>
 
-        <input
-          type="text"
-          value={categoryName}
-          onChange={(e) => setCategoryName(e.target.value)}
-          placeholder="Category Name"
-        />
-
-        <div className="modal-buttons">
-          <button onClick={handleSaveCategory}>
+        <div className="form-actions">
+          <button onClick={handleSaveCategory} className="confirm-btn">
             {isEditing ? "Save" : "Add"}
           </button>
-          <button onClick={handleCloseModal}>Cancel</button>
+          <button onClick={handleCloseModal} className="cancel-btn">
+            Cancel
+          </button>
         </div>
       </Modal>
       <div className="configuration-categories-header">

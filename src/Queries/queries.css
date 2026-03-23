@@ -1,0 +1,11 @@
+@media (width<=460px) {
+  .query-item .item-header {
+    flex-direction: column;
+  }
+
+  .query-item .item-header .item-header-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: -30px;
+  }
+}
