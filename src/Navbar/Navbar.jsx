@@ -1,50 +1,140 @@
-import { NavLink } from "react-router-dom";
-import {
-  Home,
-  Key,
-  Code,
-  Database,
-  FileCog,
-  Terminal,
-  ListCheck,
-  NotebookPen,
-  Settings,
-} from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Home, Menu, Settings, User } from "lucide-react";
 import "./navbar.css";
 
+const menuRoutes = [
+  "/credentials",
+  "/commands",
+  "/scripts",
+  "/queries",
+  "/config-files",
+  "/fondet-skanuara",
+  "/notes",
+];
+
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const menuRef = useRef(null);
+  const userRef = useRef(null);
+
+  const userName = localStorage.getItem("userName") || "User";
+
+  const isMenusActive = open || menuRoutes.includes(location.pathname);
+  const isUserActive = userOpen || location.pathname.startsWith("/user");
+
+  const handleMenuToggle = () => {
+    setOpen((prev) => !prev);
+    setUserOpen(false);
+  };
+
+  const handleUserToggle = () => {
+    setUserOpen((prev) => !prev);
+    setOpen(false);
+  };
+
+  const handleCloseAll = () => {
+    setOpen(false);
+    setUserOpen(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("token");
+
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        userRef.current &&
+        !userRef.current.contains(e.target)
+      ) {
+        handleCloseAll();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <nav className="navbar">
       <ul className="nav-container">
         <NavItem to="/home" icon={<Home size={22} />} label="Home" />
-        <NavItem
-          to="/credentials"
-          icon={<Key size={22} />}
-          label="Credentials"
-        />
-        <NavItem
-          to="/commands"
-          icon={<Terminal size={22} />}
-          label="Commands"
-        />
-        <NavItem to="/scripts" icon={<Code size={22} />} label="Scripts" />
-        <NavItem to="/queries" icon={<Database size={22} />} label="Queries" />
-        <NavItem
-          to="/config-files"
-          icon={<ListCheck size={22} />}
-          label="Config Files"
-        />
-        <NavItem
-          to="/fondet-skanuara"
-          icon={<FileCog size={22} />}
-          label="Fondet"
-        />
-        <NavItem to="/notes" icon={<NotebookPen size={22} />} label="Notes" />
+
+        <li
+          ref={menuRef}
+          className={`nav-item ${isMenusActive ? "active" : ""}`}
+        >
+          <div className="nav-link" onClick={handleMenuToggle}>
+            <div className="nav-icon">
+              <Menu size={22} />
+            </div>
+            <span className="nav-label">Menus</span>
+          </div>
+
+          <div className={`dropdown ${open ? "show" : ""}`}>
+            <NavDropdownItem to="/credentials" onClick={handleCloseAll}>
+              Credentials
+            </NavDropdownItem>
+            <NavDropdownItem to="/commands" onClick={handleCloseAll}>
+              Commands
+            </NavDropdownItem>
+            <NavDropdownItem to="/scripts" onClick={handleCloseAll}>
+              Scripts
+            </NavDropdownItem>
+            <NavDropdownItem to="/queries" onClick={handleCloseAll}>
+              Queries
+            </NavDropdownItem>
+            <NavDropdownItem to="/config-files" onClick={handleCloseAll}>
+              Config Files
+            </NavDropdownItem>
+            <NavDropdownItem to="/fondet-skanuara" onClick={handleCloseAll}>
+              Fondet
+            </NavDropdownItem>
+            <NavDropdownItem to="/notes" onClick={handleCloseAll}>
+              Notes
+            </NavDropdownItem>
+          </div>
+        </li>
+
         <NavItem
           to="/configurations"
           icon={<Settings size={22} />}
-          label="Configurations"
+          label="Configs"
         />
+
+        <li
+          ref={userRef}
+          className={`nav-item ${isUserActive ? "active" : ""}`}
+        >
+          <div className="nav-link" onClick={handleUserToggle}>
+            <div className="nav-icon">
+              <User size={22} />
+            </div>
+            <span className="nav-label">{userOpen ? userName : "User"}</span>
+          </div>
+
+          <div className={`dropdown ${userOpen ? "show" : ""}`}>
+            <NavDropdownItem to="/user" onClick={handleCloseAll}>
+              Profile
+            </NavDropdownItem>
+
+            <button className="dropdown-item logout" onClick={handleLogout}>
+              Log out
+            </button>
+          </div>
+        </li>
       </ul>
     </nav>
   );
@@ -60,6 +150,18 @@ const NavItem = ({ to, icon, label }) => {
         <div className="nav-icon">{icon}</div>
         <span className="nav-label">{label}</span>
       </div>
+    </NavLink>
+  );
+};
+
+const NavDropdownItem = ({ to, children, onClick }) => {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) => `dropdown-item ${isActive ? "active" : ""}`}
+      onClick={onClick}
+    >
+      {children}
     </NavLink>
   );
 };

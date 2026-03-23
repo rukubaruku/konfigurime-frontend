@@ -61,7 +61,13 @@ const Login = () => {
       });
 
       if (response.data.success) {
-        login(response.data.token);
+        const { token, user } = response.data;
+
+        login(token);
+
+        localStorage.setItem("userId", user.id);
+        localStorage.setItem("userName", user.name);
+
         navigate("/home");
       }
     } catch (error) {

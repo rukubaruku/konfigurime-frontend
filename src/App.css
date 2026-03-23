@@ -48,21 +48,21 @@
 /* Page layout */
 .page-layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
   background: var(--page-bg);
-  position: relative;
+  overflow: hidden;
 }
 
 /* Main content */
 .main-content {
   flex: 1;
   margin-left: 240px;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
   box-sizing: border-box;
   transition: margin-left 0.3s ease;
   background: var(--page-bg);
-  overflow-x: hidden;
 }
 
 /* Navbar default */
@@ -403,5 +403,15 @@
       -2em 2em 0 0,
       -3em 0em 0 0,
       -2em -2em 0 0.2em;
+  }
+}
+
+@media (max-width: 880px) {
+  .main-content {
+    margin-left: 0;
+    padding: 0;
+    padding-bottom: 80px;
+    height: 100vh;
+    overflow-y: auto;
   }
 }
