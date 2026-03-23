@@ -26,16 +26,40 @@ const AddCommand = ({ isOpen, onClose, onSuccess, theme }) => {
       );
 
       if (response.status === 200) {
-        const formattedCategories = response.data.data.map((c) => ({
+        const data = response.data.data;
+
+        if (!data || data.length === 0) {
+          setCategories([]);
+
+          toast.warn("No categories found for this module", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            theme,
+            transition: Bounce,
+          });
+
+          return;
+        }
+
+        const formattedCategories = data.map((c) => ({
           id: String(c.id ?? c._id),
           name: c.name,
         }));
+
         setCategories(formattedCategories);
       }
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to fetch categories", {
         position: "top-right",
         autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
         theme,
         transition: Bounce,
       });

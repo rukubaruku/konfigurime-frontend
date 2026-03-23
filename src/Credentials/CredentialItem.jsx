@@ -171,9 +171,9 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
         </button>
 
         {menuOpen && (
-          <div className="dropdown-menu">
+          <div className="credential-dropdown-menu">
             <div
-              className="dropdown-item"
+              className="credential-dropdown-item"
               onClick={() => setEditingCredentialID(credential.id)}
             >
               <Pencil size={16} />
@@ -181,7 +181,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
             </div>
 
             <div
-              className="dropdown-item"
+              className="credential-dropdown-item"
               onClick={(e) => {
                 e.stopPropagation();
                 copyAll();
@@ -193,7 +193,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
 
             <Popup
               trigger={
-                <div className="dropdown-item delete">
+                <div className="credential-dropdown-item delete">
                   {deleting ? (
                     <span style={{ fontSize: "13px" }}>Deleting...</span>
                   ) : (

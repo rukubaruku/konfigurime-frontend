@@ -4,99 +4,180 @@ import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import "./configurations.css";
 const Security = () => {
+  const userId = localStorage.getItem("userId");
+  const theme = localStorage.getItem("theme") || "light";
+
+  const [user, setUser] = useState({ name: "", email: "" });
+  const [originalUser, setOriginalUser] = useState({ name: "", email: "" });
   const [loading, setLoading] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [theme, setTheme] = useState("light");
+
+  const [editingPassword, setEditingPassword] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    }
-  }, []);
-  const handleChangePassword = async () => {
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      toast.error("All fields are required", {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          `https://konfigurime-api.arkiva.gov.al/user/${userId}`,
+        );
+        if (res.data.success) {
+          setUser({ name: res.data.data.name, email: res.data.data.email });
+          setOriginalUser({
+            name: res.data.data.name,
+            email: res.data.data.email,
+          });
+        }
+      } catch (err) {
+        toast.error(err.response?.data?.message || "Failed to fetch user", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme,
+          transition: Bounce,
+        });
+      }
+    };
+    fetchUser();
+  }, [userId, theme]);
+
+  const handleSaveProfile = async () => {
+    if (user.name === originalUser.name && user.email === originalUser.email)
+      return;
+
+    if (!user.name || !user.email) {
+      toast.error("Name and email cannot be empty", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
-        theme: theme,
+        theme,
         transition: Bounce,
       });
-    }
-
-    if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: theme,
-        transition: Bounce,
-      });
-    }
-
-    const userId = localStorage.getItem("userId");
-
-    if (!userId) {
-      toast.error("User not authenticated", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: theme,
-        transition: Bounce,
-      });
+      return;
     }
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/user/change-password",
-        {
-          userId,
-          currentPassword,
-          newPassword,
-        },
+      const res = await axios.put(
+        "https://konfigurime-api.arkiva.gov.al/user/update",
+        user,
       );
-      toast.success(response.data.message, {
+      if (res.data.success) {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme,
+          transition: Bounce,
+        });
+        setOriginalUser({ ...user });
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to update profile", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
-        theme: theme,
+        theme,
         transition: Bounce,
       });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-    } catch (error) {
-      toast.error(error.response?.data?.message, {
+  const handleChangePassword = async () => {
+    const { currentPassword, newPassword, confirmPassword } = passwordForm;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error("All password fields are required", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
-        theme: theme,
+        theme,
+        transition: Bounce,
+      });
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      toast.error("New password must be at least 6 characters", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
+      });
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("New password and confirmation do not match", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await axios.put(
+        "https://konfigurime-api.arkiva.gov.al/user/change-password",
+        passwordForm,
+      );
+      if (res.data.success) {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme,
+          transition: Bounce,
+        });
+        setEditingPassword(false);
+        setPasswordForm({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to change password", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
         transition: Bounce,
       });
     } finally {
@@ -110,52 +191,118 @@ const Security = () => {
           <div className="spinner"></div>
         </div>
       )}
-      <div className="security-header">
-        <Lock size={22} /> Change Password
-      </div>
-      <div className="security-form">
-        <div className="security-form-group">
-          <div className="security-form-group-label">
-            <label htmlFor="current">Current Password</label>
-          </div>
-          <div className="security-form-group-input">
-            <input
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              placeholder="Enter current password"
-            />
-          </div>
+      <div className="form-container">
+        <div className="form-group">
+          <div className="form-label">Name</div>
+          <input
+            type="text"
+            value={user.name}
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, name: e.target.value }))
+            }
+          />
         </div>
-        <div className="security-form-group">
-          <div className="security-form-group-label">
-            <label htmlFor="new">New Password</label>
-          </div>
-          <div className="security-form-group-input">
-            <input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="Enter new password"
-            />
-          </div>
+
+        <div className="form-group">
+          <div className="form-label">Email</div>
+          <input
+            type="email"
+            value={user.email}
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, email: e.target.value }))
+            }
+          />
         </div>
-        <div className="security-form-group">
-          <div className="security-form-group-label">
-            <label htmlFor="confirm">Confirm New Password</label>
-          </div>
-          <div className="security-form-group-input">
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm new password"
-            />
-          </div>
+
+        <div className="form-actions">
+          <button
+            className="cancel-btn"
+            onClick={() => setUser({ ...originalUser })}
+            disabled={loading}
+          >
+            Cancel
+          </button>
+          <button
+            className="confirm-btn"
+            onClick={handleSaveProfile}
+            disabled={loading}
+          >
+            Save
+          </button>
+          <button
+            className="change-pass-btn"
+            onClick={() => setEditingPassword((prev) => !prev)}
+            disabled={loading}
+          >
+            Change Password
+          </button>
         </div>
-        <div className="security-form-action">
-          <button onClick={handleChangePassword}>Change Password</button>
-        </div>
+
+        {editingPassword && (
+          <div
+            className="password-change-section"
+            style={{ marginTop: "16px" }}
+          >
+            <div className="form-group">
+              <div className="form-label">Current Password</div>
+              <input
+                type="password"
+                value={passwordForm.currentPassword}
+                onChange={(e) =>
+                  setPasswordForm((prev) => ({
+                    ...prev,
+                    currentPassword: e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="form-group">
+              <div className="form-label">New Password</div>
+              <input
+                type="password"
+                value={passwordForm.newPassword}
+                onChange={(e) =>
+                  setPasswordForm((prev) => ({
+                    ...prev,
+                    newPassword: e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="form-group">
+              <div className="form-label">Confirm New Password</div>
+              <input
+                type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) =>
+                  setPasswordForm((prev) => ({
+                    ...prev,
+                    confirmPassword: e.target.value,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="form-actions">
+              <button
+                className="cancel-btn"
+                onClick={() => setEditingPassword(false)}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                className="confirm-btn"
+                onClick={handleChangePassword}
+                disabled={loading}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

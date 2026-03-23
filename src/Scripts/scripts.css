@@ -20,7 +20,7 @@
   --script-item-header-action-show-code-bg: #ced4da;
   --script-item-header-action-show-code-color: #f8f9fa;
 
-  --script-item-description-color: #343a40;
+  --script-item-description-color: #495057;
 
   --script-item-code-header-bg: hsla(240 5% 91% / 0.3);
   --script-item-code-header-border: #dcdce0;
@@ -62,6 +62,8 @@
 
   --script-item-header-action-show-code-bg: #27272a;
   --script-item-header-action-show-code-color: #031715;
+
+  --script-item-description-color: #f8f9fa;
 
   --script-item-code-header-bg: hsla(240 4% 16% / 0.3);
   --script-item-code-header-border: hsl(240 4% 16%);

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Home, Menu, Settings, User } from "lucide-react";
+import { Home, Menu, Settings, User, BookCheck } from "lucide-react";
 import "./navbar.css";
 
 const menuRoutes = [
@@ -9,7 +9,6 @@ const menuRoutes = [
   "/scripts",
   "/queries",
   "/config-files",
-  "/fondet-skanuara",
   "/notes",
 ];
 
@@ -26,8 +25,7 @@ const Navbar = () => {
   const userName = localStorage.getItem("userName") || "User";
 
   const isMenusActive = open || menuRoutes.includes(location.pathname);
-  const isUserActive = userOpen || location.pathname.startsWith("/user");
-
+  const isUserActive = userOpen || location.pathname === "/profile";
   const handleMenuToggle = () => {
     setOpen((prev) => !prev);
     setUserOpen(false);
@@ -71,7 +69,6 @@ const Navbar = () => {
     <nav className="navbar">
       <ul className="nav-container">
         <NavItem to="/home" icon={<Home size={22} />} label="Home" />
-
         <li
           ref={menuRef}
           className={`nav-item ${isMenusActive ? "active" : ""}`}
@@ -99,21 +96,23 @@ const Navbar = () => {
             <NavDropdownItem to="/config-files" onClick={handleCloseAll}>
               Config Files
             </NavDropdownItem>
-            <NavDropdownItem to="/fondet-skanuara" onClick={handleCloseAll}>
-              Fondet
-            </NavDropdownItem>
+
             <NavDropdownItem to="/notes" onClick={handleCloseAll}>
               Notes
             </NavDropdownItem>
           </div>
         </li>
+        <NavItem
+          to="/fondet-skanuara"
+          icon={<BookCheck size={22} />}
+          label="Fondet"
+        />
 
         <NavItem
           to="/configurations"
           icon={<Settings size={22} />}
           label="Configs"
         />
-
         <li
           ref={userRef}
           className={`nav-item ${isUserActive ? "active" : ""}`}
@@ -126,7 +125,7 @@ const Navbar = () => {
           </div>
 
           <div className={`dropdown ${userOpen ? "show" : ""}`}>
-            <NavDropdownItem to="/user" onClick={handleCloseAll}>
+            <NavDropdownItem to="/profile" onClick={handleCloseAll}>
               Profile
             </NavDropdownItem>
 

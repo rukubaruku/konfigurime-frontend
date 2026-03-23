@@ -104,33 +104,43 @@ const Fondet = () => {
         </div>
       </div>
 
-      <div
-        className="search-input"
-        style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}
-      >
-        <input
-          type="text"
-          value={fond}
-          onChange={(e) => setFond(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Fond (e.g. F.512)"
-        />
-        <input
-          type="text"
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Year (e.g. 1985)"
-        />
-        <input
-          type="text"
-          value={file}
-          onChange={(e) => setFile(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="File (e.g. 1)"
-        />
+      <div className="form-container fondet">
+        <div className="form-group">
+          <div className="form-input">
+            <input
+              type="text"
+              value={fond}
+              onChange={(e) => setFond(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Fond (e.g. F.512)"
+            />
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="form-input">
+            <input
+              type="text"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Year (e.g. 1985)"
+            />
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="form-input">
+            <input
+              type="text"
+              value={file}
+              onChange={(e) => setFile(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="File (e.g. 1)"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="form-actions">
         <button className="confirm-btn" onClick={handleSearch}>
-          <Search size={20} />
           Search
         </button>
       </div>

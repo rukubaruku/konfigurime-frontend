@@ -15,7 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Bounce, toast } from "react-toastify";
+import AddCredential from "../Credentials/AddCredential";
+import AddCommand from "../Commands/AddCommand";
 const Dashboard = () => {
   const [theme, setTheme] = useState("light");
   const [recentCredentials, setRecentCredentials] = useState([]);
@@ -28,6 +29,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
+  const [openAddCredential, setOpenAddCredential] = useState(false);
+  const [openAddCommand, setOpenAddCommand] = useState(false);
 
   useEffect(() => {
     if (!token) {
@@ -157,27 +160,46 @@ const Dashboard = () => {
               <Waypoints size={22} /> Quick Actions
             </div>
             <div className="quick-actions-buttons">
-              <NavLink to="/credentials/new" className="quick-actions-button">
+              <div
+                className="quick-actions-button"
+                onClick={() => setOpenAddCredential(true)}
+              >
                 <Key size={24} />
                 <div className="quick-actions-button-title">
                   Add new Credential
                 </div>
                 <ArrowRight size={20} className="quick-actions-arrow" />
-              </NavLink>
+              </div>
+              <div
+                className="quick-actions-button"
+                onClick={() => setOpenAddCommand(true)}
+              >
+                <Key size={24} />
+                <div className="quick-actions-button-title">
+                  Add new Command
+                </div>
+                <ArrowRight size={20} className="quick-actions-arrow" />
+              </div>
 
-              <NavLink to="/scripts/new" className="quick-actions-button">
+              <NavLink
+                to="/scripts/add-script"
+                className="quick-actions-button"
+              >
                 <Code size={24} />
                 <div className="quick-actions-button-title">Add new Script</div>
                 <ArrowRight size={20} className="quick-actions-arrow" />
               </NavLink>
 
-              <NavLink to="/queries/new" className="quick-actions-button">
+              <NavLink to="/queries/add-query" className="quick-actions-button">
                 <Database size={24} />
                 <div className="quick-actions-button-title">Add new Query</div>
                 <ArrowRight size={20} className="quick-actions-arrow" />
               </NavLink>
 
-              <NavLink to="/config-files/new" className="quick-actions-button">
+              <NavLink
+                to="/config-files/add-file"
+                className="quick-actions-button"
+              >
                 <FileCog size={24} />
                 <div className="quick-actions-button-title">
                   Add new Config File
@@ -185,7 +207,7 @@ const Dashboard = () => {
                 <ArrowRight size={20} className="quick-actions-arrow" />
               </NavLink>
 
-              <NavLink to="/notes/new" className="quick-actions-button">
+              <NavLink to="/notes/add-note" className="quick-actions-button">
                 <FileText size={24} />
                 <div className="quick-actions-button-title">Add new Note</div>
                 <ArrowRight size={20} className="quick-actions-arrow" />
@@ -266,6 +288,18 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <AddCredential
+        isOpen={openAddCredential}
+        onClose={() => setOpenAddCredential(false)}
+        onSuccess={fetchDashboardData}
+        theme={theme}
+      />
+      <AddCommand
+        isOpen={openAddCommand}
+        onClose={() => setOpenAddCommand(false)}
+        onSuccess={fetchDashboardData}
+        theme={theme}
+      />
     </div>
   );
 };

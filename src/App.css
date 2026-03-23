@@ -2,7 +2,7 @@
   --search-bg: #e7e7e980;
   --search-color: hsl(240 10% 4%);
   --search-border: hsl(240 6% 85%);
-  --search-border-focus: hsl(173 80% 40%);
+  --search-border-focus: #e63946;
   --search-icon: hsl(240 4% 46%);
   --page-bg: #f4f4f6;
 
@@ -10,23 +10,26 @@
   --form-input-bg: #e7e7e980;
   --form-input-color: hsl(240 10% 4%);
   --form-input-border-color: hsl(240 6% 85%);
-  --form-input-border-color-focus: hsl(173 80% 40%);
+  --form-input-border-color-focus: #e63946;
 
   --form-confirm-btn-bg: #e63946;
   --form-confirm-btn-bg-hover: #d62839;
   --form-confirm-btn-color: #f6fefd;
 
-  --cancel-btn-bg: #e7e7e9;
-  --cancel-btn-bg-hover: #f5f5f5;
-  --cancel-btn-color: #18181b;
+  --form-cancel-btn-bg: #ced4da;
+  --form-cancel-btn-bg-hover: #f5f5f5;
+  --form-cancel-btn-color: #18181b;
+
+  --change-pass-btn-bg: #40916c;
+  --change-pass-btn-bg-hover: #1b4332;
+  --change-pass-btn-color: #d8f3dc;
 }
 
 [data-theme="dark"] {
   --search-bg: #27272a80;
   --search-color: hsl(0 0% 98%);
   --search-border: hsl(240 4% 16%);
-  --search-border-focus: hsl(173 80% 40%);
-  --search-icon: hsl(240 4% 46%);
+  --search-border-focus: #d62839 --search-icon: hsl(240 4% 46%);
   --page-bg: #f4f4f6;
 
   --form-label-color: #fafafa;
@@ -34,15 +37,17 @@
   --form-input-bg: #27272a80;
   --form-input-color: hsl(0 0% 98%);
   --form-input-border-color: hsl(240 4% 16%);
-  --form-input-border-color-focus: hsl(173 80% 40%);
-
-  --form-confirm-btn-bg: #e63946;
+  --form-input-border-color-focus: #d62839 --form-confirm-btn-bg: #e63946;
   --form-confirm-btn-bg-hover: #d62839;
   --form-confirm-btn-color: #f6fefd;
 
   --form-cancel-btn-bg: #e7e7e9;
   --form-cancel-btn-bg-hover: #f5f5f5;
   --form-cancel-btn-color: #18181b;
+
+  --change-pass-btn-bg: #40916c;
+  --change-pass-btn-bg-hover: #1b4332;
+  --change-pass-btn-color: #d8f3dc;
 }
 
 /* Page layout */
@@ -118,6 +123,12 @@
   box-sizing: border-box;
 }
 
+.form-container.fondet {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
 .form-container .form-row {
   width: 100%;
   display: flex;
@@ -150,11 +161,17 @@
   color: var(--form-label-color);
 }
 
-.form-container .form-input {
+.form-container .form-input,
+.password-change-section {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+}
+
+.password-change-section {
+  flex-direction: column;
+  gap: 8px;
 }
 
 .form-container .form-input input,
@@ -195,7 +212,8 @@
   box-sizing: border-box;
 }
 
-.form-actions button {
+.form-actions button,
+.change-pass-btn {
   border: none;
   outline: none;
   padding: 12px 20px;
@@ -215,12 +233,21 @@
   color: var(--form-confirm-btn-color);
 }
 
+.change-pass-btn {
+  background-color: var(--change-pass-btn-bg);
+  color: var(--change-pass-btn-color);
+}
+
 .create-btn:hover {
   background-color: var(--form-cancel-btn-bg-hover);
 }
 
 .cancel-btn:hover {
   background-color: var(--form-confirm-btn-bg-hover);
+}
+
+.change-pass-btn:hover {
+  background-color: var(--change-pass-btn-bg-hover);
 }
 
 /* Add form */

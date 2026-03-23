@@ -36,7 +36,7 @@ const Configurations = () => {
             className={`configuration-tab ${tabActive === "security" ? "active" : ""}`}
             onClick={() => setTabActive("security")}
           >
-            Security
+            Profile
           </div>
         </div>
 

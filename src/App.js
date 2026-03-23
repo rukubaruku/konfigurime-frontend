@@ -23,6 +23,7 @@ import Notes from "./Notes/Notes";
 import AddNote from "./Notes/AddNote";
 import EditNote from "./Notes/EditNote";
 import Fondet from "./Fondet/Fondet";
+import Profile from "./Profile/Profile";
 function LayoutWrapper({ children }) {
   return (
     <div className="page-layout">
@@ -176,6 +177,14 @@ function App() {
               element={
                 <LayoutWrapper>
                   <Configurations />
+                </LayoutWrapper>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <LayoutWrapper>
+                  <Profile />
                 </LayoutWrapper>
               }
             />
