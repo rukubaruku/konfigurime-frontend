@@ -37,7 +37,8 @@
   --form-input-bg: #27272a80;
   --form-input-color: hsl(0 0% 98%);
   --form-input-border-color: hsl(240 4% 16%);
-  --form-input-border-color-focus: #d62839 --form-confirm-btn-bg: #e63946;
+  --form-input-border-color-focus: #d62839;
+  --form-confirm-btn-bg: #e63946;
   --form-confirm-btn-bg-hover: #d62839;
   --form-confirm-btn-color: #f6fefd;
 

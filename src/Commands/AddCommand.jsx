@@ -237,7 +237,7 @@ const AddCommand = ({ isOpen, onClose, onSuccess, theme }) => {
               Cancel
             </button>
             <button
-              className="create-btn"
+              className="confirm-btn"
               onClick={handleAddCommand}
               disabled={loading}
             >

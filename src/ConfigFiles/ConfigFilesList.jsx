@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import NotFound from "../NotFound.jsx/NotFound";
 import ConfigFileItem from "./ConfigFileItem";
+import NotFound from "../NotFound/NotFound";
 
 const ConfigFilesList = ({
   configFiles,

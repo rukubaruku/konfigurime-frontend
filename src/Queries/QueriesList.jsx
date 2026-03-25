@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import QueryItem from "./QueryItem";
-import NotFound from "../NotFound.jsx/NotFound";
+import NotFound from "../NotFound/NotFound";
 
 const QueriesList = ({
   queries,

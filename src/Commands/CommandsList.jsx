@@ -1,7 +1,7 @@
 import { useState } from "react";
-import NotFound from "../NotFound.jsx/NotFound";
 import CommandItem from "./CommandItem";
 import AddCommand from "./AddCommand";
+import NotFound from "../NotFound/NotFound";
 
 const CommandsList = ({
   commands,

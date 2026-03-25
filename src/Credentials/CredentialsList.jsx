@@ -1,8 +1,8 @@
 import { useState } from "react";
-import NotFound from "../NotFound.jsx/NotFound";
 import CredentialItem from "./CredentialItem";
 import "./credentials.css";
 import AddCredential from "./AddCredential";
+import NotFound from "../NotFound/NotFound";
 
 const CredentialsList = ({
   credentials,

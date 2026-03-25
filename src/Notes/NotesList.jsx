@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import NoteItem from "./NoteItem";
-import NotFound from "../NotFound.jsx/NotFound";
+import NotFound from "../NotFound/NotFound";
 
 const NotesList = ({ notes, loading, onDelete, theme }) => {
   const navigate = useNavigate();

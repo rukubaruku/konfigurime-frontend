@@ -228,7 +228,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
               Cancel
             </button>
             <button
-              className="create-btn"
+              className="confirm-btn"
               onClick={handleAddCredential}
               disabled={loading}
             >

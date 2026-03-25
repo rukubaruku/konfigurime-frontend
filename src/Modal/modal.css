@@ -10,7 +10,7 @@
   --input-color: hsl(240 10% 4%);
 
   --input-border-color: hsl(240 6% 85%);
-  --input-border-color-focus: hsl(173 80% 40%);
+  --input-border-color-focus: #e63946;
 
   --confirm-btn-bg: #e63946;
   --confirm-btn-bg-hover: #d62839;
@@ -33,7 +33,7 @@
   --input-color: #fafafa;
 
   --input-border-color: hsl(240 4% 16%);
-  --input-border-color-focus: hsl(173 80% 40%);
+  --input-border-color-focus: #d62839;
 
   --confirm-btn-bg: #19e6ce;
   --confirm-btn-bg-hover: hsla(173 80% 50% / 0.9);
