@@ -109,16 +109,12 @@ const Queries = () => {
         setSelectedCategory={setSelectedCategory}
       />
 
-      {!loading && queries.length === 0 ? (
-        <div className="no-data">No queries found</div>
-      ) : (
-        <QueriesList
-          queries={queries}
-          loading={loading}
-          onDelete={() => fetchQueries(selectedCategory)}
-          theme={theme}
-        />
-      )}
+      <QueriesList
+        queries={queries}
+        loading={loading}
+        onDelete={() => fetchQueries(selectedCategory)}
+        theme={theme}
+      />
     </div>
   );
 };

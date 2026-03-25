@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import NotFound from "../NotFound.jsx/NotFound";
 import ConfigFileItem from "./ConfigFileItem";
 
 const ConfigFilesList = ({
@@ -7,25 +9,31 @@ const ConfigFilesList = ({
   onDelete,
   theme,
 }) => {
-  if (loading)
-    return (
-      <div className="overlay">
-        <div className="spinner"></div>
-      </div>
-    );
-  if (!configFiles.length)
-    return <div className="no-data">No configuration files found!</div>;
+  const navigate = useNavigate();
+
+  const handleNotFoundAction = () => {
+    navigate("/config-files/add-file");
+  };
   return (
     <div className="items-list">
-      {configFiles.map((file) => (
-        <ConfigFileItem
-          key={file.id}
-          configFile={file}
-          setEditingConfigFileID={setEditingConfigFileID}
-          onDelete={onDelete}
-          theme={theme}
-        />
-      ))}
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+      {configFiles.length ? (
+        configFiles.map((file) => (
+          <ConfigFileItem
+            key={file.id}
+            configFile={file}
+            setEditingConfigFileID={setEditingConfigFileID}
+            onDelete={onDelete}
+            theme={theme}
+          />
+        ))
+      ) : (
+        <NotFound menu="configFiles" onAction={handleNotFoundAction} />
+      )}
     </div>
   );
 };

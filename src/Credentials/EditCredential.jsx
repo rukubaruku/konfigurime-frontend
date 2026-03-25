@@ -181,7 +181,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
 
   return (
     <Modal isOpen={!!credentialId} onClose={onClose} title="Edit Credential">
-      <div className="form-container">
+      <div className="form-container credentials">
         <div className="form-group">
           <label>Category</label>
           <select
@@ -220,15 +220,9 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
               onChange={handleEditFormChange}
             />
           </div>
-          <div className="form-group half">
+          <div className="form-group half password-field">
             <label>Password</label>
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <div className="form-input password-wrapper">
               <input
                 type={passwordVisible ? "text" : "password"}
                 name="password"

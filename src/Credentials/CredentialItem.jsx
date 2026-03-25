@@ -57,7 +57,11 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
     navigator.clipboard.writeText(credential.username);
     toast.success("Username Copied!", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
       theme,
       transition: Bounce,
     });
@@ -69,7 +73,11 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
     navigator.clipboard.writeText(pw);
     toast.success("Password Copied!", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
       theme,
       transition: Bounce,
     });
@@ -82,7 +90,11 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
     navigator.clipboard.writeText(text);
     toast.success("Credentials Copied!", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
       theme,
       transition: Bounce,
     });
@@ -146,7 +158,8 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
           <div className="card-icon">
             <Key size={22} />
           </div>
-          <div>
+
+          <div className="text-content">
             <div className="card-title">{credential.title}</div>
 
             <a
@@ -154,6 +167,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
               className="card-url"
               target="_blank"
               rel="noreferrer"
+              title={credential.url}
             >
               {credential.url}
             </a>
@@ -164,7 +178,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
           className="menu-button"
           onClick={(e) => {
             e.stopPropagation();
-            setMenuOpen(!menuOpen);
+            setMenuOpen((prev) => !prev);
           }}
         >
           <Ellipsis size={18} />
@@ -215,12 +229,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
                   </div>
 
                   <div className="confirm-actions">
-                    <button
-                      className="popup-cancel-btn"
-                      onClick={() => {
-                        close();
-                      }}
-                    >
+                    <button className="popup-cancel-btn" onClick={close}>
                       Cancel
                     </button>
 

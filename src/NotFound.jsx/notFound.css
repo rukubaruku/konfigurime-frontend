@@ -1,0 +1,64 @@
+:root {
+  --notFound-bg: #ffffff;
+  --notFound-border: hsl(240 6% 85%);
+  --notfound-icon: hsla(240 4% 46% / 0.3);
+  --notfound-title: #09090b;
+  --notfound-subtitle: hsl(240 4% 46%);
+  --notfound-button-color: #f6fefd;
+  --notfound-button-bg: #dc2828;
+}
+
+.not-found {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  grid-column: 1 / -1;
+  background-color: var(--notFound-bg);
+  border: 1px solid var(--notFound-border);
+  border-radius: 8px;
+}
+
+.not-found-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-found-icon svg {
+  width: 100%;
+  height: 100%;
+  color: var(--notfound-icon) !important;
+}
+
+.not-found-title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  color: var(--notfound-title);
+}
+
+.not-found-subtitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--notfound-subtitle);
+  margin-bottom: 8px;
+}
+
+button.not-found-button {
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--notfound-button-color);
+  padding: 8px 16px;
+  box-sizing: border-box;
+  background-color: var(--notfound-button-bg);
+  cursor: pointer;
+}

@@ -136,9 +136,9 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Add Credential">
       <div className="modal-content">
-        <div className="form-container">
+        <div className="form-container credentials">
           <div className="form-group">
-            <div className="form-label">Category *</div>
+            <div className="form-label">Category</div>
             <div className="form-input">
               <select
                 name="category"
@@ -159,7 +159,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
           </div>
 
           <div className="form-group">
-            <div className="from-label">Title *</div>
+            <div className="form-label">Title</div>
             <div className="form-input">
               <input
                 type="text"
@@ -174,7 +174,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
 
           <div className="form-row">
             <div className="form-group half">
-              <div className="form-label">Username *</div>
+              <div className="form-label">Username</div>
               <div className="form-input">
                 <input
                   type="text"
@@ -187,7 +187,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
               <div className="error">{errors.username}</div>
             </div>
             <div className="form-group half password-field">
-              <div className="form-label">Password *</div>
+              <div className="form-label">Password</div>
               <div className="form-input password-wrapper">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -210,7 +210,7 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
           </div>
 
           <div className="form-group">
-            <div className="form-label">URL *</div>
+            <div className="form-label">URL</div>
             <div className="form-input">
               <input
                 type="text"

@@ -200,6 +200,7 @@
 .toggle-password {
   position: absolute;
   right: 10px;
+  top: 10px;
   background: none;
   border: none;
   cursor: pointer;
@@ -261,5 +262,22 @@
 
   .code-input {
     min-height: calc(1em * 2 + 12px);
+  }
+}
+
+@media (width<=645px) {
+  .form-container.credentials,
+  .form-container.credentials .form-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-container.credentials .form-group {
+    gap: 0;
+  }
+
+  .form-row .form-group.half input,
+  .form-row .form-group.half select {
+    min-width: 100%;
   }
 }

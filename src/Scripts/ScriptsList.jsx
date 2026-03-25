@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import ScriptItem from "./ScriptItem";
+import NotFound from "../NotFound.jsx/NotFound";
 
 const ScriptsList = ({
   scripts,
@@ -7,24 +9,32 @@ const ScriptsList = ({
   onDelete,
   theme,
 }) => {
-  if (loading)
-    return (
-      <div className="overlay">
-        <div className="spinner"></div>
-      </div>
-    );
-  if (!scripts.length) return <div className="no-data">No scripts found!</div>;
+  const navigate = useNavigate();
+
+  const handleNotFoundAction = () => {
+    navigate("/scripts/add-script");
+  };
+
   return (
-    <div className="items-list">
-      {scripts.map((script) => (
-        <ScriptItem
-          key={script.id}
-          script={script}
-          setEditingScriptID={setEditingScriptID}
-          onDelete={onDelete}
-          theme={theme}
-        />
-      ))}
+    <div className="scripts-list">
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+      {scripts.length ? (
+        scripts.map((script) => (
+          <ScriptItem
+            key={script.id}
+            script={script}
+            setEditingScriptID={setEditingScriptID}
+            onDelete={onDelete}
+            theme={theme}
+          />
+        ))
+      ) : (
+        <NotFound menu="scripts" onAction={handleNotFoundAction} />
+      )}
     </div>
   );
 };

@@ -1,4 +1,7 @@
+import { useState } from "react";
+import NotFound from "../NotFound.jsx/NotFound";
 import CommandItem from "./CommandItem";
+import AddCommand from "./AddCommand";
 
 const CommandsList = ({
   commands,
@@ -7,26 +10,43 @@ const CommandsList = ({
   onDelete,
   theme,
 }) => {
-  if (loading)
-    return (
-      <div className="overlay">
-        <div className="spinner"></div>
-      </div>
-    );
-  if (!commands.length)
-    return <div className="no-data">No commands found!</div>;
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
+  const handleNotFoundAction = () => {
+    setAddModalOpen(true);
+  };
+
   return (
-    <div className="items-list">
-      {commands.map((command) => (
-        <CommandItem
-          key={command.id}
-          command={command}
-          setEditingCommandID={setEditingCommandID}
-          onDelete={onDelete}
-          theme={theme}
-        />
-      ))}
-    </div>
+    <>
+      <div className="commands-list">
+        {loading && (
+          <div className="overlay">
+            <div className="spinner"></div>
+          </div>
+        )}
+
+        {commands.length ? (
+          commands.map((command) => (
+            <CommandItem
+              key={command.id}
+              command={command}
+              setEditingCommandID={setEditingCommandID}
+              onDelete={onDelete}
+              theme={theme}
+            />
+          ))
+        ) : (
+          <NotFound menu="commands" onAction={handleNotFoundAction} />
+        )}
+      </div>
+
+      <AddCommand
+        isOpen={addModalOpen}
+        onClose={() => setAddModalOpen(false)}
+        onSuccess={() => console.log("Command added")}
+        theme={theme}
+      />
+    </>
   );
 };
 

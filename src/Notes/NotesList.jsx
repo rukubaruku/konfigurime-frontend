@@ -1,25 +1,32 @@
+import { useNavigate } from "react-router-dom";
 import NoteItem from "./NoteItem";
+import NotFound from "../NotFound.jsx/NotFound";
 
 const NotesList = ({ notes, loading, onDelete, theme }) => {
-  if (loading)
-    return (
-      <div className="overlay">
-        <div className="spinner"></div>
-      </div>
-    );
+  const navigate = useNavigate();
 
-  if (!notes.length) return <div className="no-data">No notes found!</div>;
-
+  const handleNotFoundAction = () => {
+    navigate("/notes/add-note");
+  };
   return (
-    <div className="items-list">
-      {notes.map((note) => (
-        <NoteItem
-          key={note._id}
-          note={note}
-          onDelete={onDelete}
-          theme={theme}
-        />
-      ))}
+    <div className="notes-list">
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+      {notes.length ? (
+        notes.map((note) => (
+          <NoteItem
+            key={note._id}
+            note={note}
+            onDelete={onDelete}
+            theme={theme}
+          />
+        ))
+      ) : (
+        <NotFound menu="notes" onAction={handleNotFoundAction} />
+      )}
     </div>
   );
 };
