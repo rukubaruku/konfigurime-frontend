@@ -65,6 +65,17 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const menuLabels = {
+    "/credentials": "Credentials",
+    "/commands": "Commands",
+    "/scripts": "Scripts",
+    "/queries": "Queries",
+    "/config-files": "Config Files",
+    "/notes": "Notes",
+  };
+
+  const activeMenuLabel = menuLabels[location.pathname] || "Menus";
+
   return (
     <nav className="navbar">
       <ul className="nav-container">
@@ -77,7 +88,9 @@ const Navbar = () => {
             <div className="nav-icon">
               <Menu size={22} />
             </div>
-            <span className="nav-label">Menus</span>
+            <span className="nav-label">
+              {isMenusActive ? activeMenuLabel : "Menus"}
+            </span>
           </div>
 
           <div className={`dropdown ${open ? "show" : ""}`}>

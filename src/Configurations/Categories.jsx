@@ -248,6 +248,15 @@ const Categories = () => {
       console.log("Failed to save category:", error);
     }
   };
+
+  const moduleOrder = [
+    "credentials",
+    "commands",
+    "scripts",
+    "queries",
+    "configs",
+    "notes",
+  ];
   return (
     <div className="configuration-categories">
       {loading && (
@@ -269,11 +278,18 @@ const Categories = () => {
                   value={selectedModule}
                   onChange={(e) => setSelectedModule(e.target.value)}
                 >
-                  {modules.map((mod) => (
-                    <option key={mod._id} value={mod._id}>
-                      {moduleDisplayNames[mod.name] || mod.name}
-                    </option>
-                  ))}
+                  {modules
+                    .slice()
+                    .sort(
+                      (a, b) =>
+                        moduleOrder.indexOf(a.name) -
+                        moduleOrder.indexOf(b.name),
+                    )
+                    .map((mod) => (
+                      <option key={mod._id} value={mod._id}>
+                        {moduleDisplayNames[mod.name] || mod.name}
+                      </option>
+                    ))}
                 </select>
               )}
             </div>
@@ -291,7 +307,7 @@ const Categories = () => {
           </div>
         </div>
 
-        <div className="form-actions">
+        <div className="form-actions categories">
           <button onClick={handleSaveCategory} className="confirm-btn">
             {isEditing ? "Save" : "Add"}
           </button>

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 import FondetList from "./FondetList";
 import { useNavigate } from "react-router-dom";
+import "./fondet.css";
 
 const Fondet = () => {
   const [fond, setFond] = useState("");
@@ -78,6 +79,13 @@ const Fondet = () => {
     if (e.key === "Enter") handleSearch();
   };
 
+  const clearSearch = () => {
+    setFond("");
+    setYear("");
+    setFile("");
+    setResults([]);
+  };
+
   return (
     <div className="fondet-container">
       <PageHeader />
@@ -142,6 +150,10 @@ const Fondet = () => {
       <div className="form-actions">
         <button className="confirm-btn" onClick={handleSearch}>
           Search
+        </button>
+
+        <button className="cancel-btn" onClick={clearSearch}>
+          Clear
         </button>
       </div>
 

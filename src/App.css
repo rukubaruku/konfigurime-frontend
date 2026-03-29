@@ -217,6 +217,10 @@
   box-sizing: border-box;
 }
 
+.form-actions.categories {
+  padding: 32px;
+}
+
 .form-actions button,
 button.change-pass-btn {
   border: none;

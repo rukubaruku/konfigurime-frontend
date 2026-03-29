@@ -49,6 +49,14 @@ const PageHeader = () => {
       path: "/credentials",
     },
     {
+      title: "Commands",
+      path: "/commands",
+    },
+    {
+      title: "Credentials",
+      path: "/credentials",
+    },
+    {
       title: "Queries",
       path: "/queries",
     },
@@ -67,6 +75,10 @@ const PageHeader = () => {
     {
       title: "Notes",
       path: "/notes",
+    },
+    {
+      title: "Fondet e Skanuara",
+      path: "/fondet-skanuara",
     },
     {
       title: "Configurations",
