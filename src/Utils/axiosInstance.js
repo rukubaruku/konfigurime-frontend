@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 
 const axiosInstance = axios.create({
   baseURL: "https://konfigurime-api.arkiva.gov.al",
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -15,12 +16,28 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (res) => res,
-  (error) => {
-    if (error.response?.status === 401) {
-      toast.error("Session expired");
-      localStorage.clear();
-      window.location.href = "/";
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const res = await axiosInstance.post("/user/refresh");
+
+        const newToken = res.data.token;
+        localStorage.setItem("token", newToken);
+
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        toast.error("Session expired");
+        localStorage.clear();
+        window.location.href = "/";
+      }
     }
+
     return Promise.reject(error);
   },
 );

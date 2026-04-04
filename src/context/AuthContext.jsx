@@ -1,17 +1,18 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   const logout = useCallback(() => {
     localStorage.removeItem("token");
     setUser(null);
     toast.info("Logged out");
-    window.location.href = "/login";
+    navigate("/login");
   }, []);
 
   const login = useCallback((token) => {
@@ -26,11 +27,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        if (decoded.exp * 1000 < Date.now()) {
-          logout();
-        } else {
-          setUser(decoded);
-        }
+        setUser(decoded);
       } catch (err) {
         logout();
       }

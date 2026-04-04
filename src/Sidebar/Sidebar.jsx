@@ -12,17 +12,21 @@ import {
 } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import axiosInstance from "../Utils/axiosInstance";
+import { useCallback } from "react";
 
 const Sidebar = () => {
   const location = useLocation();
-  const userName = localStorage.getItem("userName") || "John Doe";
 
-  const logout = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("theme");
+  const logout = useCallback(async () => {
+    try {
+      await axiosInstance.post("/user/logout");
+    } catch (err) {}
+
+    localStorage.removeItem("token");
+
     window.location.href = "/login";
-  };
+  }, []);
 
   const menuTabs = [
     {

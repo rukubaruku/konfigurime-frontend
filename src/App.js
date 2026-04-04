@@ -40,6 +40,14 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/fondet-skanuara"
+            element={
+              <LayoutWrapper>
+                <Fondet />
+              </LayoutWrapper>
+            }
+          />
 
           <Route element={<PrivateLayout />}>
             <Route
@@ -164,14 +172,7 @@ function App() {
                 </LayoutWrapper>
               }
             />
-            <Route
-              path="/fondet-skanuara"
-              element={
-                <LayoutWrapper>
-                  <Fondet />
-                </LayoutWrapper>
-              }
-            />
+
             <Route
               path="/configurations"
               element={

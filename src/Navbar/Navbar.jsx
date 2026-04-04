@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Home, Menu, Settings, User, BookCheck } from "lucide-react";
 import "./navbar.css";
+import axiosInstance from "../Utils/axiosInstance";
 
 const menuRoutes = [
   "/credentials",
@@ -41,13 +42,15 @@ const Navbar = () => {
     setUserOpen(false);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userName");
+  const handleLogout = useCallback(async () => {
+    try {
+      await axiosInstance.post("/user/logout");
+    } catch (err) {}
+
     localStorage.removeItem("token");
 
-    navigate("/login");
-  };
+    window.location.href = "/login";
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
