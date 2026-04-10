@@ -22,22 +22,30 @@
   box-sizing: border-box;
   overflow-x: auto;
   overflow-y: hidden;
+  margin: 12px 0;
 }
 
 .category-tab {
   width: max-content;
+  min-width: 100px;
+  max-width: 200px;
+  max-height: 44px;
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-color: var(--category-tab-bg);
   color: var(--category-tab-color);
-  padding: 8px 16px;
+  padding: 10px 16px;
   box-sizing: border-box;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 20px;
   cursor: pointer;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .category-tab.active {
