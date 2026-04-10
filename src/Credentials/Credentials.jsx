@@ -33,7 +33,11 @@ const Credentials = () => {
         `https://konfigurime-api.arkiva.gov.al/credentials/${categoryId}`,
       );
       if (response.status === 200) {
-        setCredentials(response.data.data);
+        const sortedData = response.data.data.sort((a, b) => {
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        });
+
+        setCredentials(sortedData);
       }
     } catch (error) {
       console.error("Failed to fetch credentials:", error);
@@ -42,10 +46,6 @@ const Credentials = () => {
         {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
           theme,
           transition: Bounce,
         },

@@ -15,7 +15,6 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     title: "",
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordFetched, setPasswordFetched] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -33,50 +32,36 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
         setCategories(formattedCategories);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to fetch categories", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        theme,
-        transition: Bounce,
-      });
+      toast.error("Failed to fetch categories", { theme, transition: Bounce });
     }
   };
 
-  const fetchCredential = async () => {
+  const fetchCredentialData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
+      const res = await axios.get(
         `https://konfigurime-api.arkiva.gov.al/credentials/${credentialId}`,
       );
-      if (response.status === 200) {
-        const c = response.data.credential;
+
+      const pwRes = await axios.get(
+        `https://konfigurime-api.arkiva.gov.al/credentials/${credentialId}/password`,
+      );
+
+      if (res.status === 200) {
+        const c = res.data.credential;
         setEditingCredentialForm({
           category: c.category ?? "",
           username: c.username ?? "",
-          password: "",
+          password: pwRes.data.password || "",
           url: c.url ?? "",
           title: c.title ?? "",
-          note: c.note ?? "",
         });
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Failed to fetch credential",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          theme,
-          transition: Bounce,
-        },
-      );
+      toast.error("Failed to fetch credential details", {
+        theme,
+        transition: Bounce,
+      });
     } finally {
       setLoading(false);
     }
@@ -85,9 +70,8 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
   useEffect(() => {
     if (!credentialId) return;
     fetchCategories();
-    fetchCredential();
+    fetchCredentialData();
     setPasswordVisible(false);
-    setPasswordFetched(false);
     setErrors({});
   }, [credentialId]);
 
@@ -96,53 +80,18 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     setEditingCredentialForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const fetchPassword = async () => {
-    if (passwordFetched) return;
-    try {
-      setLoadingPassword(true);
-      const res = await axios.get(
-        `https://konfigurime-api.arkiva.gov.al/credentials/${credentialId}/password`,
-      );
-      setEditingCredentialForm((prev) => ({
-        ...prev,
-        password: res.data.password,
-      }));
-      setPasswordFetched(true);
-    } catch (error) {
-      toast.error("Failed to fetch password", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        theme,
-        transition: Bounce,
-      });
-    } finally {
-      setLoadingPassword(false);
-    }
-  };
-
-  const handleTogglePassword = async () => {
-    if (!passwordVisible && !passwordFetched) {
-      await fetchPassword();
-    }
-    setPasswordVisible((prev) => !prev);
-  };
-
   const valid = () => {
-    const errors = {};
+    const newErrors = {};
     if (!editingCredentialForm.category)
-      errors.category = "Category is required";
+      newErrors.category = "Category is required";
     if (!editingCredentialForm.username)
-      errors.username = "Username is required";
+      newErrors.username = "Username is required";
     if (!editingCredentialForm.password)
-      errors.password = "Password is required";
-    if (!editingCredentialForm.url) errors.url = "Url is required";
-    if (!editingCredentialForm.title) errors.title = "Title is required";
-    setErrors(errors);
-    return Object.keys(errors).length === 0;
+      newErrors.password = "Password is required";
+    if (!editingCredentialForm.url) newErrors.url = "Url is required";
+    if (!editingCredentialForm.title) newErrors.title = "Title is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleEditCredential = async () => {
@@ -155,33 +104,15 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
         editingCredentialForm,
       );
       if (response.status === 200 && response.data.success) {
-        toast.success(response.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          theme,
-          transition: Bounce,
-        });
+        toast.success(response.data.message, { theme, transition: Bounce });
         onSuccess();
         onClose();
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Failed to update credential",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          theme,
-          transition: Bounce,
-        },
-      );
+      toast.error(error.response?.data?.message || "Failed to update", {
+        theme,
+        transition: Bounce,
+      });
     } finally {
       setLoading(false);
     }
@@ -252,16 +183,9 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
                 <button
                   type="button"
                   className="toggle-password"
-                  onClick={handleTogglePassword}
-                  disabled={loadingPassword}
+                  onClick={() => setPasswordVisible(!passwordVisible)}
                 >
-                  {loadingPassword ? (
-                    <span style={{ fontSize: "11px" }}>...</span>
-                  ) : passwordVisible ? (
-                    <EyeOff size={20} />
-                  ) : (
-                    <Eye size={20} />
-                  )}
+                  {passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
               <div className="error">{errors.password}</div>
@@ -280,24 +204,6 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
               />
             </div>
             <div className="error">{errors.url}</div>
-          </div>
-
-          <div className="form-group">
-            <div className="form-label">Notes</div>
-            <div className="form-input">
-              <textarea
-                name="note"
-                placeholder="Additional notes..."
-                value={editingCredentialForm.note}
-                onChange={handleEditFormChange}
-                style={{
-                  width: "100%",
-                  minHeight: "80px",
-                  padding: "8px",
-                  borderRadius: "4px",
-                }}
-              />
-            </div>
           </div>
 
           <div className="form-actions">
