@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import { Bounce, toast } from "react-toastify";
 import "./configurations.css";
+import Popup from "reactjs-popup";
 const Categories = () => {
   const [loading, setLoading] = useState(false);
 
@@ -91,7 +92,8 @@ const Categories = () => {
   const handleAddCategory = () => {
     setCurrentCategory(null);
     setCategoryName("");
-    setSelectedModule(modules.length ? modules[0]._id : "");
+    setSelectedModule("");
+    // setSelectedModule(modules.length ? modules[0]._id : "");
     setIsEditing(false);
     setModalOpen(true);
   };
@@ -122,8 +124,6 @@ const Categories = () => {
   };
 
   const handleDeleteCategory = async (categoryId) => {
-    if (!window.confirm("Are you sure you want to delete this category?"))
-      return;
     try {
       setLoading(true);
       const response = await axios.delete(
@@ -168,6 +168,7 @@ const Categories = () => {
 
   const handleSaveCategory = async () => {
     if (!categoryName.trim()) return alert("Name cannot be empty");
+    if (!isEditing && !selectedModule) return alert("Please select a module");
 
     try {
       setLoading(true);
@@ -278,6 +279,9 @@ const Categories = () => {
                   value={selectedModule}
                   onChange={(e) => setSelectedModule(e.target.value)}
                 >
+                  <option value="" disabled>
+                    Select a Module
+                  </option>
                   {modules
                     .slice()
                     .sort(
@@ -351,12 +355,46 @@ const Categories = () => {
                       </button>
                     </div>
                     <div className="delete-btn">
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDeleteCategory(cat._id)}
+                      <Popup
+                        trigger={
+                          <button className="delete-btn">
+                            <Trash2Icon size={20} />
+                          </button>
+                        }
+                        modal
+                        nested
                       >
-                        <Trash2Icon size={20} />
-                      </button>
+                        {(close) => (
+                          <div className="confirm-popup">
+                            <div className="confirm-popup-title">
+                              Confirm Delete
+                            </div>
+                            <div className="confirm-popup-text">
+                              Are you sure you want to delete the category{" "}
+                              <strong>"{cat.name}"</strong>?
+                            </div>
+
+                            <div className="confirm-actions">
+                              <button
+                                className="popup-cancel-btn"
+                                onClick={close}
+                              >
+                                Cancel
+                              </button>
+
+                              <button
+                                className="popup-delete-btn"
+                                onClick={async () => {
+                                  await handleDeleteCategory(cat._id);
+                                  close();
+                                }}
+                              >
+                                Yes, Delete
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </Popup>
                     </div>
                   </div>
                 </div>
