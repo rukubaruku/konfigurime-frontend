@@ -13,7 +13,6 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     password: "",
     url: "",
     title: "",
-    note: "",
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordFetched, setPasswordFetched] = useState(false);
@@ -89,6 +88,7 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     fetchCredential();
     setPasswordVisible(false);
     setPasswordFetched(false);
+    setErrors({});
   }, [credentialId]);
 
   const handleEditFormChange = (e) => {
@@ -109,8 +109,16 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
       }));
       setPasswordFetched(true);
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to fetch password", { theme, transition: Bounce });
+      toast.error("Failed to fetch password", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme,
+        transition: Bounce,
+      });
     } finally {
       setLoadingPassword(false);
     }
@@ -181,117 +189,129 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
 
   return (
     <Modal isOpen={!!credentialId} onClose={onClose} title="Edit Credential">
-      <div className="form-container credentials">
-        <div className="form-group">
-          <label>Category</label>
-          <select
-            name="category"
-            value={editingCredentialForm.category}
-            onChange={handleEditFormChange}
-          >
-            <option value="">Select category</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label>Title</label>
-          <input
-            type="text"
-            name="title"
-            placeholder="e.g., Production Server"
-            value={editingCredentialForm.title}
-            onChange={handleEditFormChange}
-          />
-        </div>
-
-        <div className="form-row">
-          <div className="form-group half">
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Enter username"
-              value={editingCredentialForm.username}
-              onChange={handleEditFormChange}
-            />
-          </div>
-          <div className="form-group half password-field">
-            <label>Password</label>
-            <div className="form-input password-wrapper">
-              <input
-                type={passwordVisible ? "text" : "password"}
-                name="password"
-                placeholder="••••••"
-                value={passwordVisible ? editingCredentialForm.password : ""}
+      <div className="modal-content">
+        <div className="form-container credentials">
+          <div className="form-group">
+            <div className="form-label">Category</div>
+            <div className="form-input">
+              <select
+                name="category"
+                value={editingCredentialForm.category}
                 onChange={handleEditFormChange}
-                disabled={!passwordVisible}
-                style={{ paddingRight: "2.5rem", width: "100%" }}
-              />
-              <button
-                type="button"
-                onClick={handleTogglePassword}
-                disabled={loadingPassword}
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  background: "none",
-                  border: "none",
-                  cursor: loadingPassword ? "wait" : "pointer",
-                  padding: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  color: "var(--color-text-secondary)",
-                }}
               >
-                {loadingPassword ? (
-                  <span style={{ fontSize: "11px" }}>...</span>
-                ) : passwordVisible ? (
-                  <EyeOff size={16} />
-                ) : (
-                  <Eye size={16} />
-                )}
-              </button>
+                <option value="">Select category</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="error">{errors.category}</div>
+          </div>
+
+          <div className="form-group">
+            <div className="form-label">Title</div>
+            <div className="form-input">
+              <input
+                type="text"
+                name="title"
+                placeholder="e.g., Production Server"
+                value={editingCredentialForm.title}
+                onChange={handleEditFormChange}
+              />
+            </div>
+            <div className="error">{errors.title}</div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group half">
+              <div className="form-label">Username</div>
+              <div className="form-input">
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Enter username"
+                  value={editingCredentialForm.username}
+                  onChange={handleEditFormChange}
+                />
+              </div>
+              <div className="error">{errors.username}</div>
+            </div>
+
+            <div className="form-group half password-field">
+              <div className="form-label">Password</div>
+              <div className="form-input password-wrapper">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  name="password"
+                  placeholder="••••••"
+                  value={editingCredentialForm.password}
+                  onChange={handleEditFormChange}
+                />
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={handleTogglePassword}
+                  disabled={loadingPassword}
+                >
+                  {loadingPassword ? (
+                    <span style={{ fontSize: "11px" }}>...</span>
+                  ) : passwordVisible ? (
+                    <EyeOff size={20} />
+                  ) : (
+                    <Eye size={20} />
+                  )}
+                </button>
+              </div>
+              <div className="error">{errors.password}</div>
             </div>
           </div>
-        </div>
 
-        <div className="form-group">
-          <label>URL</label>
-          <input
-            type="text"
-            name="url"
-            placeholder="https://..."
-            value={editingCredentialForm.url}
-            onChange={handleEditFormChange}
-          />
-        </div>
+          <div className="form-group">
+            <div className="form-label">URL</div>
+            <div className="form-input">
+              <input
+                type="text"
+                name="url"
+                placeholder="https://..."
+                value={editingCredentialForm.url}
+                onChange={handleEditFormChange}
+              />
+            </div>
+            <div className="error">{errors.url}</div>
+          </div>
 
-        <div className="form-group">
-          <label>Notes</label>
-          <textarea
-            name="note"
-            placeholder="Additional notes..."
-            value={editingCredentialForm.note}
-            onChange={handleEditFormChange}
-          />
-        </div>
+          <div className="form-group">
+            <div className="form-label">Notes</div>
+            <div className="form-input">
+              <textarea
+                name="note"
+                placeholder="Additional notes..."
+                value={editingCredentialForm.note}
+                onChange={handleEditFormChange}
+                style={{
+                  width: "100%",
+                  minHeight: "80px",
+                  padding: "8px",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+          </div>
 
-        <div className="form-actions">
-          <button className="cancel-btn" onClick={onClose}>
-            Cancel
-          </button>
-          <button
-            className="create-btn"
-            onClick={handleEditCredential}
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save"}
-          </button>
+          <div className="form-actions">
+            <button className="cancel-btn" onClick={onClose}>
+              Cancel
+            </button>
+            <button
+              className="confirm-btn"
+              onClick={handleEditCredential}
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save"}
+            </button>
+          </div>
         </div>
       </div>
     </Modal>
