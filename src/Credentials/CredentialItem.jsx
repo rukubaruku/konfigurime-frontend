@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Key,
   Ellipsis,
@@ -9,7 +9,6 @@ import {
   EyeOff,
   Pencil,
   Trash2,
-  NotepadText,
 } from "lucide-react";
 import "./credentials.css";
 import { Bounce, toast } from "react-toastify";
@@ -24,6 +23,8 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  const menuRef = useRef(null);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -32,10 +33,16 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
     }
   }, []);
 
+  // ✅ Proper outside click handler
   useEffect(() => {
-    const handleClick = () => setMenuOpen(false);
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const fetchPassword = async () => {
@@ -47,7 +54,6 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
       setPassword(res.data.password);
       return res.data.password;
     } catch (error) {
-      console.error(error);
       toast.error("Failed to fetch password", { theme, transition: Bounce });
       return "";
     }
@@ -55,96 +61,59 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
 
   const copyUsername = () => {
     navigator.clipboard.writeText(credential.username);
-    toast.success("Username Copied!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      theme,
-      transition: Bounce,
-    });
+    toast.success("Username Copied!", { theme, transition: Bounce });
   };
 
   const copyPassword = async () => {
     const pw = await fetchPassword();
     if (!pw) return;
     navigator.clipboard.writeText(pw);
-    toast.success("Password Copied!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      theme,
-      transition: Bounce,
-    });
+    toast.success("Password Copied!", { theme, transition: Bounce });
   };
 
   const copyAll = async () => {
     const pw = await fetchPassword();
     if (!pw) return;
+
     const text = `Title: ${credential.title}\nUsername: ${credential.username}\nPassword: ${pw}`;
     navigator.clipboard.writeText(text);
-    toast.success("Credentials Copied!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      theme,
-      transition: Bounce,
-    });
+
+    toast.success("Credentials Copied!", { theme, transition: Bounce });
     setMenuOpen(false);
   };
 
   const handleTogglePassword = async () => {
     const pw = await fetchPassword();
     if (!pw) return;
+
     setShowPassword((prev) => !prev);
+
     if (!showPassword) {
       setTimeout(() => setShowPassword(false), 5000);
     }
   };
 
-  const handleDelete = async (e) => {
-    e.stopPropagation();
+  const handleDelete = async () => {
     if (deleting) return;
+
     try {
       setDeleting(true);
+
       const response = await axios.delete(
         `https://konfigurime-api.arkiva.gov.al/credentials/${credential.id}`,
       );
+
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
           theme,
           transition: Bounce,
         });
-        setMenuOpen(false);
         onDelete();
       }
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Failed to delete credential",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          theme,
-          transition: Bounce,
-        },
+        { theme, transition: Bounce },
       );
     } finally {
       setDeleting(false);
@@ -174,101 +143,112 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
           </div>
         </div>
 
-        <button
-          className="menu-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setMenuOpen((prev) => !prev);
-          }}
-        >
-          <Ellipsis size={18} />
-        </button>
+        {/* MENU */}
+        <div ref={menuRef} style={{ position: "relative" }}>
+          <button
+            className="menu-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuOpen((prev) => !prev);
+            }}
+          >
+            <Ellipsis size={18} />
+          </button>
 
-        {menuOpen && (
-          <div className="credential-dropdown-menu">
-            <div
-              className="credential-dropdown-item"
-              onClick={() => setEditingCredentialID(credential.id)}
-            >
-              <Pencil size={16} />
-              Edit
-            </div>
+          {menuOpen && (
+            <div className="credential-dropdown-menu">
+              <div
+                className="credential-dropdown-item"
+                onClick={() => {
+                  setMenuOpen(false);
+                  setEditingCredentialID(credential.id);
+                }}
+              >
+                <Pencil size={16} />
+                Edit
+              </div>
 
-            <div
-              className="credential-dropdown-item"
-              onClick={(e) => {
-                e.stopPropagation();
-                copyAll();
-              }}
-            >
-              <Copy size={16} />
-              Copy All
-            </div>
+              <div
+                className="credential-dropdown-item"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  copyAll();
+                }}
+              >
+                <Copy size={16} />
+                Copy All
+              </div>
 
-            <Popup
-              trigger={
-                <div className="credential-dropdown-item delete">
-                  {deleting ? (
-                    <span style={{ fontSize: "13px" }}>Deleting...</span>
-                  ) : (
-                    <>
-                      <Trash2 size={16} />
-                      Delete
-                    </>
-                  )}
-                </div>
-              }
-              modal
-              nested
-            >
-              {(close) => (
-                <div className="confirm-popup">
-                  <div className="confirm-popup-title">Confirm Delete</div>
-                  <div className="confirm-popup-text">
-                    Are you sure you want to delete this credential?
+              {/* ✅ DELETE WITH CONTROLLED CLOSE */}
+              <Popup
+                trigger={
+                  <div
+                    className="credential-dropdown-item delete"
+                    onClick={() => setMenuOpen(false)} // 🔥 key fix
+                  >
+                    {deleting ? (
+                      <span style={{ fontSize: "13px" }}>Deleting...</span>
+                    ) : (
+                      <>
+                        <Trash2 size={16} />
+                        Delete
+                      </>
+                    )}
                   </div>
+                }
+                modal
+                nested
+              >
+                {(close) => (
+                  <div className="confirm-popup">
+                    <div className="confirm-popup-title">Confirm Delete</div>
 
-                  <div className="confirm-actions">
-                    <button className="popup-cancel-btn" onClick={close}>
-                      Cancel
-                    </button>
+                    <div className="confirm-popup-text">
+                      Are you sure you want to delete this credential?
+                    </div>
 
-                    <button
-                      className="popup-delete-btn"
-                      onClick={async (e) => {
-                        await handleDelete(e);
-                        close();
-                      }}
-                    >
-                      Yes
-                    </button>
+                    <div className="confirm-actions">
+                      <button className="popup-cancel-btn" onClick={close}>
+                        Cancel
+                      </button>
+
+                      <button
+                        className="popup-delete-btn"
+                        onClick={async () => {
+                          await handleDelete();
+                          close();
+                        }}
+                      >
+                        Yes
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </Popup>
-          </div>
-        )}
+                )}
+              </Popup>
+            </div>
+          )}
+        </div>
       </div>
 
+      {/* USERNAME */}
       <div className="card-row">
         <User size={18} />
         <span className="cred-email">{credential.username}</span>
         <Copy size={18} className="action-icon" onClick={copyUsername} />
       </div>
 
+      {/* PASSWORD */}
       <div className="card-row">
         <Lock size={18} />
         <span className="cred-pass">
           {showPassword ? password : "••••••••"}
         </span>
+
         <div className="row-actions">
           <button onClick={handleTogglePassword}>
-            {showPassword ? (
-              <EyeOff size={18} className="action-icon" />
-            ) : (
-              <Eye size={18} className="action-icon" />
-            )}
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
+
           <Copy size={18} className="action-icon" onClick={copyPassword} />
         </div>
       </div>
