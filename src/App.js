@@ -24,6 +24,7 @@ import AddNote from "./Notes/AddNote";
 import EditNote from "./Notes/EditNote";
 import Fondet from "./Fondet/Fondet";
 import Profile from "./Profile/Profile";
+import ImportFondet from "./Fondet/ImportFondet";
 function LayoutWrapper({ children }) {
   return (
     <div className="page-layout">
@@ -40,14 +41,6 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/fondet-skanuara"
-            element={
-              <LayoutWrapper>
-                <Fondet />
-              </LayoutWrapper>
-            }
-          />
 
           <Route element={<PrivateLayout />}>
             <Route
@@ -169,6 +162,24 @@ function App() {
               element={
                 <LayoutWrapper>
                   <EditNote />
+                </LayoutWrapper>
+              }
+            />
+
+            <Route
+              path="/fondet-skanuara"
+              element={
+                <LayoutWrapper>
+                  <Fondet />
+                </LayoutWrapper>
+              }
+            />
+
+            <Route
+              path="/fondet/import"
+              element={
+                <LayoutWrapper>
+                  <ImportFondet />
                 </LayoutWrapper>
               }
             />
