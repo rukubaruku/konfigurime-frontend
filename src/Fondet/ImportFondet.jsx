@@ -1,3 +1,4 @@
+// src/components/Fondet/ImportFondet.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +7,7 @@ import PageHeader from "../PageHeader/PageHeader";
 
 const ImportFondet = () => {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(null); // { total, inserted, skipped, message }
   const navigate = useNavigate();
 
   const handleImport = async () => {
