@@ -103,7 +103,7 @@
 }
 
 /* Items- list (Scripts, Queries) */
-.scripts-list,
+/* .scripts-list,
 .commands-list,
 .queries-list,
 .notes-list {
@@ -116,7 +116,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 24px;
-}
+} */
 
 .script-item,
 .query-item,
