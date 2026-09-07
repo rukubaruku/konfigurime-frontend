@@ -43,10 +43,6 @@ const moduleDisplayNames = {
   notes: "Notes",
 };
 
-/* -----------------------------
-   Sortable category item
------------------------------ */
-
 const SortableCategoryItem = ({
   cat,
   handleEditCategory,
@@ -150,10 +146,6 @@ const SortableCategoryItem = ({
   );
 };
 
-/* -----------------------------
-   Categories
------------------------------ */
-
 const Categories = () => {
   const [loading, setLoading] = useState(false);
 
@@ -190,10 +182,6 @@ const Categories = () => {
       document.documentElement.setAttribute("data-theme", savedTheme);
     }
   }, []);
-
-  /* -----------------------------
-     Fetch categories
-  ----------------------------- */
 
   const fetchCategories = async () => {
     try {
@@ -234,10 +222,6 @@ const Categories = () => {
     }
   };
 
-  /* -----------------------------
-     Fetch modules
-  ----------------------------- */
-
   const fetchModules = async () => {
     try {
       setLoading(true);
@@ -266,10 +250,6 @@ const Categories = () => {
     fetchModules();
   }, []);
 
-  /* -----------------------------
-     Modal
-  ----------------------------- */
-
   const handleAddCategory = () => {
     setCurrentCategory(null);
     setCategoryName("");
@@ -293,10 +273,6 @@ const Categories = () => {
     setSelectedModule("");
     setIsEditing(false);
   };
-
-  /* -----------------------------
-     Save category
-  ----------------------------- */
 
   const handleSaveCategory = async () => {
     if (!categoryName.trim()) {
@@ -400,10 +376,6 @@ const Categories = () => {
     }
   };
 
-  /* -----------------------------
-     Delete category
-  ----------------------------- */
-
   const handleDeleteCategory = async (categoryId) => {
     try {
       setLoading(true);
@@ -411,11 +383,6 @@ const Categories = () => {
       const response = await axios.delete(`${API_URL}/category/${categoryId}`);
 
       if (response.data.success) {
-        /*
-         * Backend recalculates sortOrder after delete.
-         * Fetch again to keep frontend perfectly synced.
-         */
-
         await fetchCategories();
 
         toast.success(response.data.message, {
@@ -438,10 +405,6 @@ const Categories = () => {
       setLoading(false);
     }
   };
-
-  /* -----------------------------
-     Drag & Drop
-  ----------------------------- */
 
   const handleDragEnd = async (event, moduleName) => {
     const { active, over } = event;
@@ -475,10 +438,6 @@ const Categories = () => {
       sortOrder: index + 1,
     }));
 
-    /*
-     * Update frontend immediately.
-     */
-
     setCategories((prev) => ({
       ...prev,
       [moduleName]: reorderedCategories,
@@ -493,10 +452,6 @@ const Categories = () => {
       });
     } catch (error) {
       console.log("Failed to reorder categories:", error);
-
-      /*
-       * Restore previous order if request fails.
-       */
 
       setCategories((prev) => ({
         ...prev,
@@ -517,15 +472,11 @@ const Categories = () => {
 
   return (
     <div className="configuration-categories">
-      {/* Loading */}
-
       {loading && (
         <div className="overlay">
           <div className="spinner"></div>
         </div>
       )}
-
-      {/* Add / Edit modal */}
 
       <Modal
         isOpen={modalOpen}
@@ -601,8 +552,6 @@ const Categories = () => {
         </div>
       </Modal>
 
-      {/* Header */}
-
       <div className="configuration-categories-header">
         <div className="configuration-categories-title">
           <Tag size={22} />
@@ -618,8 +567,6 @@ const Categories = () => {
           + Add Category
         </button>
       </div>
-
-      {/* Categories */}
 
       <div className="configuration-categories-content">
         {moduleOrder.map((moduleName) => {

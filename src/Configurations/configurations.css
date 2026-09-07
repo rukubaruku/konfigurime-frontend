@@ -320,19 +320,11 @@
   background: var(--color-danger-hover);
 }
 
-/* ---------------------------------
-   Category section spacing
----------------------------------- */
-
 .configuration-categories-section {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
-/* ---------------------------------
-   Category item improvements
----------------------------------- */
 
 .configuration-category-item {
   position: relative;
@@ -347,8 +339,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Keep title flexible so long names don't break actions */
-
 .configuration-category-item-title {
   flex: 1;
   min-width: 0;
@@ -357,33 +347,21 @@
   white-space: nowrap;
 }
 
-/* ---------------------------------
-   Drag handle
----------------------------------- */
-
 .category-drag-handle {
   width: 32px;
   height: 36px;
-
   flex-shrink: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 0;
   margin: 0;
-
   border: none;
   border-radius: var(--radius-sm);
-
   background: transparent;
   color: var(--color-text-secondary);
-
   cursor: grab;
-
   touch-action: none;
-
   transition:
     background 0.2s ease,
     color 0.2s ease;
@@ -398,10 +376,6 @@
   cursor: grabbing;
 }
 
-/* ---------------------------------
-   Item while dragging
----------------------------------- */
-
 .configuration-category-item.dragging {
   z-index: 10;
 
@@ -410,38 +384,23 @@
   cursor: grabbing;
 }
 
-/* ---------------------------------
-   Actions
----------------------------------- */
-
 .configuration-category-actions {
   flex-shrink: 0;
 }
 
-/* ---------------------------------
-   Category count
----------------------------------- */
-
 .configuration-categories-count {
   margin-left: 8px;
-
   min-width: 20px;
   height: 20px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   padding: 0 6px;
-
   border-radius: 999px;
-
   background: var(--color-bg-soft);
   color: var(--color-text-secondary);
-
   font-size: 11px;
   font-weight: 600;
-
   text-transform: none;
   letter-spacing: 0;
 }
