@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import Modal from "../Modal/Modal";
 import { Bounce, toast } from "react-toastify";
 import { FileCodeCorner } from "lucide-react";
@@ -20,10 +20,9 @@ const AddCommand = ({ isOpen, onClose, onSuccess, theme }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        { module: "commands" },
-      );
+      const response = await axiosInstance.post("/category/module", {
+        module: "commands",
+      });
 
       if (response.status === 200) {
         const data = response.data.data;
@@ -110,8 +109,8 @@ const AddCommand = ({ isOpen, onClose, onSuccess, theme }) => {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/commands/new/command",
+      const response = await axiosInstance.post(
+        "/commands/new/command",
         commandForm,
       );
 

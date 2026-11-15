@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import "./credentials.css";
 import { Bounce, toast } from "react-toastify";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
@@ -48,8 +48,8 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
   const fetchPassword = async () => {
     if (password) return password;
     try {
-      const res = await axios.get(
-        `https://konfigurime-api.arkiva.gov.al/credentials/${credential.id}/password`,
+      const res = await axiosInstance.get(
+        `/credentials/${credential.id}/password`,
       );
       setPassword(res.data.password);
       return res.data.password;
@@ -99,8 +99,8 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
     try {
       setDeleting(true);
 
-      const response = await axios.delete(
-        `https://konfigurime-api.arkiva.gov.al/credentials/${credential.id}`,
+      const response = await axiosInstance.delete(
+        `/credentials/${credential.id}`,
       );
 
       if (response.status === 200 && response.data.success) {

@@ -1,7 +1,7 @@
 // src/components/Fondet/ImportFondet.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Bounce, toast } from "react-toastify";
 import PageHeader from "../PageHeader/PageHeader";
 
@@ -15,9 +15,7 @@ const ImportFondet = () => {
       setLoading(true);
       setResult(null);
 
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/fondet/import",
-      );
+      const response = await axiosInstance.post("/fondet/import");
 
       if (response.data.success) {
         setResult(response.data);

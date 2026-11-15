@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Tag, SquarePen, Trash2Icon, GripVertical } from "lucide-react";
 import {
   SortableContext,
@@ -22,8 +22,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-
-const API_URL = "https://konfigurime-api.arkiva.gov.al";
 
 const moduleOrder = [
   "credentials",
@@ -187,7 +185,7 @@ const Categories = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get(`${API_URL}/category/categories`);
+      const response = await axiosInstance.get(`/category/categories`);
 
       if (response.data.success) {
         const categoriesData = response.data.data
@@ -226,7 +224,7 @@ const Categories = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get(`${API_URL}/module/modules`);
+      const response = await axiosInstance.get(`/module/modules`);
 
       if (response.data.success) {
         setModules(response.data.data);
@@ -299,8 +297,8 @@ const Categories = () => {
       setLoading(true);
 
       if (isEditing && currentCategory) {
-        const response = await axios.put(
-          `${API_URL}/category/${currentCategory._id}`,
+        const response = await axiosInstance.put(
+          `/category/${currentCategory._id}`,
           {
             name: categoryName.trim(),
           },
@@ -334,7 +332,7 @@ const Categories = () => {
           handleCloseModal();
         }
       } else {
-        const response = await axios.post(`${API_URL}/category`, {
+        const response = await axiosInstance.post(`/category`, {
           name: categoryName.trim(),
           moduleId: selectedModule,
         });
@@ -380,7 +378,7 @@ const Categories = () => {
     try {
       setLoading(true);
 
-      const response = await axios.delete(`${API_URL}/category/${categoryId}`);
+      const response = await axiosInstance.delete(`/category/${categoryId}`);
 
       if (response.data.success) {
         await fetchCategories();
@@ -444,7 +442,7 @@ const Categories = () => {
     }));
 
     try {
-      await axios.put(`${API_URL}/category/reorder/categories`, {
+      await axiosInstance.put(`/category/reorder/categories`, {
         categories: reorderedCategories.map((category) => ({
           id: category._id,
           sortOrder: category.sortOrder,
