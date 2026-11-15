@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import PageHeader from "../PageHeader/PageHeader";
 import CategoryTab from "../CategoryTab/CategoryTab";
 import { Search } from "lucide-react";
@@ -28,9 +28,7 @@ const Commands = () => {
   const fetchCommands = async (categoryId) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `https://konfigurime-api.arkiva.gov.al/commands/${categoryId}`,
-      );
+      const response = await axiosInstance.post(`/commands/${categoryId}`);
       if (response.status === 200) {
         setCommands(response.data.data);
       }

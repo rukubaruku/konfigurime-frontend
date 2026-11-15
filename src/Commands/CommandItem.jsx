@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import {
   FileTerminal,
   Copy,
@@ -35,10 +35,7 @@ const CommandItem = ({ command, onDelete, theme, setEditingCommandID }) => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        { module },
-      );
+      const response = await axiosInstance.post("/category/module", { module });
       if (response.status === 200) {
         const formattedCategories = response.data.data.map((c) => ({
           id: String(c.id ?? c._id),
@@ -92,8 +89,8 @@ const CommandItem = ({ command, onDelete, theme, setEditingCommandID }) => {
     if (deleting) return;
     try {
       setDeleting(true);
-      const response = await axios.delete(
-        `https://konfigurime-api.arkiva.gov.al/commands/delete/${command._id}`,
+      const response = await axiosInstance.delete(
+        `/commands/delete/${command._id}`,
       );
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message || "Command deleted successfully", {

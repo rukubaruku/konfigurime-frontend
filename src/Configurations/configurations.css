@@ -534,3 +534,71 @@
     padding: 4px 8px;
   }
 }
+
+/* Two-factor authentication */
+.two-factor {
+  margin-top: 24px;
+}
+
+.two-factor .security-header {
+  flex-wrap: wrap;
+}
+
+.two-factor-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.two-factor-badge.on {
+  background: rgba(22, 163, 74, 0.15);
+  color: #16a34a;
+}
+
+.two-factor-badge.off {
+  background: var(--color-bg-soft);
+  color: var(--color-text-secondary);
+}
+
+.two-factor-text {
+  color: var(--color-text-secondary);
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.two-factor-qr {
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+}
+
+.two-factor-secret {
+  word-break: break-all;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.two-factor-recovery {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin: 12px 0;
+  color: var(--color-text-primary);
+}
+
+.two-factor-recovery ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.two-factor-recovery code {
+  font-size: 15px;
+  letter-spacing: 1px;
+}

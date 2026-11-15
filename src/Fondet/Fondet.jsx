@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PageHeader from "../PageHeader/PageHeader";
 import { Search } from "lucide-react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Bounce, toast } from "react-toastify";
 import FondetList from "./FondetList";
 import { useNavigate } from "react-router-dom";
@@ -33,12 +33,9 @@ const Fondet = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get(
-        "https://konfigurime-api.arkiva.gov.al/fondet/search",
-        {
-          params: { fond, year, file },
-        },
-      );
+      const response = await axiosInstance.get("/fondet/search", {
+        params: { fond, year, file },
+      });
 
       if (response.data.success) {
         const data = response.data.data || [];

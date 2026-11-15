@@ -1,13 +1,10 @@
 import PageHeader from "../PageHeader/PageHeader";
 import NoteForm from "./NoteForm";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 
 const AddNote = () => {
   const handleCreate = (data) => {
-    return axios.post(
-      "https://konfigurime-api.arkiva.gov.al/notes/new/note",
-      data,
-    );
+    return axiosInstance.post("/notes/new/note", data);
   };
 
   return (

@@ -1,8 +1,9 @@
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Lock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import "./configurations.css";
+import TwoFactor from "./TwoFactor";
 const Security = () => {
   const userId = localStorage.getItem("userId");
   const theme = localStorage.getItem("theme") || "light";
@@ -21,9 +22,7 @@ const Security = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al/user/${userId}`,
-        );
+        const res = await axiosInstance.get("/user/me");
         if (res.data.success) {
           setUser({ name: res.data.data.name, email: res.data.data.email });
           setOriginalUser({
@@ -67,11 +66,9 @@ const Security = () => {
 
     try {
       setLoading(true);
-      const res = await axios.put(
-        "https://konfigurime-api.arkiva.gov.al/user/update",
-        user,
-      );
+      const res = await axiosInstance.put("/user/update", user);
       if (res.data.success) {
+        if (res.data.token) localStorage.setItem("token", res.data.token);
         toast.success(res.data.message, {
           position: "top-right",
           autoClose: 5000,
@@ -117,8 +114,8 @@ const Security = () => {
       return;
     }
 
-    if (newPassword.length < 6) {
-      toast.error("New password must be at least 6 characters", {
+    if (newPassword.length < 12) {
+      toast.error("New password must be at least 12 characters", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -147,11 +144,12 @@ const Security = () => {
 
     try {
       setLoading(true);
-      const res = await axios.put(
-        "https://konfigurime-api.arkiva.gov.al/user/change-password",
+      const res = await axiosInstance.put(
+        "/user/change-password",
         passwordForm,
       );
       if (res.data.success) {
+        if (res.data.token) localStorage.setItem("token", res.data.token);
         toast.success(res.data.message, {
           position: "top-right",
           autoClose: 5000,
@@ -185,126 +183,129 @@ const Security = () => {
     }
   };
   return (
-    <div className="security-content">
-      {loading && (
-        <div className="overlay">
-          <div className="spinner"></div>
-        </div>
-      )}
-      <div className="form-container">
-        <div className="form-group">
-          <div className="form-label">Name</div>
-          <input
-            type="text"
-            value={user.name}
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev, name: e.target.value }))
-            }
-          />
-        </div>
-
-        <div className="form-group">
-          <div className="form-label">Email</div>
-          <input
-            type="email"
-            value={user.email}
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev, email: e.target.value }))
-            }
-          />
-        </div>
-
-        <div className="form-actions">
-          <button
-            className="cancel-btn"
-            onClick={() => setUser({ ...originalUser })}
-            disabled={loading}
-          >
-            Cancel
-          </button>
-          <button
-            className="confirm-btn"
-            onClick={handleSaveProfile}
-            disabled={loading}
-          >
-            Save
-          </button>
-          <button
-            className="change-pass-btn"
-            onClick={() => setEditingPassword((prev) => !prev)}
-            disabled={loading}
-          >
-            Change Password
-          </button>
-        </div>
-
-        {editingPassword && (
-          <div
-            className="password-change-section"
-            style={{ marginTop: "16px" }}
-          >
-            <div className="form-group">
-              <div className="form-label">Current Password</div>
-              <input
-                type="password"
-                value={passwordForm.currentPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({
-                    ...prev,
-                    currentPassword: e.target.value,
-                  }))
-                }
-              />
-            </div>
-
-            <div className="form-group">
-              <div className="form-label">New Password</div>
-              <input
-                type="password"
-                value={passwordForm.newPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({
-                    ...prev,
-                    newPassword: e.target.value,
-                  }))
-                }
-              />
-            </div>
-
-            <div className="form-group">
-              <div className="form-label">Confirm New Password</div>
-              <input
-                type="password"
-                value={passwordForm.confirmPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({
-                    ...prev,
-                    confirmPassword: e.target.value,
-                  }))
-                }
-              />
-            </div>
-
-            <div className="form-actions">
-              <button
-                className="cancel-btn"
-                onClick={() => setEditingPassword(false)}
-                disabled={loading}
-              >
-                Cancel
-              </button>
-              <button
-                className="confirm-btn"
-                onClick={handleChangePassword}
-                disabled={loading}
-              >
-                Save
-              </button>
-            </div>
+    <>
+      <div className="security-content">
+        {loading && (
+          <div className="overlay">
+            <div className="spinner"></div>
           </div>
         )}
+        <div className="form-container">
+          <div className="form-group">
+            <div className="form-label">Name</div>
+            <input
+              type="text"
+              value={user.name}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, name: e.target.value }))
+              }
+            />
+          </div>
+
+          <div className="form-group">
+            <div className="form-label">Email</div>
+            <input
+              type="email"
+              value={user.email}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, email: e.target.value }))
+              }
+            />
+          </div>
+
+          <div className="form-actions">
+            <button
+              className="cancel-btn"
+              onClick={() => setUser({ ...originalUser })}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+            <button
+              className="confirm-btn"
+              onClick={handleSaveProfile}
+              disabled={loading}
+            >
+              Save
+            </button>
+            <button
+              className="change-pass-btn"
+              onClick={() => setEditingPassword((prev) => !prev)}
+              disabled={loading}
+            >
+              Change Password
+            </button>
+          </div>
+
+          {editingPassword && (
+            <div
+              className="password-change-section"
+              style={{ marginTop: "16px" }}
+            >
+              <div className="form-group">
+                <div className="form-label">Current Password</div>
+                <input
+                  type="password"
+                  value={passwordForm.currentPassword}
+                  onChange={(e) =>
+                    setPasswordForm((prev) => ({
+                      ...prev,
+                      currentPassword: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <div className="form-label">New Password</div>
+                <input
+                  type="password"
+                  value={passwordForm.newPassword}
+                  onChange={(e) =>
+                    setPasswordForm((prev) => ({
+                      ...prev,
+                      newPassword: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <div className="form-label">Confirm New Password</div>
+                <input
+                  type="password"
+                  value={passwordForm.confirmPassword}
+                  onChange={(e) =>
+                    setPasswordForm((prev) => ({
+                      ...prev,
+                      confirmPassword: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+
+              <div className="form-actions">
+                <button
+                  className="cancel-btn"
+                  onClick={() => setEditingPassword(false)}
+                  disabled={loading}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="confirm-btn"
+                  onClick={handleChangePassword}
+                  disabled={loading}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      <TwoFactor />
+    </>
   );
 };
 

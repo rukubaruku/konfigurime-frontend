@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import PageHeader from "../PageHeader/PageHeader";
 import { Bounce, toast } from "react-toastify";
 import QueryForm from "./QueryForm";
@@ -15,9 +15,7 @@ const EditQuery = () => {
     const fetchQuery = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al/queries/${id}`,
-        );
+        const response = await axiosInstance.get(`/queries/${id}`);
         if (response.data.success) {
           setQuery(response.data.query);
         }
@@ -43,10 +41,7 @@ const EditQuery = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(
-      `https://konfigurime-api.arkiva.gov.al/queries/${id}`,
-      data,
-    );
+    return axiosInstance.put(`/queries/${id}`, data);
   };
 
   if (!query)

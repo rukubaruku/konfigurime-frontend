@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { useEffect, useState } from "react";
 import "./categoryTab.css";
 import { Bounce, toast } from "react-toastify";
@@ -11,10 +11,7 @@ const CategoryTab = ({ module, selectedCategory, setSelectedCategory }) => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        { module },
-      );
+      const response = await axiosInstance.post("/category/module", { module });
 
       if (response.status === 200) {
         const formattedCategories = response.data.data.map((c) => ({
