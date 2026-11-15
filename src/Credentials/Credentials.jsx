@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import PageHeader from "../PageHeader/PageHeader";
 import CategoryTab from "../CategoryTab/CategoryTab";
 import { Search } from "lucide-react";
@@ -29,9 +29,7 @@ const Credentials = () => {
   const fetchCredentials = async (categoryId) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `https://konfigurime-api.arkiva.gov.al/credentials/${categoryId}`,
-      );
+      const response = await axiosInstance.post(`/credentials/${categoryId}`);
       if (response.status === 200) {
         const sortedData = response.data.data.sort((a, b) => {
           return new Date(a.createdAt) - new Date(b.createdAt);

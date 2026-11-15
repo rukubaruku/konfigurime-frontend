@@ -3,7 +3,7 @@ import PageHeader from "../PageHeader/PageHeader";
 import "./queries.css";
 import { Search } from "lucide-react";
 import CategoryTab from "../CategoryTab/CategoryTab";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import QueriesList from "./QueriesList";
@@ -27,9 +27,7 @@ const Queries = () => {
   const fetchQueries = async (categoryId) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `https://konfigurime-api.arkiva.gov.al/queries/${categoryId}`,
-      );
+      const response = await axiosInstance.post(`/queries/${categoryId}`);
 
       if (response.data.success) {
         const data = response.data.data || [];

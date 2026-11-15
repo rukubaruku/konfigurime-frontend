@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import Modal from "../Modal/Modal";
 import { Eye, EyeOff } from "lucide-react";
 import { Bounce, toast } from "react-toastify";
@@ -20,10 +20,9 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        { module: "credentials" },
-      );
+      const response = await axiosInstance.post("/category/module", {
+        module: "credentials",
+      });
       if (response.status === 200) {
         const formattedCategories = response.data.data.map((c) => ({
           id: String(c.id ?? c._id),
@@ -39,12 +38,10 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
   const fetchCredentialData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://konfigurime-api.arkiva.gov.al/credentials/${credentialId}`,
-      );
+      const res = await axiosInstance.get(`/credentials/${credentialId}`);
 
-      const pwRes = await axios.get(
-        `https://konfigurime-api.arkiva.gov.al/credentials/${credentialId}/password`,
+      const pwRes = await axiosInstance.get(
+        `/credentials/${credentialId}/password`,
       );
 
       if (res.status === 200) {
@@ -99,8 +96,8 @@ const EditCredential = ({ credentialId, onClose, onSuccess, theme }) => {
     if (!valid()) return;
     try {
       setLoading(true);
-      const response = await axios.put(
-        `https://konfigurime-api.arkiva.gov.al/credentials/${credentialId}`,
+      const response = await axiosInstance.put(
+        `/credentials/${credentialId}`,
         editingCredentialForm,
       );
       if (response.status === 200 && response.data.success) {

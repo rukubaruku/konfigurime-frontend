@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import Modal from "../Modal/Modal";
 import { Bounce, toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
@@ -19,10 +19,9 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        { module: "credentials" },
-      );
+      const response = await axiosInstance.post("/category/module", {
+        module: "credentials",
+      });
 
       if (response.status === 200) {
         const data = response.data.data;
@@ -99,8 +98,8 @@ const AddCredential = ({ isOpen, onClose, onSuccess, theme }) => {
     if (!valid()) return;
     try {
       setLoading(true);
-      const response = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/credentials/new/credential",
+      const response = await axiosInstance.post(
+        "/credentials/new/credential",
         credentialForm,
       );
       if (response.status === 201 && response.data.success) {

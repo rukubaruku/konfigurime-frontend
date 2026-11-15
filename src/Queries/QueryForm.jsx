@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Bounce, toast } from "react-toastify";
 import { FileCodeCorner, Tag, Type, BookText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -35,12 +35,9 @@ const QueryForm = ({ mode = "add", initialData = {}, onSubmit }) => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        {
-          module: "queries",
-        },
-      );
+      const res = await axiosInstance.post("/category/module", {
+        module: "queries",
+      });
 
       setCategories(
         (res.data?.data || []).map((c) => ({

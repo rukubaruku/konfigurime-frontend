@@ -199,3 +199,24 @@ label {
 .theme-icon {
   width: 22px;
 }
+
+/* Two-factor step */
+.two-factor-hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.two-factor-back {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  align-self: center;
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

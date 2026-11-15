@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import PageHeader from "../PageHeader/PageHeader";
 import { Bounce, toast } from "react-toastify";
 import ConfigFileForm from "./ConfigFileForm";
@@ -15,9 +15,7 @@ const EditConfigFile = () => {
     const fetchConfigFile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al/config-files/${id}`,
-        );
+        const response = await axiosInstance.get(`/config-files/${id}`);
         if (response.data.success) {
           setConfigFile(response.data.configFile);
         }
@@ -46,10 +44,7 @@ const EditConfigFile = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(
-      `https://konfigurime-api.arkiva.gov.al/config-files/${id}`,
-      data,
-    );
+    return axiosInstance.put(`/config-files/${id}`, data);
   };
 
   if (!configFile)

@@ -14,7 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShieldHalved } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import AddCredential from "../Credentials/AddCredential";
 import AddCommand from "../Commands/AddCommand";
 const Dashboard = () => {
@@ -59,16 +59,12 @@ const Dashboard = () => {
         configFilesRes,
         notesRes,
       ] = await Promise.all([
-        axios.get(
-          "https://konfigurime-api.arkiva.gov.al/credentials/dashboard",
-        ),
-        axios.get("https://konfigurime-api.arkiva.gov.al/commands/dashboard"),
-        axios.get("https://konfigurime-api.arkiva.gov.al/scripts/dashboard"),
-        axios.get("https://konfigurime-api.arkiva.gov.al/queries/dashboard"),
-        axios.get(
-          "https://konfigurime-api.arkiva.gov.al/config-files/dashboard",
-        ),
-        axios.get("https://konfigurime-api.arkiva.gov.al/notes/dashboard"),
+        axiosInstance.get("/credentials/dashboard"),
+        axiosInstance.get("/commands/dashboard"),
+        axiosInstance.get("/scripts/dashboard"),
+        axiosInstance.get("/queries/dashboard"),
+        axiosInstance.get("/config-files/dashboard"),
+        axiosInstance.get("/notes/dashboard"),
       ]);
 
       setCredentialsNr(credentialsRes.data.data.count);
