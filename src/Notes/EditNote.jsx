@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import PageHeader from "../PageHeader/PageHeader";
 import NoteForm from "./NoteForm";
 import { Bounce, toast } from "react-toastify";
@@ -15,9 +15,7 @@ const EditNote = () => {
     const fetchNote = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al/notes/${id}`,
-        );
+        const res = await axiosInstance.get(`/notes/${id}`);
 
         if (res.data.success) {
           setNote(res.data.note);
@@ -36,7 +34,7 @@ const EditNote = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(`https://konfigurime-api.arkiva.gov.al/notes/${id}`, data);
+    return axiosInstance.put(`/notes/${id}`, data);
   };
 
   if (!note)

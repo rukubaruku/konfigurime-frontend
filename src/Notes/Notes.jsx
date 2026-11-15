@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PageHeader from "../PageHeader/PageHeader";
 import { Search } from "lucide-react";
 import CategoryTab from "../CategoryTab/CategoryTab";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Bounce, toast } from "react-toastify";
 import NotesList from "./NotesList";
 import { useNavigate } from "react-router-dom";
@@ -26,9 +26,7 @@ const Notes = () => {
   const fetchNotes = async (categoryId) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `https://konfigurime-api.arkiva.gov.al/notes/${categoryId}`,
-      );
+      const response = await axiosInstance.post(`/notes/${categoryId}`);
 
       if (response.data.success) {
         setNotes(response.data.data || []);

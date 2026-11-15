@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import PageHeader from "../PageHeader/PageHeader";
 import ScriptForm from "./ScriptForm";
 import { Bounce, toast } from "react-toastify";
@@ -15,9 +15,7 @@ const EditScript = () => {
     const fetchScript = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al/scripts/${id}`,
-        );
+        const response = await axiosInstance.get(`/scripts/${id}`);
         if (response.data.success) {
           setScript(response.data.script);
         }
@@ -43,10 +41,7 @@ const EditScript = () => {
   }, [id]);
 
   const handleUpdate = (data) => {
-    return axios.put(
-      `https://konfigurime-api.arkiva.gov.al/scripts/${id}`,
-      data,
-    );
+    return axiosInstance.put(`/scripts/${id}`, data);
   };
 
   if (!script)

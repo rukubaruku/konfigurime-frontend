@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import { Bounce, toast } from "react-toastify";
 
 const Profile = () => {
@@ -20,9 +20,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          `https://konfigurime-api.arkiva.gov.al/user/${userId}`,
-        );
+        const res = await axiosInstance.get("/user/me");
         if (res.data.success) {
           setUser({ name: res.data.data.name, email: res.data.data.email });
           setOriginalUser({
@@ -66,11 +64,9 @@ const Profile = () => {
 
     try {
       setLoading(true);
-      const res = await axios.put(
-        "https://konfigurime-api.arkiva.gov.al/user/update",
-        user,
-      );
+      const res = await axiosInstance.put("/user/update", user);
       if (res.data.success) {
+        if (res.data.token) localStorage.setItem("token", res.data.token);
         toast.success(res.data.message, {
           position: "top-right",
           autoClose: 5000,
@@ -116,8 +112,8 @@ const Profile = () => {
       return;
     }
 
-    if (newPassword.length < 6) {
-      toast.error("New password must be at least 6 characters", {
+    if (newPassword.length < 12) {
+      toast.error("New password must be at least 12 characters", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -146,11 +142,12 @@ const Profile = () => {
 
     try {
       setLoading(true);
-      const res = await axios.put(
-        "https://konfigurime-api.arkiva.gov.al/user/change-password",
+      const res = await axiosInstance.put(
+        "/user/change-password",
         passwordForm,
       );
       if (res.data.success) {
+        if (res.data.token) localStorage.setItem("token", res.data.token);
         toast.success(res.data.message, {
           position: "top-right",
           autoClose: 5000,

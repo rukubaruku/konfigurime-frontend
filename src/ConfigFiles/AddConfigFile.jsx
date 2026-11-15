@@ -1,15 +1,12 @@
 import PageHeader from "../PageHeader/PageHeader";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import ConfigFileForm from "./ConfigFileForm";
 
 const AddConfigFile = () => {
   const handleCreate = (data) => {
     try {
     } catch (error) {}
-    return axios.post(
-      "https://konfigurime-api.arkiva.gov.al/config-files/new/file",
-      data,
-    );
+    return axiosInstance.post("/config-files/new/file", data);
   };
 
   return (

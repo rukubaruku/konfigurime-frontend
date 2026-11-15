@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import Modal from "../Modal/Modal";
 import { Bounce, toast } from "react-toastify";
 import { FileCodeCorner } from "lucide-react";
@@ -19,12 +19,9 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        {
-          module: "commands",
-        },
-      );
+      const res = await axiosInstance.post("/category/module", {
+        module: "commands",
+      });
 
       setCategories(
         (res.data?.data || []).map((c) => ({
@@ -40,9 +37,7 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
   const fetchCommand = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://konfigurime-api.arkiva.gov.al/commands/${commandId}`,
-      );
+      const res = await axiosInstance.get(`/commands/${commandId}`);
       const c = res.data?.command;
 
       if (!c) throw new Error("Command not found");
@@ -99,10 +94,10 @@ const EditCommand = ({ commandId, onClose, onSuccess, theme }) => {
 
     try {
       setLoading(true);
-      const res = await axios.put(
-        `https://konfigurime-api.arkiva.gov.al/commands/${commandId}`,
-        { ...form, language: editorLanguage },
-      );
+      const res = await axiosInstance.put(`/commands/${commandId}`, {
+        ...form,
+        language: editorLanguage,
+      });
 
       if (res.data.success) {
         toast.success(res.data.message, { theme, transition: Bounce });

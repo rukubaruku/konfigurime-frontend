@@ -1,15 +1,12 @@
 import PageHeader from "../PageHeader/PageHeader";
 import ScriptForm from "./ScriptForm";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 
 const AddScript = () => {
   const handleCreate = (data) => {
     try {
     } catch (error) {}
-    return axios.post(
-      "https://konfigurime-api.arkiva.gov.al/scripts/new/script",
-      data,
-    );
+    return axiosInstance.post("/scripts/new/script", data);
   };
 
   return (

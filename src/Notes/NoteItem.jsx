@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 import {
   FileTerminal,
   Copy,
@@ -43,12 +43,9 @@ const NoteItem = ({ note, onDelete, theme }) => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(
-        "https://konfigurime-api.arkiva.gov.al/category/module",
-        {
-          module,
-        },
-      );
+      const res = await axiosInstance.post("/category/module", {
+        module,
+      });
 
       if (res.status === 200) {
         setCategories(
@@ -97,9 +94,7 @@ const NoteItem = ({ note, onDelete, theme }) => {
 
     try {
       setDeleting(true);
-      const res = await axios.delete(
-        `https://konfigurime-api.arkiva.gov.al/notes/delete/${note._id}`,
-      );
+      const res = await axiosInstance.delete(`/notes/delete/${note._id}`);
 
       if (res.data.success) {
         toast.success(res.data.message || "Note deleted", {

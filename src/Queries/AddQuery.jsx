@@ -1,15 +1,12 @@
 import PageHeader from "../PageHeader/PageHeader";
 import QueryForm from "./QueryForm";
-import axios from "axios";
+import axiosInstance from "../Utils/axiosInstance";
 
 const AddQuery = () => {
   const handleCreate = (data) => {
     try {
     } catch (error) {}
-    return axios.post(
-      "https://konfigurime-api.arkiva.gov.al/queries/new/query",
-      data,
-    );
+    return axiosInstance.post("/queries/new/query", data);
   };
 
   return (
