@@ -14,6 +14,9 @@ const Fondet = () => {
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState("light");
   const [results, setResults] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [limit, setLimit] = useState(0);
+  const [searched, setSearched] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +30,8 @@ const Fondet = () => {
   const handleSearch = async () => {
     if (!fond.trim() && !year.trim() && !file.trim()) {
       setResults([]);
+      setTotal(0);
+      setSearched(false);
       return;
     }
 
@@ -34,13 +39,16 @@ const Fondet = () => {
       setLoading(true);
 
       const response = await axiosInstance.get("/fondet/search", {
-        params: { fond, year, file },
+        params: { fond: fond.trim(), year: year.trim(), file: file.trim() },
       });
 
       if (response.data.success) {
         const data = response.data.data || [];
 
         setResults(data);
+        setTotal(response.data.total ?? data.length);
+        setLimit(response.data.limit ?? 0);
+        setSearched(true);
 
         if (data.length === 0) {
           toast.warn("No folders found", {
@@ -81,6 +89,8 @@ const Fondet = () => {
     setYear("");
     setFile("");
     setResults([]);
+    setTotal(0);
+    setSearched(false);
   };
 
   return (
@@ -109,55 +119,65 @@ const Fondet = () => {
         </div>
       </div>
 
-      <div className="form-container fondet">
-        <div className="form-group">
-          <div className="form-input">
+      <div className="fondet-search">
+        <label className="fondet-field">
+          <span className="fondet-label">Fond</span>
+          <div className="fondet-input with-prefix">
+            <span className="fondet-prefix">F.</span>
             <input
               type="text"
               value={fond}
               onChange={(e) => setFond(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Fond (e.g. F.512)"
+              placeholder="1018"
+              autoFocus
             />
           </div>
-        </div>
-        <div className="form-group">
-          <div className="form-input">
+        </label>
+        <span className="fondet-sep">\</span>
+        <label className="fondet-field">
+          <span className="fondet-label">Year</span>
+          <div className="fondet-input">
             <input
               type="text"
               value={year}
               onChange={(e) => setYear(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Year (e.g. 1985)"
+              placeholder="any"
             />
           </div>
-        </div>
-        <div className="form-group">
-          <div className="form-input">
+        </label>
+        <span className="fondet-sep">\</span>
+        <label className="fondet-field">
+          <span className="fondet-label">File</span>
+          <div className="fondet-input">
             <input
               type="text"
               value={file}
               onChange={(e) => setFile(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="File (e.g. 1)"
+              placeholder="any"
             />
           </div>
+        </label>
+        <div className="fondet-buttons form-actions">
+          <button className="confirm-btn" onClick={handleSearch}>
+            <Search size={16} /> Search
+          </button>
+          <button className="cancel-btn" onClick={clearSearch}>
+            Clear
+          </button>
         </div>
       </div>
-      <div className="form-actions">
-        <button className="confirm-btn" onClick={handleSearch}>
-          Search
-        </button>
-
-        <button className="cancel-btn" onClick={clearSearch}>
-          Clear
-        </button>
+      <div className="fondet-hint">
+        Leave a field empty to match anything. Example: <b>1018</b> · empty ·{" "}
+        <b>857</b> finds every <code>F.1018\…\857</code>.
       </div>
 
-      {!loading && results.length === 0 && (fond || year || file) ? (
+      {searched && !loading && results.length === 0 ? (
         <div className="no-data">No folders found</div>
       ) : (
-        <FondetList results={results} loading={loading} theme={theme} />
+        <FondetList results={results} total={total} limit={limit} />
       )}
     </div>
   );
