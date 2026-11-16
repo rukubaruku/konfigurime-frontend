@@ -95,7 +95,7 @@ const ScriptItem = ({ script, onDelete, theme }) => {
     if (deleting) return;
     try {
       setDeleting(true);
-      const response = await axiosInstance.delete(`/scripts/${script._id}`);
+      const response = await axiosInstance.delete(`/scripts/delete/${script._id}`);
       if (response.status === 200 && response.data.success) {
         toast.success(response.data.message || "Script deleted successfully", {
           position: "top-right",
