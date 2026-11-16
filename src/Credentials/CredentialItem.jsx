@@ -22,6 +22,7 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const menuRef = useRef(null);
 
@@ -179,56 +180,56 @@ const CredentialItem = ({ credential, setEditingCredentialID, onDelete }) => {
                 Copy All
               </div>
 
-              {/* ✅ DELETE WITH CONTROLLED CLOSE */}
-              <Popup
-                trigger={
-                  <div
-                    className="credential-dropdown-item delete"
-                    onClick={() => setMenuOpen(false)} // 🔥 key fix
-                  >
-                    {deleting ? (
-                      <span style={{ fontSize: "13px" }}>Deleting...</span>
-                    ) : (
-                      <>
-                        <Trash2 size={16} />
-                        Delete
-                      </>
-                    )}
-                  </div>
-                }
-                modal
-                nested
+              <div
+                className="credential-dropdown-item delete"
+                onClick={() => {
+                  setMenuOpen(false);
+                  setConfirmOpen(true);
+                }}
               >
-                {(close) => (
-                  <div className="confirm-popup">
-                    <div className="confirm-popup-title">Confirm Delete</div>
-
-                    <div className="confirm-popup-text">
-                      Are you sure you want to delete this credential?
-                    </div>
-
-                    <div className="confirm-actions">
-                      <button className="popup-cancel-btn" onClick={close}>
-                        Cancel
-                      </button>
-
-                      <button
-                        className="popup-delete-btn"
-                        onClick={async () => {
-                          await handleDelete();
-                          close();
-                        }}
-                      >
-                        Yes
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </Popup>
+                <Trash2 size={16} />
+                Delete
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      <Popup
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        modal
+        closeOnDocumentClick={!deleting}
+      >
+        <div className="confirm-popup">
+          <div className="confirm-popup-title">Confirm Delete</div>
+
+          <div className="confirm-popup-text">
+            Are you sure you want to delete this credential?
+          </div>
+
+          <div className="confirm-actions">
+            <button
+              className="popup-cancel-btn"
+              onClick={() => setConfirmOpen(false)}
+              disabled={deleting}
+            >
+              Cancel
+            </button>
+
+            <button
+              className="popup-delete-btn"
+              disabled={deleting}
+              onClick={async () => {
+                await handleDelete();
+                setConfirmOpen(false);
+              }}
+            >
+              {deleting ? "Deleting..." : "Yes"}
+            </button>
+          </div>
+        </div>
+      </Popup>
 
       {/* USERNAME */}
       <div className="card-row">

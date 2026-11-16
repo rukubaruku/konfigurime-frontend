@@ -96,7 +96,7 @@ const ConfigFileItem = ({ configFile, onDelete, theme }) => {
     try {
       setDeleting(true);
       const response = await axiosInstance.delete(
-        `/config-files/${configFile._id}`,
+        `/config-files/delete/${configFile._id}`,
       );
       if (response.status === 200 && response.data.success) {
         toast.success(
