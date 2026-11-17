@@ -2,6 +2,9 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { useAuth } from "./Hooks/useAuth";
 
+// Log out automatically after this much time without mouse/keyboard activity.
+const IDLE_LOGOUT_MS = 5 * 60 * 1000; // 5 minutes
+
 const PrivateLayout = () => {
   const { user, logout, loading } = useAuth();
   const timeoutRef = useRef(null);
@@ -11,7 +14,7 @@ const PrivateLayout = () => {
 
     const resetTimer = () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => logout(), 2 * 60 * 1000);
+      timeoutRef.current = setTimeout(() => logout(), IDLE_LOGOUT_MS);
     };
 
     window.addEventListener("mousemove", resetTimer);
